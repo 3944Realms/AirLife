@@ -18,6 +18,11 @@ namespace airLifeDialog {
         if(ui->acc_inp->text() == "Mommy" && ui->pas_inp->text() == "1314520"){
             auto * hui = new egg::hui();
             hui->show();
+        }else{
+            //if 用户数据文件里找到用户
+                //if 用户数据文件里密码的hash值与用户输入的明文转成hash一致
+                    //根据用户类型去寻找对于的界面
+                //else
         }
     }
     void loginDialog::on_cancelButton_clicked() {

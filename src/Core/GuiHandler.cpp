@@ -5,8 +5,18 @@
 #include "GuiHandler.h"
 
 namespace airLifeHandler {
+    GuiHandler* GuiHandler::instance = nullptr;
+    std::once_flag GuiHandler::onceFlag;
 
     GuiHandler::GuiHandler(const airLifeHandler::LoginHandler &handler) : loginHandler(handler) {}
+
+    airLifeHandler::GuiHandler* GuiHandler::getInstance(const airLifeHandler::LoginHandler &handler) {
+        static LoginHandler hd = handler;
+        std::call_once(onceFlag, [](){
+            instance = new GuiHandler(hd);
+        });
+        return instance;
+    }
 
     void GuiHandler::ShowDialog(QDialog *dialog) {
         dialog->show();

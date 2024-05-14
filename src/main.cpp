@@ -10,11 +10,11 @@
 int main(int argc,char *argv[]) {
     QApplication a(argc,argv);
     airLifeHandler::LoginHandler loginHandler;
-    airLifeHandler::GuiHandler guiHandler(loginHandler);
+    airLifeHandler::GuiHandler* guiHandler = airLifeHandler::GuiHandler::getInstance(loginHandler);
     airLifeDialog::loginDialog loginDialog;
     airLifeMainWindow::CustomerMainWindow CuWi;
     airLifeMainWindow::AdministerMainWindow AdWi;
-    guiHandler.Gui(loginDialog,AdWi,CuWi);
+    guiHandler->Gui(loginDialog,AdWi,CuWi);
     int result = QApplication::exec();
     return result;
 }
