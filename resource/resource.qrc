@@ -1,0 +1,22 @@
+<RCC>
+  <qresource prefix="Logo">
+    <file>airLifeLogo.ico</file>
+  </qresource>
+  <qresource prefix="Simon">
+    <file>SymbolsDeleteSi.png</file>
+  </qresource>
+  <qresource prefix="Appimg">
+    <file>SecurityWarning.png</file>
+    <file>SymbolsCritical.png</file>
+    <file>SymbolsDelete.png</file>
+    <file>SymbolsError.png</file>
+    <file>SymbolsFavourite 1.png</file>
+    <file>SymbolsFavourite 2.png</file>
+    <file>SymbolsFind.png</file>
+    <file>SymbolsForbidden.png</file>
+    <file>SymbolsHelp.png</file>
+    <file>SymbolsInfo.png</file>
+    <file>SymbolsTips.png</file>
+    <file>SymbolsWarning.png</file>
+  </qresource>
+</RCC>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>airLifeMainWindow::AdministerMainWindow</class>
+ <widget class="QMainWindow" name="airLifeMainWindow::AdministerMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>399</width>
+    <height>317</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>管理员主界面</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../resource/resource.qrc">
+    <normaloff>:/Logo/airLifeLogo.ico</normaloff>:/Logo/airLifeLogo.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="airLifeUserUUIDLineEdit">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="airLifeUserUUIDLabel">
+       <property name="text">
+        <string>管理员UUID：</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGroupBox" name="airLifeMUGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>20</y>
+      <width>141</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>功能</string>
+    </property>
+    <widget class="QPushButton" name="airLifeAddInformationPushButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>40</y>
+       <width>101</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>录入</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="airLifeMRInformationPushButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>140</y>
+       <width>101</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>删改</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>399</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="airLifeInformationManagerMenu">
+    <property name="title">
+     <string>信息管理</string>
+    </property>
+    <addaction name="airLifeAddInformationAction"/>
+    <addaction name="airLifeMRInformationAction"/>
+   </widget>
+   <widget class="QMenu" name="airLifeSearchMenu">
+    <property name="title">
+     <string>查询</string>
+    </property>
+    <addaction name="airLifeSearchFlightAction"/>
+    <addaction name="airLifeSearchUserAction"/>
+   </widget>
+   <widget class="QMenu" name="airLifeAccountMenu">
+    <property name="title">
+     <string>账户</string>
+    </property>
+    <widget class="QMenu" name="airLifeAccountPasswordAction">
+     <property name="title">
+      <string>密码管理</string>
+     </property>
+     <addaction name="airLifeAccountModifyPasswordAction"/>
+    </widget>
+    <addaction name="airLifeAccountPasswordAction"/>
+    <addaction name="airLifeAccountLogOutAction"/>
+   </widget>
+   <widget class="QMenu" name="airLifeHelptMenu">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="airLifeGetMoreHelpAction"/>
+   </widget>
+   <addaction name="airLifeInformationManagerMenu"/>
+   <addaction name="airLifeSearchMenu"/>
+   <addaction name="airLifeAccountMenu"/>
+   <addaction name="airLifeHelptMenu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="airLifeAddInformationAction">
+   <property name="text">
+    <string>增加信息</string>
+   </property>
+  </action>
+  <action name="airLifeMRInformationAction">
+   <property name="text">
+    <string>信息删改</string>
+   </property>
+  </action>
+  <action name="airLifeAccountLogOutAction">
+   <property name="text">
+    <string>登出</string>
+   </property>
+  </action>
+  <action name="airLifeAccountModifyPasswordAction">
+   <property name="text">
+    <string>修改密码</string>
+   </property>
+  </action>
+  <action name="airLifeSearchFlightAction">
+   <property name="text">
+    <string>航班信息</string>
+   </property>
+  </action>
+  <action name="airLifeSearchUserAction">
+   <property name="text">
+    <string>用户信息</string>
+   </property>
+  </action>
+  <action name="airLifeGetMoreHelpAction">
+   <property name="text">
+    <string>More</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../../../resource/resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
