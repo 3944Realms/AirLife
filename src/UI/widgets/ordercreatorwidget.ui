@@ -130,7 +130,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>创建</string>
+    <string>创建(&amp;C)</string>
    </property>
   </widget>
   <widget class="QPushButton" name="airLifeBackPushButton">
@@ -143,7 +143,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>返回</string>
+    <string>返回(R)</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="airLifeOrderUUIDLineEdit">

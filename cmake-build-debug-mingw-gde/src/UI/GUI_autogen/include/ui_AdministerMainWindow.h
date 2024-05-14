@@ -56,7 +56,7 @@ public:
     {
         if (airLifeMainWindow__AdministerMainWindow->objectName().isEmpty())
             airLifeMainWindow__AdministerMainWindow->setObjectName(QString::fromUtf8("airLifeMainWindow__AdministerMainWindow"));
-        airLifeMainWindow__AdministerMainWindow->resize(399, 317);
+        airLifeMainWindow__AdministerMainWindow->resize(388, 317);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/Logo/airLifeLogo.ico"), QSize(), QIcon::Normal, QIcon::Off);
         airLifeMainWindow__AdministerMainWindow->setWindowIcon(icon);
@@ -105,7 +105,7 @@ public:
         airLifeMainWindow__AdministerMainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(airLifeMainWindow__AdministerMainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 399, 22));
+        menubar->setGeometry(QRect(0, 0, 388, 22));
         airLifeInformationManagerMenu = new QMenu(menubar);
         airLifeInformationManagerMenu->setObjectName(QString::fromUtf8("airLifeInformationManagerMenu"));
         airLifeSearchMenu = new QMenu(menubar);
@@ -142,22 +142,22 @@ public:
     void retranslateUi(QMainWindow *airLifeMainWindow__AdministerMainWindow)
     {
         airLifeMainWindow__AdministerMainWindow->setWindowTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\347\256\241\347\220\206\345\221\230\344\270\273\347\225\214\351\235\242", nullptr));
-        airLifeAddInformationAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\345\242\236\345\212\240\344\277\241\346\201\257", nullptr));
-        airLifeMRInformationAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\344\277\241\346\201\257\345\210\240\346\224\271", nullptr));
-        airLifeAccountLogOutAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\347\231\273\345\207\272", nullptr));
-        airLifeAccountModifyPasswordAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\344\277\256\346\224\271\345\257\206\347\240\201", nullptr));
-        airLifeSearchFlightAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\350\210\252\347\217\255\344\277\241\346\201\257", nullptr));
-        airLifeSearchUserAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\347\224\250\346\210\267\344\277\241\346\201\257", nullptr));
-        airLifeGetMoreHelpAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "More", nullptr));
+        airLifeAddInformationAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\345\242\236\345\212\240\344\277\241\346\201\257(&A)", nullptr));
+        airLifeMRInformationAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\344\277\241\346\201\257\345\210\240\346\224\271(&E)", nullptr));
+        airLifeAccountLogOutAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\347\231\273\345\207\272(&L)", nullptr));
+        airLifeAccountModifyPasswordAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\344\277\256\346\224\271\345\257\206\347\240\201(&C)", nullptr));
+        airLifeSearchFlightAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\350\210\252\347\217\255\344\277\241\346\201\257(&F)", nullptr));
+        airLifeSearchUserAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\347\224\250\346\210\267\344\277\241\346\201\257(&U)", nullptr));
+        airLifeGetMoreHelpAction->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "More(&M)", nullptr));
         airLifeUserUUIDLabel->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\347\256\241\347\220\206\345\221\230UUID\357\274\232", nullptr));
         airLifeMUGroupBox->setTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\345\212\237\350\203\275", nullptr));
-        airLifeAddInformationPushButton->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\345\275\225\345\205\245", nullptr));
-        airLifeMRInformationPushButton->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\345\210\240\346\224\271", nullptr));
-        airLifeInformationManagerMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\344\277\241\346\201\257\347\256\241\347\220\206", nullptr));
-        airLifeSearchMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\346\237\245\350\257\242", nullptr));
-        airLifeAccountMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\350\264\246\346\210\267", nullptr));
-        airLifeAccountPasswordAction->setTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\345\257\206\347\240\201\347\256\241\347\220\206", nullptr));
-        airLifeHelptMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\345\270\256\345\212\251", nullptr));
+        airLifeAddInformationPushButton->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\345\275\225\345\205\245(&P)", nullptr));
+        airLifeMRInformationPushButton->setText(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\345\210\240\346\224\271(&U)", nullptr));
+        airLifeInformationManagerMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\344\277\241\346\201\257\347\256\241\347\220\206(&M)", nullptr));
+        airLifeSearchMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\346\237\245\350\257\242(&S)", nullptr));
+        airLifeAccountMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\350\264\246\346\210\267(&A)", nullptr));
+        airLifeAccountPasswordAction->setTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\345\257\206\347\240\201\347\256\241\347\220\206(&M)", nullptr));
+        airLifeHelptMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::AdministerMainWindow", "\345\270\256\345\212\251(&H)", nullptr));
     } // retranslateUi
 
 };

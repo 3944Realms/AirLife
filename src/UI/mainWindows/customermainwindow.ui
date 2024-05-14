@@ -40,7 +40,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>创建订单</string>
+      <string>创建订单(&amp;C)</string>
      </property>
     </widget>
     <widget class="QPushButton" name="airLifeDeleteOrderPushButton">
@@ -53,7 +53,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>退单</string>
+      <string>退单(&amp;D)</string>
      </property>
     </widget>
     <widget class="QPushButton" name="airLifeSearchFlightPushButton">
@@ -66,7 +66,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>查询</string>
+      <string>查询(M)</string>
      </property>
     </widget>
    </widget>
@@ -136,11 +136,11 @@
    </property>
    <widget class="QMenu" name="airLifeAccountMenu">
     <property name="title">
-     <string>账户</string>
+     <string>账户(&amp;U)</string>
     </property>
     <widget class="QMenu" name="airLifeAccountAction">
      <property name="title">
-      <string>密码管理</string>
+      <string>密码管理(&amp;M)</string>
      </property>
      <addaction name="airLifeAccountModifyPasswordAction"/>
     </widget>
@@ -150,20 +150,20 @@
    </widget>
    <widget class="QMenu" name="airLifeOrderMenu">
     <property name="title">
-     <string>订单</string>
+     <string>订单(&amp;O)</string>
     </property>
     <addaction name="airLifeCreateOrderAction"/>
     <addaction name="airLifeDeleteOrderAction"/>
    </widget>
    <widget class="QMenu" name="airLifeSearchMenu">
     <property name="title">
-     <string>查询</string>
+     <string>查询(&amp;S)</string>
     </property>
     <addaction name="airLifeSearchFlightAction"/>
    </widget>
    <widget class="QMenu" name="airLifeHelptMenu">
     <property name="title">
-     <string>帮助</string>
+     <string>帮助(&amp;H)</string>
     </property>
     <addaction name="airLifeGetMoreHelpAction"/>
    </widget>
@@ -175,32 +175,32 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="airLifeAccountModifyPasswordAction">
    <property name="text">
-    <string>修改密码</string>
+    <string>修改密码(&amp;C)</string>
    </property>
   </action>
   <action name="airLifeAccountLogOutAction">
    <property name="text">
-    <string>登出</string>
+    <string>登出(&amp;L)</string>
    </property>
   </action>
   <action name="airLifeCreateOrderAction">
    <property name="text">
-    <string>创建订单</string>
+    <string>创建订单(&amp;N)</string>
    </property>
   </action>
   <action name="airLifeDeleteOrderAction">
    <property name="text">
-    <string>退单</string>
+    <string>退单(&amp;D)</string>
    </property>
   </action>
   <action name="airLifeSearchFlightAction">
    <property name="text">
-    <string>航班信息</string>
+    <string>航班信息(&amp;F)</string>
    </property>
   </action>
   <action name="airLifeGetMoreHelpAction">
    <property name="text">
-    <string>More</string>
+    <string>More(&amp;M)</string>
    </property>
   </action>
   <action name="actionw">

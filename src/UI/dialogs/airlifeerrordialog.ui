@@ -68,7 +68,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>明白</string>
+    <string>明白(&amp;C)</string>
    </property>
   </widget>
  </widget>

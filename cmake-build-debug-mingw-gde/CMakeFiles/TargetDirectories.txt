@@ -21,6 +21,5 @@ E:/AirLife/cmake-build-debug-mingw-gde/src/UI/mainWindows/CMakeFiles/edit_cache.
 E:/AirLife/cmake-build-debug-mingw-gde/src/UI/mainWindows/CMakeFiles/rebuild_cache.dir
 E:/AirLife/cmake-build-debug-mingw-gde/src/UI/widgets/CMakeFiles/edit_cache.dir
 E:/AirLife/cmake-build-debug-mingw-gde/src/UI/widgets/CMakeFiles/rebuild_cache.dir
-E:/AirLife/cmake-build-debug-mingw-gde/src/UI/test/CMakeFiles/airLiftTestGui.dir
 E:/AirLife/cmake-build-debug-mingw-gde/src/UI/test/CMakeFiles/edit_cache.dir
 E:/AirLife/cmake-build-debug-mingw-gde/src/UI/test/CMakeFiles/rebuild_cache.dir

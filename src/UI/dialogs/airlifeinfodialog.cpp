@@ -13,6 +13,10 @@ namespace airLifeDialog {
         ui->setupUi(this);
     }
 
+    void AirLifeInfoDialog::on_airLifeBackPushButton_clicked() {
+        this->close();
+    }
+
     AirLifeInfoDialog::~AirLifeInfoDialog() {
         delete ui;
     }

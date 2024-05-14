@@ -118,39 +118,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="verticalLayoutWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>160</y>
-     <width>160</width>
-     <height>121</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <widget class="QRadioButton" name="airLifeSearchByFlightRadioButton">
-      <property name="text">
-       <string>通过航班查询</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="airLifeSearchByAreaRadioButton">
-      <property name="text">
-       <string>通过起点或终点查询</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="airLifeSearchByDatetRadioButton">
-      <property name="text">
-       <string>通过发班时刻查询</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QPushButton" name="airLifeBeginPushButton">
    <property name="geometry">
     <rect>
@@ -161,7 +128,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>查询</string>
+    <string>查询(&amp;S)</string>
    </property>
   </widget>
   <widget class="QPushButton" name="airLifeBackPushButton">
@@ -174,8 +141,54 @@
     </rect>
    </property>
    <property name="text">
-    <string>返回</string>
+    <string>返回(&amp;R)</string>
    </property>
+  </widget>
+  <widget class="QGroupBox" name="airLifeModeGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>160</y>
+     <width>201</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>查询模式</string>
+   </property>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>160</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QRadioButton" name="airLifeSearchByFlightRadioButton">
+       <property name="text">
+        <string>通过航班查询(&amp;A)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="airLifeSearchByAreaRadioButton">
+       <property name="text">
+        <string>通过起点或终点查询(&amp;B)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="airLifeSearchByDatetRadioButton">
+       <property name="text">
+        <string>通过发班时刻查询(&amp;C)</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <resources>

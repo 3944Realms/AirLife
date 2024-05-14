@@ -268,7 +268,7 @@ public:
         airLifeDeleteAreaPushButton->setToolTip(QCoreApplication::translate("airLifeWidget::informationModifierWidget", "\350\213\245\346\227\240\350\210\252\347\217\255\345\274\225\347\224\250\357\274\214\345\210\231\345\210\240\351\231\244\350\257\245\345\234\260\347\202\271\345\256\236\344\276\213", nullptr));
 #endif // QT_CONFIG(tooltip)
         airLifeDeleteAreaPushButton->setText(QString());
-        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeWidget::informationModifierWidget", "\350\277\224\345\233\236", nullptr));
+        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeWidget::informationModifierWidget", "\350\277\224\345\233\236(&R)", nullptr));
     } // retranslateUi
 
 };

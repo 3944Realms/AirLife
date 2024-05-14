@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>399</width>
+    <width>388</width>
     <height>317</height>
    </rect>
   </property>
@@ -66,7 +66,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>录入</string>
+      <string>录入(&amp;P)</string>
      </property>
     </widget>
     <widget class="QPushButton" name="airLifeMRInformationPushButton">
@@ -79,7 +79,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>删改</string>
+      <string>删改(&amp;U)</string>
      </property>
     </widget>
    </widget>
@@ -89,31 +89,31 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>399</width>
+     <width>388</width>
      <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="airLifeInformationManagerMenu">
     <property name="title">
-     <string>信息管理</string>
+     <string>信息管理(&amp;M)</string>
     </property>
     <addaction name="airLifeAddInformationAction"/>
     <addaction name="airLifeMRInformationAction"/>
    </widget>
    <widget class="QMenu" name="airLifeSearchMenu">
     <property name="title">
-     <string>查询</string>
+     <string>查询(&amp;S)</string>
     </property>
     <addaction name="airLifeSearchFlightAction"/>
     <addaction name="airLifeSearchUserAction"/>
    </widget>
    <widget class="QMenu" name="airLifeAccountMenu">
     <property name="title">
-     <string>账户</string>
+     <string>账户(&amp;A)</string>
     </property>
     <widget class="QMenu" name="airLifeAccountPasswordAction">
      <property name="title">
-      <string>密码管理</string>
+      <string>密码管理(&amp;M)</string>
      </property>
      <addaction name="airLifeAccountModifyPasswordAction"/>
     </widget>
@@ -122,7 +122,7 @@
    </widget>
    <widget class="QMenu" name="airLifeHelptMenu">
     <property name="title">
-     <string>帮助</string>
+     <string>帮助(&amp;H)</string>
     </property>
     <addaction name="airLifeGetMoreHelpAction"/>
    </widget>
@@ -134,37 +134,37 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="airLifeAddInformationAction">
    <property name="text">
-    <string>增加信息</string>
+    <string>增加信息(&amp;A)</string>
    </property>
   </action>
   <action name="airLifeMRInformationAction">
    <property name="text">
-    <string>信息删改</string>
+    <string>信息删改(&amp;E)</string>
    </property>
   </action>
   <action name="airLifeAccountLogOutAction">
    <property name="text">
-    <string>登出</string>
+    <string>登出(&amp;L)</string>
    </property>
   </action>
   <action name="airLifeAccountModifyPasswordAction">
    <property name="text">
-    <string>修改密码</string>
+    <string>修改密码(&amp;C)</string>
    </property>
   </action>
   <action name="airLifeSearchFlightAction">
    <property name="text">
-    <string>航班信息</string>
+    <string>航班信息(&amp;F)</string>
    </property>
   </action>
   <action name="airLifeSearchUserAction">
    <property name="text">
-    <string>用户信息</string>
+    <string>用户信息(&amp;U)</string>
    </property>
   </action>
   <action name="airLifeGetMoreHelpAction">
    <property name="text">
-    <string>More</string>
+    <string>More(&amp;M)</string>
    </property>
   </action>
  </widget>

@@ -20,6 +20,9 @@ namespace airLifeDialog {
             hui->show();
         }
     }
+    void loginDialog::on_cancelButton_clicked() {
+        this->close();
+    }
 
     loginDialog::~loginDialog() {
         delete ui;

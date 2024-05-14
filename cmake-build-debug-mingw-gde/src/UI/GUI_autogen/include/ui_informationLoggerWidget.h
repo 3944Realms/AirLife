@@ -222,7 +222,7 @@ public:
         airLifeSELabel->setText(QCoreApplication::translate("airLifeWidget::informationLoggerWidget", "\350\265\267\347\202\271/\347\273\210\347\202\271\357\274\232", nullptr));
         airLifeArrowLabel->setText(QCoreApplication::translate("airLifeWidget::informationLoggerWidget", "--->", nullptr));
         airLifeSTimeELabel->setText(QCoreApplication::translate("airLifeWidget::informationLoggerWidget", "\345\217\221\347\217\255\346\227\266\345\210\273\357\274\232", nullptr));
-        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeWidget::informationLoggerWidget", "\350\277\224\345\233\236", nullptr));
+        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeWidget::informationLoggerWidget", "\350\277\224\345\233\236(&R)", nullptr));
     } // retranslateUi
 
 };

@@ -22,6 +22,8 @@ namespace airLifeDialog {
 
     private:
         Ui::AirLifeErrorDialog *ui;
+    private slots:
+        void on_airLifeSurePushButton_clicked();
     };
 } // airLifeDialog
 

@@ -605,37 +605,6 @@ build src/UI/widgets/rebuild_cache: phony src/UI/widgets/CMakeFiles/rebuild_cach
 # E:/AirLife/src/UI/CMakeLists.txt
 # =============================================================================
 
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target airLiftTestGui
-
-
-#############################################
-# Order-only phony target for airLiftTestGui
-
-build cmake_object_order_depends_target_airLiftTestGui: phony || src/UI/test/CMakeFiles/airLiftTestGui.dir
-
-build src/UI/test/CMakeFiles/airLiftTestGui.dir/testwindows.cpp.obj: CXX_COMPILER__airLiftTestGui_unscanned_Debug E$:/AirLife/src/UI/test/testwindows.cpp || cmake_object_order_depends_target_airLiftTestGui
-  DEP_FILE = src\UI\test\CMakeFiles\airLiftTestGui.dir\testwindows.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = src\UI\test\CMakeFiles\airLiftTestGui.dir
-  OBJECT_FILE_DIR = src\UI\test\CMakeFiles\airLiftTestGui.dir
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target airLiftTestGui
-
-
-#############################################
-# Link the static library src\UI\test\libairLiftTestGui.a
-
-build src/UI/test/libairLiftTestGui.a: CXX_STATIC_LIBRARY_LINKER__airLiftTestGui_Debug src/UI/test/CMakeFiles/airLiftTestGui.dir/testwindows.cpp.obj
-  LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = src\UI\test\CMakeFiles\airLiftTestGui.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_FILE = src\UI\test\libairLiftTestGui.a
-  TARGET_PDB = airLiftTestGui.a.dbg
-
 
 #############################################
 # Utility command for edit_cache
@@ -674,15 +643,11 @@ build GUI: phony src/UI/libGUI.a
 
 build GUI_autogen: phony src/UI/GUI_autogen
 
-build airLiftTestGui: phony src/UI/test/libairLiftTestGui.a
-
 build libComponent.a: phony src/Base/libComponent.a
 
 build libCoreCode.a: phony src/Core/libCoreCode.a
 
 build libGUI.a: phony src/UI/libGUI.a
-
-build libairLiftTestGui.a: phony src/UI/test/libairLiftTestGui.a
 
 # =============================================================================
 # Folder targets.
@@ -741,7 +706,7 @@ build src/UI/mainWindows/all: phony
 #############################################
 # Folder: E:/AirLife/cmake-build-debug-mingw-gde/src/UI/test
 
-build src/UI/test/all: phony src/UI/test/libairLiftTestGui.a
+build src/UI/test/all: phony
 
 # =============================================================================
 

@@ -285,7 +285,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>返回</string>
+    <string>返回(&amp;R)</string>
    </property>
   </widget>
  </widget>

@@ -57,7 +57,7 @@ public:
     {
         airLifeDialog__AirLifeErrorDialog->setWindowTitle(QCoreApplication::translate("airLifeDialog::AirLifeErrorDialog", "\351\224\231\350\257\257", nullptr));
         airLifeImageLabel->setText(QString());
-        airLifeSurePushButton->setText(QCoreApplication::translate("airLifeDialog::AirLifeErrorDialog", "\346\230\216\347\231\275", nullptr));
+        airLifeSurePushButton->setText(QCoreApplication::translate("airLifeDialog::AirLifeErrorDialog", "\346\230\216\347\231\275(&C)", nullptr));
     } // retranslateUi
 
 };

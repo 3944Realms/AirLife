@@ -144,8 +144,8 @@ public:
         airLifeSELabel->setText(QCoreApplication::translate("airLifeWidget::orderCreatorWidget", "\350\265\267\347\202\271/\347\273\210\347\202\271\357\274\232", nullptr));
         airLifeArrowLabel->setText(QCoreApplication::translate("airLifeWidget::orderCreatorWidget", "--->", nullptr));
         airLifeSTimeELabel->setText(QCoreApplication::translate("airLifeWidget::orderCreatorWidget", "\345\217\221\347\217\255\346\227\266\345\210\273\357\274\232", nullptr));
-        airLifeCreatePushButton->setText(QCoreApplication::translate("airLifeWidget::orderCreatorWidget", "\345\210\233\345\273\272", nullptr));
-        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeWidget::orderCreatorWidget", "\350\277\224\345\233\236", nullptr));
+        airLifeCreatePushButton->setText(QCoreApplication::translate("airLifeWidget::orderCreatorWidget", "\345\210\233\345\273\272(&C)", nullptr));
+        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeWidget::orderCreatorWidget", "\350\277\224\345\233\236(R)", nullptr));
         airLifeOrderUUIDLabel->setText(QCoreApplication::translate("airLifeWidget::orderCreatorWidget", "\350\256\242\345\215\225\347\274\226\345\217\267\357\274\232", nullptr));
         airLifeOrderStatusLabel->setText(QCoreApplication::translate("airLifeWidget::orderCreatorWidget", "\350\256\242\345\215\225\347\212\266\346\200\201\357\274\232", nullptr));
     } // retranslateUi

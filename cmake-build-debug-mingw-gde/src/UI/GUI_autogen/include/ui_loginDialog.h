@@ -109,8 +109,8 @@ public:
         airLifeDialog__loginDialog->setWindowTitle(QCoreApplication::translate("airLifeDialog::loginDialog", "\347\231\273\345\275\225", nullptr));
         acc_lab->setText(QCoreApplication::translate("airLifeDialog::loginDialog", "\350\264\246\345\217\267\357\274\232", nullptr));
         pas_lab->setText(QCoreApplication::translate("airLifeDialog::loginDialog", "\345\257\206\347\240\201\357\274\232", nullptr));
-        loginButton->setText(QCoreApplication::translate("airLifeDialog::loginDialog", "\347\231\273\345\275\225", nullptr));
-        cancelButton->setText(QCoreApplication::translate("airLifeDialog::loginDialog", "\345\217\226\346\266\210", nullptr));
+        loginButton->setText(QCoreApplication::translate("airLifeDialog::loginDialog", "\347\231\273\345\275\225(&L)", nullptr));
+        cancelButton->setText(QCoreApplication::translate("airLifeDialog::loginDialog", "\345\217\226\346\266\210(&C)", nullptr));
     } // retranslateUi
 
 };

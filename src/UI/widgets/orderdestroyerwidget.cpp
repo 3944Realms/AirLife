@@ -16,4 +16,8 @@ namespace airLifeWidget {
     orderDestroyerWidget::~orderDestroyerWidget() {
         delete ui;
     }
+
+    void orderDestroyerWidget::on_airLifeBackPushButton_clicked() {
+        this->close();
+    }
 } // airLifeWidget

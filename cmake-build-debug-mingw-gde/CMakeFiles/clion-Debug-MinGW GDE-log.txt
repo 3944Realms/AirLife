@@ -8,6 +8,6 @@
 -- Qt5::Widgets
 -- Qt5::Core
 -- QM File List: E:/AirLife/cmake-build-debug-mingw-gde/Demo_en.qm;E:/AirLife/cmake-build-debug-mingw-gde/Demo_fr.qm
--- Configuring done (0.3s)
--- Generating done (0.2s)
+-- Configuring done (0.2s)
+-- Generating done (0.1s)
 -- Build files have been written to: E:/AirLife/cmake-build-debug-mingw-gde

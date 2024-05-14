@@ -13,6 +13,7 @@
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -38,13 +39,14 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QLabel *airLifeSTimeELabel;
     QLineEdit *airLifeTimeLineEdit;
+    QPushButton *airLifeBeginPushButton;
+    QPushButton *airLifeBackPushButton;
+    QGroupBox *airLifeModeGroupBox;
     QWidget *verticalLayoutWidget_2;
     QVBoxLayout *verticalLayout_2;
     QRadioButton *airLifeSearchByFlightRadioButton;
     QRadioButton *airLifeSearchByAreaRadioButton;
     QRadioButton *airLifeSearchByDatetRadioButton;
-    QPushButton *airLifeBeginPushButton;
-    QPushButton *airLifeBackPushButton;
 
     void setupUi(QWidget *airLifeWidget__informationFinderWidget)
     {
@@ -113,9 +115,18 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_3);
 
-        verticalLayoutWidget_2 = new QWidget(airLifeWidget__informationFinderWidget);
+        airLifeBeginPushButton = new QPushButton(airLifeWidget__informationFinderWidget);
+        airLifeBeginPushButton->setObjectName(QString::fromUtf8("airLifeBeginPushButton"));
+        airLifeBeginPushButton->setGeometry(QRect(240, 170, 111, 51));
+        airLifeBackPushButton = new QPushButton(airLifeWidget__informationFinderWidget);
+        airLifeBackPushButton->setObjectName(QString::fromUtf8("airLifeBackPushButton"));
+        airLifeBackPushButton->setGeometry(QRect(240, 230, 111, 51));
+        airLifeModeGroupBox = new QGroupBox(airLifeWidget__informationFinderWidget);
+        airLifeModeGroupBox->setObjectName(QString::fromUtf8("airLifeModeGroupBox"));
+        airLifeModeGroupBox->setGeometry(QRect(20, 160, 201, 131));
+        verticalLayoutWidget_2 = new QWidget(airLifeModeGroupBox);
         verticalLayoutWidget_2->setObjectName(QString::fromUtf8("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(20, 160, 160, 121));
+        verticalLayoutWidget_2->setGeometry(QRect(10, 10, 160, 121));
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -134,12 +145,6 @@ public:
 
         verticalLayout_2->addWidget(airLifeSearchByDatetRadioButton);
 
-        airLifeBeginPushButton = new QPushButton(airLifeWidget__informationFinderWidget);
-        airLifeBeginPushButton->setObjectName(QString::fromUtf8("airLifeBeginPushButton"));
-        airLifeBeginPushButton->setGeometry(QRect(240, 170, 111, 51));
-        airLifeBackPushButton = new QPushButton(airLifeWidget__informationFinderWidget);
-        airLifeBackPushButton->setObjectName(QString::fromUtf8("airLifeBackPushButton"));
-        airLifeBackPushButton->setGeometry(QRect(240, 230, 111, 51));
 
         retranslateUi(airLifeWidget__informationFinderWidget);
 
@@ -153,11 +158,12 @@ public:
         airLifeSELabel->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\350\265\267\347\202\271/\347\273\210\347\202\271\357\274\232", nullptr));
         airLifeArrowLabel->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "--->", nullptr));
         airLifeSTimeELabel->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\345\217\221\347\217\255\346\227\266\345\210\273\357\274\232", nullptr));
-        airLifeSearchByFlightRadioButton->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\351\200\232\350\277\207\350\210\252\347\217\255\346\237\245\350\257\242", nullptr));
-        airLifeSearchByAreaRadioButton->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\351\200\232\350\277\207\350\265\267\347\202\271\346\210\226\347\273\210\347\202\271\346\237\245\350\257\242", nullptr));
-        airLifeSearchByDatetRadioButton->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\351\200\232\350\277\207\345\217\221\347\217\255\346\227\266\345\210\273\346\237\245\350\257\242", nullptr));
-        airLifeBeginPushButton->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\346\237\245\350\257\242", nullptr));
-        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\350\277\224\345\233\236", nullptr));
+        airLifeBeginPushButton->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\346\237\245\350\257\242(&S)", nullptr));
+        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\350\277\224\345\233\236(&R)", nullptr));
+        airLifeModeGroupBox->setTitle(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\346\237\245\350\257\242\346\250\241\345\274\217", nullptr));
+        airLifeSearchByFlightRadioButton->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\351\200\232\350\277\207\350\210\252\347\217\255\346\237\245\350\257\242(&A)", nullptr));
+        airLifeSearchByAreaRadioButton->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\351\200\232\350\277\207\350\265\267\347\202\271\346\210\226\347\273\210\347\202\271\346\237\245\350\257\242(&B)", nullptr));
+        airLifeSearchByDatetRadioButton->setText(QCoreApplication::translate("airLifeWidget::informationFinderWidget", "\351\200\232\350\277\207\345\217\221\347\217\255\346\227\266\345\210\273\346\237\245\350\257\242(&C)", nullptr));
     } // retranslateUi
 
 };

@@ -22,6 +22,8 @@ namespace airLifeWidget {
 
     private:
         Ui::informationModifierWidget *ui;
+    private slots:
+        void on_airLifeBackPushButton_clicked();
     };
 } // airLifeWidget
 

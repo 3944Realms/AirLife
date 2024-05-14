@@ -36,7 +36,8 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../../resource/resource.qrc">
-    <normaloff>:/Logo/airLifeLogo.ico</normaloff>:/Logo/airLifeLogo.ico</iconset>
+    <normaloff>:/Logo/airLifeLogo.ico</normaloff>
+    <disabledoff>:/Logo/airLifeLogo.ico</disabledoff>:/Logo/airLifeLogo.ico</iconset>
   </property>
   <widget class="QLabel" name="airLifeFlightLabel">
    <property name="geometry">
@@ -139,7 +140,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>返回</string>
+    <string>返回(&amp;R)</string>
    </property>
   </widget>
  </widget>

@@ -52,6 +52,7 @@ public:
         airLifeDialog__AirLifeInfoDialog->setAcceptDrops(false);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/Logo/airLifeLogo.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/Logo/airLifeLogo.ico"), QSize(), QIcon::Disabled, QIcon::Off);
         airLifeDialog__AirLifeInfoDialog->setWindowIcon(icon);
         airLifeFlightLabel = new QLabel(airLifeDialog__AirLifeInfoDialog);
         airLifeFlightLabel->setObjectName(QString::fromUtf8("airLifeFlightLabel"));
@@ -126,7 +127,7 @@ public:
         airLifeSELabel->setText(QCoreApplication::translate("airLifeDialog::AirLifeInfoDialog", "\350\265\267\347\202\271/\347\273\210\347\202\271\357\274\232", nullptr));
         airLifeArrowLabel->setText(QCoreApplication::translate("airLifeDialog::AirLifeInfoDialog", "--->", nullptr));
         airLifeSTimeELabel->setText(QCoreApplication::translate("airLifeDialog::AirLifeInfoDialog", "\345\217\221\347\217\255\346\227\266\345\210\273\357\274\232", nullptr));
-        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeDialog::AirLifeInfoDialog", "\350\277\224\345\233\236", nullptr));
+        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeDialog::AirLifeInfoDialog", "\350\277\224\345\233\236(&R)", nullptr));
     } // retranslateUi
 
 };

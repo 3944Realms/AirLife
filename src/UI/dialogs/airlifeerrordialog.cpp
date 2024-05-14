@@ -16,4 +16,8 @@ namespace airLifeDialog {
     AirLifeErrorDialog::~AirLifeErrorDialog() {
         delete ui;
     }
+
+    void AirLifeErrorDialog::on_airLifeSurePushButton_clicked() {
+        this->close();
+    }
 } // airLifeDialog

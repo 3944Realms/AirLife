@@ -24,6 +24,7 @@ namespace airLifeDialog {
         Ui::loginDialog *ui;
     private slots:
         void on_loginButton_clicked();
+        void on_cancelButton_clicked();
     };
 } // airLifeDialog
 

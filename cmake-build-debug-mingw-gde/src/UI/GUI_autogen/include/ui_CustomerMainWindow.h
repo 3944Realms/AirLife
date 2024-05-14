@@ -173,25 +173,25 @@ public:
     void retranslateUi(QMainWindow *airLifeMainWindow__CustomerMainWindow)
     {
         airLifeMainWindow__CustomerMainWindow->setWindowTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\344\270\273\347\225\214\351\235\242", nullptr));
-        airLifeAccountModifyPasswordAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\344\277\256\346\224\271\345\257\206\347\240\201", nullptr));
-        airLifeAccountLogOutAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\347\231\273\345\207\272", nullptr));
-        airLifeCreateOrderAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\345\210\233\345\273\272\350\256\242\345\215\225", nullptr));
-        airLifeDeleteOrderAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\351\200\200\345\215\225", nullptr));
-        airLifeSearchFlightAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\350\210\252\347\217\255\344\277\241\346\201\257", nullptr));
-        airLifeGetMoreHelpAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "More", nullptr));
+        airLifeAccountModifyPasswordAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\344\277\256\346\224\271\345\257\206\347\240\201(&C)", nullptr));
+        airLifeAccountLogOutAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\347\231\273\345\207\272(&L)", nullptr));
+        airLifeCreateOrderAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\345\210\233\345\273\272\350\256\242\345\215\225(&N)", nullptr));
+        airLifeDeleteOrderAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\351\200\200\345\215\225(&D)", nullptr));
+        airLifeSearchFlightAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\350\210\252\347\217\255\344\277\241\346\201\257(&F)", nullptr));
+        airLifeGetMoreHelpAction->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "More(&M)", nullptr));
         actionw->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "w", nullptr));
         airLifeMUGroupBox->setTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\345\212\237\350\203\275", nullptr));
-        airLifeCreateOrderPushButton->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\345\210\233\345\273\272\350\256\242\345\215\225", nullptr));
-        airLifeDeleteOrderPushButton->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\351\200\200\345\215\225", nullptr));
-        airLifeSearchFlightPushButton->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\346\237\245\350\257\242", nullptr));
+        airLifeCreateOrderPushButton->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\345\210\233\345\273\272\350\256\242\345\215\225(&C)", nullptr));
+        airLifeDeleteOrderPushButton->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\351\200\200\345\215\225(&D)", nullptr));
+        airLifeSearchFlightPushButton->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\346\237\245\350\257\242(M)", nullptr));
         airLifeUserUUIDLabel->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\347\224\250\346\210\267UUID\357\274\232", nullptr));
         airLifeSituationLabel->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\350\256\242\347\245\250\346\203\205\345\206\265\357\274\232", nullptr));
         airLifeUserNameLabel->setText(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\347\224\250\346\210\267\345\247\223\345\220\215\357\274\232", nullptr));
-        airLifeAccountMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\350\264\246\346\210\267", nullptr));
-        airLifeAccountAction->setTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\345\257\206\347\240\201\347\256\241\347\220\206", nullptr));
-        airLifeOrderMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\350\256\242\345\215\225", nullptr));
-        airLifeSearchMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\346\237\245\350\257\242", nullptr));
-        airLifeHelptMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\345\270\256\345\212\251", nullptr));
+        airLifeAccountMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\350\264\246\346\210\267(&U)", nullptr));
+        airLifeAccountAction->setTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\345\257\206\347\240\201\347\256\241\347\220\206(&M)", nullptr));
+        airLifeOrderMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\350\256\242\345\215\225(&O)", nullptr));
+        airLifeSearchMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\346\237\245\350\257\242(&S)", nullptr));
+        airLifeHelptMenu->setTitle(QCoreApplication::translate("airLifeMainWindow::CustomerMainWindow", "\345\270\256\345\212\251(&H)", nullptr));
     } // retranslateUi
 
 };

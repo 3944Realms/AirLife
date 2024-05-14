@@ -139,12 +139,12 @@
     <rect>
      <x>240</x>
      <y>20</y>
-     <width>91</width>
+     <width>101</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>获取订单信息</string>
+    <string>获取订单信息(&amp;G)</string>
    </property>
   </widget>
   <widget class="QPushButton" name="airLifeBackPushButton">
@@ -157,7 +157,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>返回</string>
+    <string>返回(&amp;R)</string>
    </property>
   </widget>
   <widget class="QPushButton" name="airLifeChargebackPushButton">
@@ -170,7 +170,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>退单</string>
+    <string>退单(&amp;D)</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="airLifeChargebackStatusLineEdit">

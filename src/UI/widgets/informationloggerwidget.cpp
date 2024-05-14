@@ -16,4 +16,8 @@ namespace airLifeWidget {
     informationLoggerWidget::~informationLoggerWidget() {
         delete ui;
     }
+
+    void informationLoggerWidget::on_airLifeBackPushButton_clicked() {
+        this->close();
+    }
 } // airLifeWidget

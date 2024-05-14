@@ -117,7 +117,7 @@ public:
         airLifeFlightLineEdit->setGeometry(QRect(50, 60, 331, 19));
         pushButton = new QPushButton(airLifeWidget__orderDestroyerWidget);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(240, 20, 91, 23));
+        pushButton->setGeometry(QRect(240, 20, 101, 23));
         airLifeBackPushButton = new QPushButton(airLifeWidget__orderDestroyerWidget);
         airLifeBackPushButton->setObjectName(QString::fromUtf8("airLifeBackPushButton"));
         airLifeBackPushButton->setGeometry(QRect(280, 240, 111, 51));
@@ -145,9 +145,9 @@ public:
         airLifeArrowLabel->setText(QCoreApplication::translate("airLifeWidget::orderDestroyerWidget", "--->", nullptr));
         airLifeSTimeELabel->setText(QCoreApplication::translate("airLifeWidget::orderDestroyerWidget", "\345\217\221\347\217\255\346\227\266\345\210\273\357\274\232", nullptr));
         airLifeOrderUUIDLabel->setText(QCoreApplication::translate("airLifeWidget::orderDestroyerWidget", "\350\256\242\345\215\225\347\274\226\345\217\267\357\274\232", nullptr));
-        pushButton->setText(QCoreApplication::translate("airLifeWidget::orderDestroyerWidget", "\350\216\267\345\217\226\350\256\242\345\215\225\344\277\241\346\201\257", nullptr));
-        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeWidget::orderDestroyerWidget", "\350\277\224\345\233\236", nullptr));
-        airLifeChargebackPushButton->setText(QCoreApplication::translate("airLifeWidget::orderDestroyerWidget", "\351\200\200\345\215\225", nullptr));
+        pushButton->setText(QCoreApplication::translate("airLifeWidget::orderDestroyerWidget", "\350\216\267\345\217\226\350\256\242\345\215\225\344\277\241\346\201\257(&G)", nullptr));
+        airLifeBackPushButton->setText(QCoreApplication::translate("airLifeWidget::orderDestroyerWidget", "\350\277\224\345\233\236(&R)", nullptr));
+        airLifeChargebackPushButton->setText(QCoreApplication::translate("airLifeWidget::orderDestroyerWidget", "\351\200\200\345\215\225(&D)", nullptr));
         airLifeChargebackStatusLineEdit->setText(QString());
         airLifeChargebackStatusLabel->setText(QCoreApplication::translate("airLifeWidget::orderDestroyerWidget", "\351\200\200\345\215\225\347\212\266\346\200\201\357\274\232", nullptr));
     } // retranslateUi
