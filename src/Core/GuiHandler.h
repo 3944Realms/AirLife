@@ -11,21 +11,28 @@
 
 namespace airLifeHandler {
 
-    class GuiHandler {
+    class GuiHandler {//单例模式
     private:
         static GuiHandler* instance;
         static std::once_flag onceFlag;
-        LoginHandler loginHandler;
+        static QMainWindow *admin,*user;
+        static QDialog *login;
+         LoginHandler loginHandler;
         explicit GuiHandler(const LoginHandler& handler);
 
     public:
         GuiHandler(const GuiHandler&) = delete;
         GuiHandler& operator=(const GuiHandler&) = delete;
-        static airLifeHandler::GuiHandler * getInstance(const LoginHandler& handler);
+        static airLifeHandler::GuiHandler * getInstance();
+        void setLoginHandler(const LoginHandler& handler);
+        int tryOpenLoginDialogShow();
+        int tryOpenMainWindowsShow();
         static void ShowWidget(QWidget *widget);
         static void ShowDialog(QDialog *dialog);
         static void ShowMainWindows(QMainWindow * mainWindow);
+        static void switchMainWindow();
         void Gui(QDialog &loginDialog, QMainWindow &administerWindow, QMainWindow &userWindow);
+        LoginHandler* getLoginHandler();
 
     };
 

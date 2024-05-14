@@ -6,6 +6,7 @@
 #define AIRLIFE_CUSTOMERMAINWINDOW_H
 
 #include <QMainWindow>
+#include "../../Core/GuiHandler.h"
 
 namespace airLifeMainWindow {
     QT_BEGIN_NAMESPACE
@@ -22,6 +23,9 @@ namespace airLifeMainWindow {
 
     private:
         Ui::CustomerMainWindow *ui;
+
+    private slots:
+        void airLifeAccountLogOutActionSlot();
     };
 } // airLifeMainWindow
 

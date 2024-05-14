@@ -6,6 +6,10 @@
 #define AIRLIFE_LOGINDIALOG_H
 
 #include <QDialog>
+#include <iostream>
+#include "../easterEgg/hui.h"
+#include "../../Core/LoginHandler.h"
+#include "../../Core/GuiHandler.h"
 
 namespace airLifeDialog {
     QT_BEGIN_NAMESPACE

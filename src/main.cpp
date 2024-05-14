@@ -9,8 +9,10 @@
 
 int main(int argc,char *argv[]) {
     QApplication a(argc,argv);
+    QApplication::setWindowIcon(QIcon(":/airLifeLogo.ico"));//有点问题，搞明白后再想办法弄
     airLifeHandler::LoginHandler loginHandler;
-    airLifeHandler::GuiHandler* guiHandler = airLifeHandler::GuiHandler::getInstance(loginHandler);
+    airLifeHandler::GuiHandler* guiHandler = airLifeHandler::GuiHandler::getInstance();
+    guiHandler->setLoginHandler(loginHandler);
     airLifeDialog::loginDialog loginDialog;
     airLifeMainWindow::CustomerMainWindow CuWi;
     airLifeMainWindow::AdministerMainWindow AdWi;

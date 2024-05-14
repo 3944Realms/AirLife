@@ -11,9 +11,17 @@ namespace airLifeMainWindow {
     AdministerMainWindow::AdministerMainWindow(QWidget *parent) :
             QMainWindow(parent), ui(new Ui::AdministerMainWindow) {
         ui->setupUi(this);
+        connect(ui->airLifeAccountLogOutAction, &QAction::triggered, this,
+                &AdministerMainWindow::airLifeAccountLogOutActionSlot);
     }
 
     AdministerMainWindow::~AdministerMainWindow() {
         delete ui;
+    }
+
+    void AdministerMainWindow::airLifeAccountLogOutActionSlot() {
+        this->close();
+        airLifeHandler::GuiHandler::getInstance()->tryOpenLoginDialogShow();
+
     }
 } // airLifeMainWindow
