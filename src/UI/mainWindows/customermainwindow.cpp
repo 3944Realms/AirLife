@@ -21,6 +21,7 @@ namespace airLifeMainWindow {
 
     void CustomerMainWindow::airLifeAccountLogOutActionSlot() {
         this->close();
+        airLifeHandler::GuiHandler::getInstance()->getLoginHandler()->resetLoginStatus();//重置登录状态
         airLifeHandler::GuiHandler::getInstance()->tryOpenLoginDialogShow();
     }
 } // airLifeMainWindow

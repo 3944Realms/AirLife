@@ -25,9 +25,6 @@ add_library(GUI
         dialogs/logindialog.cpp
         test/testwindows.cpp
         easterEgg/hui.cpp
-        dialogs/airliferunnigdialog.cpp
-        dialogs/airliferunnigdialog.h
-        dialogs/airliferunnigdialog.ui
         dialogs/airlifeerrordialog.cpp
         dialogs/airlifeerrordialog.h
         dialogs/airlifeerrordialog.ui
@@ -55,6 +52,9 @@ add_library(GUI
         widgets/informationmodifierwidget.cpp
         widgets/informationmodifierwidget.h
         widgets/informationmodifierwidget.ui
+        dialogs/airliferunningdialog.cpp
+        dialogs/airliferunningdialog.h
+        dialogs/airliferunningdialog.ui
 )
 target_include_directories(GUI PUBLIC ${Qt5Widgets_INCLUDE_DIRS})
 target_link_libraries(GUI

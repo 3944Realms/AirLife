@@ -20,6 +20,10 @@ add_library(CoreCode
         LoginHandler.cpp
         GuiHandler.cpp
         GuiHandler.h
+        ReadFileHandler.cpp
+        ReadFileHandler.h
+        WriteFileHandler.cpp
+        WriteFileHandler.h
 )
 target_include_directories(CoreCode PUBLIC ${Qt5Widgets_INCLUDE_DIRS})
 

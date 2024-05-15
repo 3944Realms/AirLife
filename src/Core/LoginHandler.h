@@ -26,6 +26,7 @@ namespace airLifeHandler {
         LoginHandler();
         bool hasAccountLogged() const;
         void setLoginStatus(AccountStatus status);
+        void resetLoginStatus();
         AccountType getAccountType();
         void enable();
         ~LoginHandler();

@@ -40,7 +40,7 @@
     </message>
 </context>
 <context>
-    <name>airLifeDialog::AirLifeRunnigDialog</name>
+    <name>airLifeDialog::AirLifeRunningDialog</name>
     <message>
         <source>运行中</source>
         <translation type="unfinished"></translation>

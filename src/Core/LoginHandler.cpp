@@ -47,4 +47,9 @@ namespace airLifeHandler {
     AccountType LoginHandler::getAccountType() {
         return accType;
     }
+
+    void LoginHandler::resetLoginStatus() {
+        hasLogged = false;
+        accType = AccountType::UNKNOWN;
+    }
 }

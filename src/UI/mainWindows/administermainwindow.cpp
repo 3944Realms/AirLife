@@ -20,8 +20,10 @@ namespace airLifeMainWindow {
     }
 
     void AdministerMainWindow::airLifeAccountLogOutActionSlot() {
-        this->close();
-        airLifeHandler::GuiHandler::getInstance()->tryOpenLoginDialogShow();
+        this->close();//关闭当前界面
+        airLifeHandler::GuiHandler::getInstance()->getLoginHandler()->resetLoginStatus();//重置登录状态
+        airLifeHandler::GuiHandler::getInstance()->tryOpenLoginDialogShow();//打开登录框
+
 
     }
 } // airLifeMainWindow
