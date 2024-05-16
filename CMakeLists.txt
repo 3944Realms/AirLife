@@ -24,9 +24,14 @@ set(CMAKE_INCLUDE)
 # 设置应用程序图标
 set(ICON_FILE "E:\\AirLife\\resource\\airLifeLogo.ico")
 set(RESOURCES
-    resource/airLifeLogo.ico
+        resource/resource.qrc
+        resource/appicon.rc
 )
-
+if(WIN32)
+set(CMAKE_RC_COMPILER_INIT windres)
+ENABLE_LANGUAGE(RC)
+set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -o <OBJECT> <SOURCE>")
+endif ()
 find_package(Qt5 COMPONENTS Core Widgets LinguistTools REQUIRED)
 message(STATUS "${Qt5Widgets_LIBRARIES}")
 message(STATUS "${Qt5Core_LIBRARIES}")

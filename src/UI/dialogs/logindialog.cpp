@@ -20,13 +20,23 @@ namespace airLifeDialog {
         airLifeHandler::LoginHandler* pLoginHandler = pGuiHandler->getLoginHandler();
         if(ui->acc_inp->text() == "Mommy" && ui->pas_inp->text() == "1314520"){
             auto * hui = new egg::hui();
+            ui->acc_inp->setText("");
+            ui->pas_inp->setText("");
             hui->show();
         }else{
-            //Test#1管理员
-            pLoginHandler->setLoginStatus(airLifeHandler::AccountStatus::ADMIN_LOGIN_IN);
+            //Test#2用户
+            pLoginHandler->setLoginStatus(airLifeHandler::AccountStatus::USER_LOGIN_IN);
             int result = pGuiHandler->tryOpenMainWindowsShow();
+            ui->acc_inp->setText("");
+            ui->pas_inp->setText("");
             if(result == -1) std::cerr<<"Please invoke GUI method first to init Widget!"<<std::endl;
             else if(result == -2) std::cerr<<""<<std::endl;
+            //Test#1 End
+            //Test#1管理员
+//            pLoginHandler->setLoginStatus(airLifeHandler::AccountStatus::ADMIN_LOGIN_IN);
+//            int result = pGuiHandler->tryOpenMainWindowsShow();
+//            if(result == -1) std::cerr<<"Please invoke GUI method first to init Widget!"<<std::endl;
+//            else if(result == -2) std::cerr<<""<<std::endl;
             //Test#1 End
             //if 用户数据文件里找到用户
                 //if 用户数据文件里密码的hash值与用户输入的明文转成hash的结果校验一致

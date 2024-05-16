@@ -13,9 +13,19 @@ namespace airLifeMainWindow {
         ui->setupUi(this);
         connect(ui->airLifeAccountLogOutAction, &QAction::triggered, this,
                 &AdministerMainWindow::airLifeAccountLogOutActionSlot);
+        informationFinderWidget = new airLifeWidget::informationFinderWidget();
+        informationLoggerWidget = new airLifeWidget::informationLoggerWidget();
+        informationModifierWidget = new airLifeWidget::informationModifierWidget();
+        connect(informationFinderWidget, &airLifeWidget::informationFinderWidget::destroyed,
+                this, &AdministerMainWindow::airLifeSearchFlightActionSlot);
+        connect(informationLoggerWidget, &airLifeWidget::informationLoggerWidget::destroyed,
+                this, &AdministerMainWindow::airLifeAddInformationActionSlot);
+        connect(informationModifierWidget, &airLifeWidget::informationModifierWidget::destroyed,
+                this, &AdministerMainWindow::airLifeMRInformationActionSlot);
     }
 
     AdministerMainWindow::~AdministerMainWindow() {
+        disconnectAllSignalsAndSlots();
         delete ui;
     }
 
@@ -26,4 +36,51 @@ namespace airLifeMainWindow {
 
 
     }
+
+    void AdministerMainWindow::airLifeSearchFlightActionSlot() {
+        this->hide();
+
+        informationFinderWidget->setParent(this, Qt::Dialog);
+
+        informationFinderWidget->show();
+    }
+
+    void AdministerMainWindow::airLifeAddInformationActionSlot() {
+        this->hide();
+
+        informationLoggerWidget->setParent(this, Qt::Dialog);
+
+        informationLoggerWidget->show();
+    }
+
+    void AdministerMainWindow::airLifeMRInformationActionSlot() {
+        this->hide();
+
+        informationModifierWidget->setParent(this, Qt::Dialog);
+
+        informationModifierWidget->show();
+    }
+
+    void AdministerMainWindow::disconnectAllSignalsAndSlots() {
+        disconnect(informationFinderWidget, &airLifeWidget::informationFinderWidget::destroyed,
+                this, &AdministerMainWindow::airLifeSearchFlightActionSlot);
+        disconnect(informationLoggerWidget, &airLifeWidget::informationLoggerWidget::destroyed,
+                this, &AdministerMainWindow::airLifeAddInformationActionSlot);
+        disconnect(informationModifierWidget, &airLifeWidget::informationModifierWidget::destroyed,
+                this, &AdministerMainWindow::airLifeMRInformationActionSlot);
+    }
+
+    void AdministerMainWindow::on_airLifeAddInformationPushButton_clicked() {
+
+    }
+
+    void AdministerMainWindow::on_airLifeMRInformationPushButton_clicked() {
+
+    }
+
+    void AdministerMainWindow::childWindowClosed() {
+
+    }
+
+
 } // airLifeMainWindow

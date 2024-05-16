@@ -1,3 +1,7 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "UnusedValue"
+#pragma ide diagnostic ignored "misc-no-recursion"
+#pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
 //
 // Created by f2561 on 24-5-9.
 //
@@ -7,6 +11,11 @@
 #include <utility>
 
 namespace COMPONENT {
+class NaNException: public std::exception {
+    const char * what() const noexcept override {
+        return "NanOutput";
+    }
+};//继承is-a
     //Time Part method
     Date::Time::Time(COMPONENT::UShort Hour, COMPONENT::UShort Minute){
             this->Hour = Hour;
@@ -29,6 +38,7 @@ namespace COMPONENT {
 
         }catch (std::exception& e){
             std::cerr<<"Worry Data"<<std::endl;
+            throw NaNException();
         }
         return new Time(Hour, Minute);
     }
@@ -47,6 +57,33 @@ namespace COMPONENT {
         toReturn = hour + ":" + minute;
         return toReturn;
     }
+
+    std::vector<char> Date::Time::serialize() const {
+        std::vector<char> data;
+
+        data.insert(data.end(), reinterpret_cast<const char*>(&Hour), reinterpret_cast<const char*>(&Hour) + sizeof(Hour));
+        data.insert(data.end(), reinterpret_cast<const char*>(&Minute), reinterpret_cast<const char*>(&Minute) + sizeof(Minute));
+
+        return data;
+    }
+
+    Date::Time Date::Time::deserialize(const std::vector<char>& data) {
+        Date::Time _time{};
+        size_t offset = 0;
+
+        UShort hour = 0;
+        std::memcpy(&hour, data.data() + offset, sizeof(hour));
+        offset += sizeof(hour);
+        _time.Hour = hour;
+
+        UShort minute = 0;
+        std::memcpy(&minute, data.data() + offset, sizeof(minute));
+        offset += sizeof(minute);
+        _time.Minute = minute;
+        return _time;
+
+    }
+
     Date::Time::~Time() = default;
     //Date Part method
     Date::Date(COMPONENT::UShort Year, COMPONENT::UShort Month, COMPONENT::UShort Day, const COMPONENT::Date::Time &time)  {
@@ -73,7 +110,7 @@ namespace COMPONENT {
         try {
             if(Month > 12 || Day > getMonthDay(Year, Month)) throw std::exception();
         }catch(std::exception& e) {
-            std::cerr<<"Worry Data"<<std::endl;
+            std::cerr<<"Worry Data"<<std::endl;std::cerr<<"Worry Data"<<std::endl;
         }
         return new Date(Year, Month, Day, time);
     }
@@ -105,6 +142,51 @@ namespace COMPONENT {
     Date::Time Date::getTime() const {
         return time;
     }
+
+    std::vector<char> Date::serialize() const {
+
+        std::vector<char> data;
+        //序列化Year Month Day
+        data.insert(data.end(), reinterpret_cast<const char*>(&Year), reinterpret_cast<const char*>(&Year) + sizeof(Year));
+        data.insert(data.end(), reinterpret_cast<const char*>(&Month), reinterpret_cast<const char*>(&Month) + sizeof(Month));
+        data.insert(data.end(), reinterpret_cast<const char*>(&Day), reinterpret_cast<const char*>(&Day) + sizeof(Day));
+        //序列化timeData
+        std::vector<char> timeData = time.serialize();
+        size_t timeDataLen = timeData.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&timeDataLen), reinterpret_cast<const char*>(&timeDataLen) + sizeof(timeDataLen));
+        data.insert(data.end(), timeData.begin(), timeData.end());
+        return data;
+    }
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
+    Date Date::deserialize(const std::vector<char>& data) {
+        Date _date;
+        size_t offset = 0;
+        //反序列化年月日
+        UShort Year,Month,Day;
+        std::memcpy(&Year,data.data() + offset, UShortLen);
+        offset += UShortLen;
+        std::memcpy(&Month,data.data() + offset, UShortLen);
+        offset += UShortLen;
+        std::memcpy(&Day,data.data() + offset, UShortLen);
+        offset += UShortLen;
+        _date.Year = Year;
+        _date.Month = Month;
+        _date.Day = Day;
+        //读取时间数据大小
+        size_t timeDataSize;
+        std::memcpy(&timeDataSize, data.data() + offset, sizeof (timeDataSize));
+        offset += sizeof(timeDataSize);
+        //读取时间数据序列化
+        std::vector<char> timeData(data.begin() + offset, data.begin() + offset + timeDataSize);
+        offset += timeDataSize;
+        //将时间数据反序列化
+        _date.time = Time::deserialize(timeData);
+
+        return _date;
+    }
+#pragma clang diagnostic pop
 
     Date::~Date() = default;
 
@@ -157,6 +239,42 @@ namespace COMPONENT {
         return true;
     }
 
+    std::vector<char> Airplane::serialize() const {
+       std::vector<char> data;
+
+        size_t uuidLen = UUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&uuidLen), reinterpret_cast<const char*>(uuidLen) + sizeof(uuidLen));
+        data.insert(data.end(), UUID.begin(), UUID.end());
+
+        data.insert(data.end(), reinterpret_cast<const char*>(&Capacity), reinterpret_cast<const char*>(&Capacity) + UShortLen);
+        data.insert(data.end(), reinterpret_cast<const char*>(&CurrentNumber), reinterpret_cast<const char*>(&CurrentNumber) + UShortLen);
+
+        return data;
+    }
+
+    Airplane Airplane::deserialize(const std::vector<char> &data) {
+        Airplane airplane;
+        size_t offset = 0;
+
+        size_t uuidLen;
+        std::memcpy(&uuidLen, data.data() + offset, sizeof(uuidLen));
+        offset += sizeof(uuidLen);
+        airplane.UUID = std::string(data.data() + offset, uuidLen);
+        offset += uuidLen;
+
+        UShort capacity;
+        std::memcpy(&capacity, data.data() + offset, UShortLen);
+        airplane.Capacity = capacity;
+        offset += UShortLen;
+
+        UShort currentNumber;
+        std::memcpy(&currentNumber, data.data() + offset, UShortLen);
+        offset += UShortLen;
+        airplane.CurrentNumber = currentNumber;
+
+        return airplane;
+    }
+
     Area::Area(std::string areaName): AreaName(std::move(areaName)) {}
 
     std::string Area::toString() {
@@ -174,6 +292,28 @@ namespace COMPONENT {
     bool Area::initAreaNameOnce(const std::string &Name) {
         if(Name == "Default" ) return false;
         return tryModifyName(Name);
+    }
+
+    std::vector<char> Area::serialize() const {
+        std::vector<char> data;
+
+        size_t nameLen = AreaName.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&nameLen), reinterpret_cast<const char*> (&nameLen) + sizeof(nameLen));
+        data.insert(data.end(), AreaName.begin(), AreaName.end());
+
+        return data;
+    }
+
+    Area Area::deserialize(const std::vector<char> &data) {
+        Area area;
+        size_t offset = 0;
+
+        size_t nameLen;
+        std::memcpy(&nameLen, data.data() + offset, sizeof(nameLen));
+        offset += sizeof(nameLen);
+        area.AreaName = std::string(data.data() + offset, nameLen);
+//        offset += nameLen;
+        return area;
     }
 
     Flight::Flight(std::string uuid) :UUID(std::move(uuid)) {hadInit = false;}
@@ -244,6 +384,105 @@ namespace COMPONENT {
         return true;
     }
 
+    std::vector<char> Flight::serialize() const {
+        std::vector<char> data;
+
+        //序列化 UUID
+        size_t uuidLen = UUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&uuidLen), reinterpret_cast<const char*>(&uuidLen) + sizeof(uuidLen));
+        data.insert(data.end(), UUID.begin(), UUID.end());
+
+        //序列化 Airplane;
+        std::vector<char> airplaneData = Airplane.serialize();
+        size_t airplaneDataSize = airplaneData.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&airplaneDataSize), reinterpret_cast<const char*>(&airplaneDataSize) + sizeof(airplaneDataSize));
+        data.insert(data.end(), airplaneData.begin(), airplaneData.end());
+
+        //序列化StartingPoint ,Destination
+        std::vector<char> startingPointData = StartingPoint.serialize(), destinationData = Destination.serialize();
+        size_t areaDataSize = sizeof(Area);
+        data.insert(data.end(), reinterpret_cast<const char*>(&areaDataSize), reinterpret_cast<const char*>(&areaDataSize) + sizeof(areaDataSize));
+        data.insert(data.end(), startingPointData.begin(), startingPointData.end());
+        data.insert(data.end(), reinterpret_cast<const char*>(&areaDataSize), reinterpret_cast<const char*>(&areaDataSize) + sizeof(areaDataSize));
+        data.insert(data.end(), destinationData.begin(), destinationData.end());
+
+        //序列化DepartureTime
+        std::vector<char> departureTimeData = DepartureTime.serialize();
+        size_t departureTimeSize = departureTimeData.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&departureTimeSize), reinterpret_cast<const char*>(&departureTimeSize) + sizeof(departureTimeSize));
+        data.insert(data.end(), departureTimeData.begin(), departureTimeData.end());
+
+        //序列化TakeTime
+        std::vector<char> takeTimeData = TakeTime.serialize();
+        size_t takeTimeDataSize = takeTimeData.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&takeTimeDataSize), reinterpret_cast<const char*>(&takeTimeDataSize) + sizeof(takeTimeDataSize));
+        data.insert(data.end(), takeTimeData.begin(), takeTimeData.end());
+
+        //序列化hadInit
+//        data.insert(data.end(), reinterpret_cast<const char*>(&hadInit), reinterpret_cast<const char*>(&hadInit) + sizeof(bool));
+        data.push_back(hadInit? 1 : 0);
+        return data;
+    }
+
+    Flight Flight::deserialize(const std::vector<char> &data) {
+        Flight flight;
+        size_t offset = 0;
+
+        //反序列化UUID
+        size_t uuidLen;
+        std::memcpy(&uuidLen, data.data() + offset, sizeof(uuidLen));
+        offset += sizeof(uuidLen);
+        flight.UUID = std::string(data.data() + offset, uuidLen);
+        offset += uuidLen;
+
+
+        //反序列化AirPlane
+        size_t airplaneDataSize;
+        std::memcpy(&airplaneDataSize, data.data() + offset, sizeof(airplaneDataSize));
+        offset += sizeof(airplaneDataSize);
+        std::vector<char> airplaneData(data.begin() + (int)offset, data.begin() + (int)offset + (int)airplaneDataSize);
+        offset += airplaneDataSize;
+        flight.Airplane = Airplane::deserialize(airplaneData);
+
+        //反序列化StartingPoint ,Destination
+        size_t areaDataSize;
+        std::memcpy(&areaDataSize, data.data() + offset, sizeof(areaDataSize));
+        offset += sizeof(areaDataSize);
+        std::vector<char> startingPointData(data.begin() + (int)offset, data.begin() + (int)offset + (int)areaDataSize);
+        offset += areaDataSize;
+        std::memcpy(&areaDataSize, data.data() + offset, sizeof(areaDataSize));
+        offset += sizeof(areaDataSize);
+        std::vector<char> destinationData(data.begin() + (int)offset, data.begin() + (int)offset + (int)areaDataSize);
+        offset += areaDataSize;
+        flight.StartingPoint = Area::deserialize(startingPointData);
+        flight.Destination = Area::deserialize(destinationData);
+
+        //反序列化DepartureTime
+        size_t departureTimeSize;
+        std::memcpy(&departureTimeSize, data.data() + offset, sizeof(departureTimeSize));
+        offset += sizeof(departureTimeSize);
+        std::vector<char> departureTimeData(data.begin() + offset, data.begin() + offset + departureTimeSize);
+        offset += departureTimeSize;
+        flight.DepartureTime = Date::deserialize(departureTimeData);
+
+        //反序列化TakeTime
+        size_t takeTimeSize;
+        std::memcpy(&takeTimeSize, data.data() + offset, sizeof(takeTimeSize));
+        offset += sizeof(takeTimeSize);
+        std::vector<char> takeTimeData(data.begin() + (int)offset, data.begin() + (int)offset + (int)takeTimeSize);
+        offset += takeTimeSize;
+        Date::Time takeTime = Date::Time::deserialize(takeTimeData);
+        flight.TakeTime = takeTime;
+
+        //反序列化hadInit
+        bool _hadInit = (data[offset] == 1);
+//        std::memcpy(&_hadInit, data.data() + offset, sizeof(_hadInit));
+        flight.hadInit = _hadInit;
+        offset += sizeof(bool);
+
+        return flight;
+    }
+
 
     User::User(std::string uuid) :UUID(std::move(uuid)) {}
 
@@ -273,6 +512,76 @@ namespace COMPONENT {
         if(UUID != "Default") return false;
         UUID = std::move(uuid);
         return true;
+    }
+    std::vector<char> User::serialize() const {
+        std::vector<char> data;
+
+        //序列化Name
+        size_t nameLen = Name.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&nameLen), reinterpret_cast<const char*>(&nameLen) + sizeof(nameLen));
+        data.insert(data.end(), Name.begin(), Name.end());
+
+        //序列化UUID
+        size_t uuidLen = UUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&uuidLen), reinterpret_cast<const char*>(&uuidLen) + sizeof(uuidLen));
+        data.insert(data.end(), UUID.begin(), UUID.end());
+
+        //序列化OrderList
+        size_t orderListSize = OrderList.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&orderListSize), reinterpret_cast<const char*>(&orderListSize) + sizeof(orderListSize));
+        for (const auto& order : OrderList) {
+            std::vector<char> orderData = order.serialize();
+            data.insert(data.end(), orderData.begin(), orderData.end());
+        }
+
+        //序列化CheckBackList
+        size_t chargeBackListSize = ChargeBackList.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&chargeBackListSize), reinterpret_cast<const char*>(&chargeBackListSize) + sizeof(chargeBackListSize));
+        for (const auto& chargeback : ChargeBackList) {
+            std::vector<char> chargebackData = chargeback.serialize();
+            data.insert(data.end(), chargebackData.begin(), chargebackData.end());
+        }
+
+        return data;
+    }
+
+    User User::deserialize(const std::vector<char>& data) {
+        User user;
+        size_t offset = 0;
+
+        //反序列化Name
+        size_t nameLen;
+        std::memcpy(&nameLen, data.data() + offset, sizeof(nameLen));
+        offset += sizeof(nameLen);
+        user.Name = std::string(data.data() + offset, nameLen);
+        offset += nameLen;
+
+        //反序列化UUID
+        size_t uuidLen;
+        std::memcpy(&uuidLen, data.data() + offset, sizeof(uuidLen));
+        offset += sizeof(uuidLen);
+        user.UUID = std::string(data.data() + offset, uuidLen);
+        offset += uuidLen;
+
+        //反序列化OrderList list->order
+        size_t orderListDataSize;
+        std::memcpy(&orderListDataSize, data.data() + offset, sizeof(orderListDataSize));
+        offset += sizeof(orderListDataSize);
+        for (size_t i = 0; i < orderListDataSize; ++i) {
+            Orders order = Orders::deserialize(data, offset);
+            user.OrderList.push_back(order);
+        }
+
+        //反序列化ChargeBackList
+        size_t chargeBackListSize;
+        std::memcpy(&chargeBackListSize, data.data() + offset, sizeof(chargeBackListSize));
+        offset += sizeof(chargeBackListSize);
+        for (size_t i = 0; i < chargeBackListSize; ++i) {
+            Chargebacks chargeback = Chargebacks::deserialize(data, offset);
+            user.ChargeBackList.push_back(chargeback);
+        }
+
+        return user;
     }
 
 
@@ -311,6 +620,84 @@ namespace COMPONENT {
     bool Orders::isValid() const {
         return Valid;
     }
+    std::vector<char> Orders::serialize() const {
+        std::vector<char> data;
+
+        //序列化Owner
+        std::vector<char> ownerData = Owner.serialize();
+        data.insert(data.end(), ownerData.begin(), ownerData.end());
+
+        //序列化OrderCreateDate
+        std::vector<char> orderCreatedDateData = OrderCreatedDate.serialize();
+        data.insert(data.end(), orderCreatedDateData.begin(), orderCreatedDateData.end());
+
+        //序列化TargetFlightData
+        std::vector<char> targetFlightData = TargetFlight.serialize();
+        data.insert(data.end(), targetFlightData.begin(), targetFlightData.end());
+
+        //序列化OrderUUID
+        size_t orderUUIDSize = OrderUUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&orderUUIDSize), reinterpret_cast<const char*>(&orderUUIDSize) + sizeof(orderUUIDSize));
+        data.insert(data.end(), OrderUUID.begin(), OrderUUID.end());
+
+        //序列化Valid
+//        data.insert(data.end(), reinterpret_cast<const char*>(&Valid), reinterpret_cast<const char*>(&Valid) + sizeof(Valid));
+        data.push_back(Valid ? 1 : 0);
+
+        return data;
+    }
+
+    Orders Orders::deserialize(const std::vector<char>& data, size_t& offset) {
+        Orders order;
+
+        // 反序列化 Owner
+        size_t ownerDataSize;
+        std::memcpy(&ownerDataSize, data.data() + offset , sizeof(ownerDataSize));
+        offset += sizeof(ownerDataSize);
+        std::vector<char> ownerData(data.begin() + (int)offset, data.begin() + (int)offset + (int)ownerDataSize);
+        order.Owner = User::deserialize(ownerData);
+        offset += ownerDataSize;
+
+        //反序列化 orderCreateDateSize
+        size_t orderCreateDateSize;
+        std::memcpy(&orderCreateDateSize, data.data() + offset, sizeof(orderCreateDateSize));
+        offset += sizeof(orderCreateDateSize);
+        std::vector<char> orderCreateDateData(data.begin() + (int)offset, data.begin() + (int)offset + (int)orderCreateDateSize);
+        order.OrderCreatedDate = Date::deserialize(orderCreateDateData);
+        offset += orderCreateDateSize;
+
+        // 反序列化 OrderCreatedDate
+        size_t orderCreatedDateDataSize;
+        std::memcpy(&orderCreatedDateDataSize, data.data() + offset, sizeof(orderCreateDateSize));
+        offset += sizeof(orderCreateDateSize);
+        std::vector<char> orderCreatedDateData(data.begin() + (int)offset, data.begin() + (int)offset + (int)orderCreatedDateDataSize);
+        order.OrderCreatedDate = Date::deserialize(orderCreatedDateData);
+        offset += orderCreateDateSize;
+
+        // 反序列化 TargetFlight
+        size_t targetFlightDataSize;
+        std::memcpy(&targetFlightDataSize, data.data() + offset, sizeof(targetFlightDataSize));
+        offset += sizeof(targetFlightDataSize);
+        std::vector<char> targetFlightData(data.begin() + (int)offset, data.begin() + (int)offset + (int)targetFlightDataSize);
+        order.TargetFlight = Flight::deserialize(targetFlightData);
+        offset += targetFlightDataSize;
+
+        // 反序列化 OrderUUID
+        size_t orderUUIDLen;
+        std::memcpy(&orderUUIDLen, data.data() + offset, sizeof(orderUUIDLen));
+        offset += sizeof(orderUUIDLen);
+        order.OrderUUID = std::string(data.data() + offset, orderUUIDLen);
+        offset += orderUUIDLen;
+
+        // 反序列化 Valid
+//        std::memcpy(&order.Valid, data.data() + offset , sizeof(bool));
+        order.Valid = (data[offset] == 1);
+        offset += sizeof(bool);
+
+        return order;
+    }
+
+    Orders::Orders() = default;
 
     User Chargebacks::getUser() {
         return Owner;
@@ -328,7 +715,7 @@ namespace COMPONENT {
         return TargetOrder;
     }
 
-    bool Chargebacks::isSuccessful() {
+    bool Chargebacks::isSuccessful() const{
         return Successful;
     }
 
@@ -336,16 +723,163 @@ namespace COMPONENT {
         Successful = true;
     }
 
+    std::vector<char> Chargebacks::serialize() const {
+        std::vector<char> data;
+
+        // Serialize序列化 Owner
+        std::vector<char> ownerData = Owner.serialize();
+        data.insert(data.end(), ownerData.begin(), ownerData.end());
+
+        // Serialize序列化 ChargebackCreateDate
+        std::vector<char> dateData = ChargebackCreateDate.serialize();
+        data.insert(data.end(), dateData.begin(), dateData.end());
+
+        // Serialize序列化 ChargebackUUID
+        size_t uuidLength = ChargebackUUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&uuidLength), reinterpret_cast<const char*>(&uuidLength) + sizeof(uuidLength));
+        data.insert(data.end(), ChargebackUUID.begin(), ChargebackUUID.end());
+
+        // Serialize序列化 TargetOrder
+        std::vector<char> orderData = TargetOrder.serialize();
+        data.insert(data.end(), orderData.begin(), orderData.end());
+
+        // Serialize序列化 Successful flag
+        data.push_back(Successful ? 1 : 0);
+
+        return data;
+    }
+
+    Chargebacks Chargebacks::deserialize(const std::vector<char> &data, size_t &offset)  {
+        // Deserialize反序列化 Owner
+        size_t userDataSize;
+        std::memcpy(&userDataSize, data.data() + offset, sizeof(userDataSize));
+        offset += sizeof(userDataSize);
+        std::vector<char> userdata(data.begin() + (int)offset, data.begin() + (int)offset + (int)userDataSize);
+        User owner = User::deserialize(userdata);
+        offset += userDataSize;
+
+        // Deserialize反序列化 ChargebackCreateDate
+        size_t chargebackCreateDataSize;
+        std::memcpy(&chargebackCreateDataSize, data.data() + offset, sizeof(chargebackCreateDataSize));
+        offset += sizeof(chargebackCreateDataSize);
+        std::vector<char> chargebackCreateData(data.begin() + (int)offset, data.begin() + (int)offset + (int)chargebackCreateDataSize);
+        Date chargebackCreateDate = Date::deserialize(chargebackCreateData);
+        offset += chargebackCreateDataSize;
+
+        // Deserialize反序列化 ChargebackUUID
+        size_t uuidLength;
+        std::memcpy(&uuidLength, data.data() + offset, sizeof(uuidLength));
+        offset += sizeof(uuidLength);
+        std::string chargebackUUID(data.begin() + (int)offset, data.begin() + (int)offset + (int)uuidLength);
+        offset += uuidLength;
+
+        // Deserialize反序列化 TargetOrder
+        Orders targetOrder = Orders::deserialize(data, offset);
+
+        // Deserialize反序列化 Successful flag
+        bool successful = (data[offset] == 1);
+        offset += sizeof(bool);
+        Chargebacks chargeback(owner, chargebackCreateDate, targetOrder, chargebackUUID);
+        chargeback.Successful = successful;
+
+        return chargeback;
+    }
+
+    Chargebacks::Chargebacks() = default;
+
+    Chargebacks::Chargebacks(User o, const Date &oD, Orders os, std::string oU) :Owner(std::move(o)), ChargebackCreateDate(oD), TargetOrder(std::move(os)), ChargebackUUID(std::move(oU)){ Successful = false;}
+
+
     Account::Account(airLifeHandler::AccountType accountType, std::string uuid) {
         switch (accountType) {
             case airLifeHandler::DEFAULT:
-                _User = User(std::move(uuid));
+                inf.AccountUser = User(std::move(uuid));
+                isValid = true;
                 break;
             case airLifeHandler::ADMIN:
-                AdministerUUID = uuid;
+                inf.AdministerUUID = uuid;
+                isValid = true;
                 break;
             case airLifeHandler::UNKNOWN:
+                isValid = false;
                 break;
         }
+        AccountType = accountType;
     }
+
+    Account::Account(airLifeHandler::AccountType accountType, User user) {
+        switch (accountType) {
+            case airLifeHandler::DEFAULT:
+                inf.AccountUser = std::move(user);
+                isValid = true;
+                break;
+            case airLifeHandler::ADMIN:
+                inf.AdministerUUID = user.getUUID();
+                isValid = true;
+                break;
+            case airLifeHandler::UNKNOWN:
+                isValid = false;
+                break;
+        }
+        AccountType = accountType;
+    }
+
+    std::vector<char> Account::serialize() const {
+        std::vector<char> data;
+
+        // Serialize序列化 AccountType
+        data.insert(data.end(), reinterpret_cast<const char*>(&AccountType), reinterpret_cast<const char*>(&AccountType) + sizeof(AccountType));
+
+        // Serialize序列化 isValid
+        data.push_back(isValid ? 1 : 0);
+
+        // Serialize序列化 union based on基于 AccountType
+        if (AccountType == airLifeHandler::AccountType::DEFAULT) {
+            std::vector<char> userData = inf.AccountUser.serialize();
+            data.insert(data.end(), userData.begin(), userData.end());
+        } else if (AccountType == airLifeHandler::AccountType::ADMIN) {
+            size_t uuidLength = inf.AdministerUUID.size();
+            data.insert(data.end(), reinterpret_cast<const char*>(&uuidLength), reinterpret_cast<const char*>(&uuidLength) + sizeof(uuidLength));
+            data.insert(data.end(), inf.AdministerUUID.begin(), inf.AdministerUUID.end());
+        }
+
+        return data;
+    }
+
+    Account Account::deserialize(const std::vector<char> &data) {
+        size_t offset;
+        // Deserialize AccountType
+        airLifeHandler::AccountType accountType;
+        std::memcpy(&accountType, &data[offset], sizeof(accountType));
+        offset += sizeof(accountType);
+
+        // Deserialize isValid
+        bool isValid = data[offset] == 1;
+        offset += 1;
+
+        // Create Account object
+        Account account(accountType, " ");
+
+        // Set isValid field
+        account.isValid = isValid;
+
+        // Deserialize union based on AccountType
+        if (accountType == airLifeHandler::AccountType::DEFAULT) {
+            account.inf.AccountUser = User::deserialize(data);
+        } else if (accountType == airLifeHandler::AccountType::ADMIN) {
+            size_t uuidLength;
+            std::memcpy(&uuidLength, &data[offset], sizeof(uuidLength));
+            offset += sizeof(uuidLength);
+
+            std::string uuid(data.begin() + offset, data.begin() + offset + uuidLength);
+            offset += uuidLength;
+
+            account.inf.AdministerUUID = uuid;
+        }
+
+        return account;
+    }
+
+
 } // COMPONENT
+#pragma clang diagnostic pop

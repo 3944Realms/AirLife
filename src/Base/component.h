@@ -8,9 +8,11 @@
 #include <cstddef>
 #include <exception>
 #include <iostream>
+#include <utility>
 #include <vector>
+#include <cstring>
 #include "../Core/LoginHandler.h"
-
+#define UShortLen sizeof(UShort)
 namespace COMPONENT {
 
     typedef unsigned short UShort;
@@ -38,6 +40,8 @@ namespace COMPONENT {
             UShort getHour() const;
             UShort getMinute() const;
             ~Time();
+            std::vector<char> serialize() const;
+            static Date::Time deserialize(const std::vector<char>& data);
         };
         ~Date();
     private:
@@ -54,6 +58,8 @@ namespace COMPONENT {
         UShort getDay() const;
         Time getTime() const;
         std::string toString();
+        std::vector<char> serialize() const;
+        static Date deserialize(const std::vector<char>& data);
     };
     class Area {
         std::string AreaName;
@@ -63,6 +69,8 @@ namespace COMPONENT {
         std::string toString();
         bool initAreaNameOnce(const std::string& Name);
         bool tryModifyName(const std::string& newName);
+        std::vector<char> serialize() const;
+        static Area deserialize(const std::vector<char>& data);
     };
     class Airplane {
         std::string UUID;
@@ -78,6 +86,8 @@ namespace COMPONENT {
         bool tryModifyCapacity(int NewCapacityValue);
         bool tryChangeCurrentNumber(int delta);
         bool isFull() const;
+        std::vector<char> serialize() const;
+        static Airplane deserialize(const std::vector<char>& data);
 
     };
     class Flight {
@@ -105,6 +115,8 @@ namespace COMPONENT {
         bool tryChangeDestinationArea(Area area);
         bool tryModifyDepartureDate(const Date& date);
         bool tryModifyTakeTime(const Date::Time& time);
+        std::vector<char> serialize() const;
+        static Flight deserialize(const std::vector<char>& data);
 
     };
     class User {
@@ -123,6 +135,9 @@ namespace COMPONENT {
         std::vector<Chargebacks> getChargeBackList();
         bool initUUID(std::string uuid);
         bool tryChangeName(const std::string& name);
+
+        std::vector<char> serialize() const;
+        static User deserialize(const std::vector<char> &data);
     };
     class Orders {
         User Owner;
@@ -130,8 +145,10 @@ namespace COMPONENT {
         Flight TargetFlight;
         std::string OrderUUID;
         bool Valid{};//有效
+    protected:
         Orders(User o, const Date& oD,const Flight& tF, const std::string& oU);
     public:
+        Orders();
         static Orders* CreateOrder(User owner, const Date& orderCreateDate, const Flight& targetFlight, const std::string& orderUUID);
         static void enable(Orders od);
         static void disable(Orders od);
@@ -140,29 +157,47 @@ namespace COMPONENT {
         Flight getTargetFlight();
         std::string getOrderUUID();
         bool isValid() const;
+        // 序列化方法/反序列化方法
+        std::vector<char> serialize() const;
+        static Orders deserialize(const std::vector<char>& data, size_t& offset);
+
     };
     class Chargebacks {
         User Owner;
         Date ChargebackCreateDate;
         std::string ChargebackUUID;
-        Orders TargetOrder;
-        bool Successful;//是否成功
+        Orders TargetOrder{};
+        bool Successful{};//是否成功
+    protected:
+        Chargebacks(User o, const Date& oD,Orders  os, std::string  oU);
     public:
+        Chargebacks();
         User getUser();
         Date getChargebackCreatedDate();
         std::string getChargebackUUID();
         Orders getTargetOrder();
-        bool isSuccessful();
+        bool isSuccessful() const;
         void enable();
+        std::vector<char> serialize() const;
+        static Chargebacks deserialize(const std::vector<char>& data, size_t& offset);
+
     };
     class Account {
         airLifeHandler::AccountType AccountType;
-        union {
-            User _User;
+        struct Inf{
+            User AccountUser;
             std::string AdministerUUID;
-        };
+            Inf() {} // Default constructor for union
+            explicit Inf(User  user) : AccountUser(std::move(user)) {}
+            explicit Inf(std::string  uuid) : AdministerUUID(std::move(uuid)) {}
+            ~Inf() {} // Destructor for union
+        }inf;
+        bool isValid;
     public:
         Account(airLifeHandler::AccountType accountType ,std::string uuid);
+        Account(airLifeHandler::AccountType accountType, User user);
+        std::vector<char> serialize() const;
+        static Account deserialize(const std::vector<char>& data);
     };
 
 

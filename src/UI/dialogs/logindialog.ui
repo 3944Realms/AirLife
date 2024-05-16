@@ -32,10 +32,10 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>60</y>
-     <width>351</width>
-     <height>151</height>
+     <x>30</x>
+     <y>20</y>
+     <width>431</width>
+     <height>201</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -55,7 +55,44 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="acc_inp"/>
+       <widget class="QLineEdit" name="acc_inp">
+        <property name="styleSheet">
+         <string notr="true">border-radius:5px;
+border:2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.166 rgba(255, 255, 0, 255), stop:0.333 rgba(0, 255, 0, 255), stop:0.5 rgba(0, 255, 255, 255), stop:0.666 rgba(0, 0, 255, 255), stop:0.833 rgba(255, 0, 255, 255), stop:1 rgba(255, 0, 0, 255));
+background: url(:/Icon/airLifeUserS.ico) no-repeat left center ; padding-left: 15px;
+
+
+</string>
+        </property>
+        <property name="maxLength">
+         <number>30</number>
+        </property>
+        <property name="placeholderText">
+         <string>请输入用户名</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="pas_inp">
+        <property name="styleSheet">
+         <string notr="true">border-radius:5px;
+border:2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.166 rgba(255, 255, 0, 255), stop:0.333 rgba(0, 255, 0, 255), stop:0.5 rgba(0, 255, 255, 255), stop:0.666 rgba(0, 0, 255, 255), stop:0.833 rgba(255, 0, 255, 255), stop:1 rgba(255, 0, 0, 255));
+background: url(:/Icon/airLifeLockS.ico) no-repeat left center ; padding-left: 15px;
+
+
+
+</string>
+        </property>
+        <property name="maxLength">
+         <number>25</number>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::PasswordEchoOnEdit</enum>
+        </property>
+        <property name="placeholderText">
+         <string>请输入密码</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="pas_lab">
@@ -70,19 +107,16 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="pas_inp">
-        <property name="echoMode">
-         <enum>QLineEdit::PasswordEchoOnEdit</enum>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="loginButton">
+        <property name="styleSheet">
+         <string notr="true">
+</string>
+        </property>
         <property name="text">
          <string>登录(&amp;L)</string>
         </property>

@@ -1,4 +1,4 @@
-
+#include <iostream>
 #include <QtWidgets>
 #include "Core/GuiHandler.h"
 #include "Core/LoginHandler.h"
@@ -6,10 +6,9 @@
 #include "UI/mainWindows/administermainwindow.h"
 #include "UI/mainWindows/customermainwindow.h"
 
-
 int main(int argc,char *argv[]) {
     QApplication a(argc,argv);
-    QApplication::setWindowIcon(QIcon(":/airLifeLogo.ico"));//有点问题，搞明白后再想办法弄
+    QApplication::setWindowIcon(QIcon(":/Logo/airLifeLogo.ico"));
     airLifeHandler::LoginHandler loginHandler;
     airLifeHandler::GuiHandler* guiHandler = airLifeHandler::GuiHandler::getInstance();
     guiHandler->setLoginHandler(loginHandler);
