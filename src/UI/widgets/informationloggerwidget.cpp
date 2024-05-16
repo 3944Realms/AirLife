@@ -19,5 +19,6 @@ namespace airLifeWidget {
 
     void informationLoggerWidget::on_airLifeBackPushButton_clicked() {
         this->close();
+        emit destroyed();
     }
 } // airLifeWidget

@@ -19,5 +19,6 @@ namespace airLifeWidget {
 
     void orderDestroyerWidget::on_airLifeBackPushButton_clicked() {
         this->close();
+        emit destroyed();
     }
 } // airLifeWidget

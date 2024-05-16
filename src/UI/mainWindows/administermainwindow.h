@@ -8,6 +8,9 @@
 #include <QMainWindow>
 #include <iostream>
 #include "../../Core/GuiHandler.h"
+#include "../widgets/informationloggerwidget.h"
+#include "../widgets/informationmodifierwidget.h"
+#include "../widgets/informationfinderwidget.h"
 
 namespace airLifeMainWindow {
     QT_BEGIN_NAMESPACE
@@ -19,13 +22,22 @@ namespace airLifeMainWindow {
 
     public:
         explicit AdministerMainWindow(QWidget *parent = nullptr);
-
+        void disconnectAllSignalsAndSlots();
         ~AdministerMainWindow() override;
 
     private:
         Ui::AdministerMainWindow *ui;
+        airLifeWidget::informationLoggerWidget *informationLoggerWidget;
+        airLifeWidget::informationModifierWidget *informationModifierWidget;
+        airLifeWidget::informationFinderWidget *informationFinderWidget;
     private slots:
         void airLifeAccountLogOutActionSlot();
+        void airLifeSearchFlightActionSlot();
+        void airLifeAddInformationActionSlot();
+        void airLifeMRInformationActionSlot();
+        void on_airLifeAddInformationPushButton_clicked();
+        void on_airLifeMRInformationPushButton_clicked();
+        void childWindowClosed();
     };
 } // airLifeMainWindow
 
