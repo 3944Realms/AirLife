@@ -7,27 +7,11 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "../Base/component.h"
 
 
 namespace airLifeHandler {
-    enum DataType{
-        USER,
-        AIRPLANE,
-        ORDER,
-        CHARGEBACK,
-        FLIGHT,
-        AREA,
-        ACCOUNT,
-        DATA,
-        TIME,
-        UNKNOWN
-    };
-    enum ResultStatus {
-        WAITING,
-        RUNNING,
-        SUCCESSFUL,
-        FAILED
-    };
+
     class ReadFileHandler {
          std::fstream readOut;
          DataType dataType;
@@ -37,9 +21,12 @@ namespace airLifeHandler {
         ResultStatus getStatue() {return resultStatus;}
         DataType getReadDataType() {return dataType;}
         template<class Clazz> void readNext(Clazz &clazz);
+        void readNext(std::vector<char> &dest, size_t size);
         template<class Clazz> std::vector<Clazz> readAll(Clazz clazz);
-
+        void readAll(std::vector<std::vector<char>> &destList, size_t blockSize);
         template<class Clazz> void readFromDesignatedNumber(Clazz &clazz, int Number);
+        void readFromDesignatedNumber(std::vector<char> &targetDest, size_t blockSize, int Number);
+        ~ReadFileHandler() { if(readOut.is_open())readOut.close(); };
     };
 
 } // airLifeHandler

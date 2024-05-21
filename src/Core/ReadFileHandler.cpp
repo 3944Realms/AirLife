@@ -9,7 +9,41 @@ namespace airLifeHandler {
         using namespace std;
         dataType = readDataType;
         readOut.open(filePath, ios::binary | ios::out);
-        if(readOut.is_open()) resultStatus = ResultStatus::WAITING;
+        if(readOut.is_open()) resultStatus = ResultStatus::INITIAL;
+        else resultStatus = ResultStatus::INITIAL_FAILED;
+    }
+
+    void ReadFileHandler::readNext(std::vector<char> &dest,size_t size) {//
+        using namespace std;
+        resultStatus = ResultStatus::RUNNING;
+        if(dest.size() < size) {
+            resultStatus = ResultStatus::FAILED;
+            return;
+        }
+        if(readOut.read(dest.data(), (int)size)) resultStatus = ResultStatus::WAITING;
+        else resultStatus = ResultStatus::SUCCESSFUL;
+    }
+
+    void ReadFileHandler::readAll(std::vector<std::vector<char>> &destList, size_t blockSize) {
+        using namespace std;
+        std::vector<char> dest;
+        size_t offset = 0;
+        resultStatus = ResultStatus::RUNNING;
+        while(readOut.read(dest.data() + offset, (int) blockSize)){
+            destList.push_back(dest);
+            offset += blockSize;
+        }
+        resultStatus = ResultStatus::SUCCESSFUL;
+    }
+
+    void ReadFileHandler::readFromDesignatedNumber(std::vector<char> &targetDest, size_t blockSize, int Number) {
+        using namespace std;
+        if(Number <= 0) {
+            resultStatus = ResultStatus::FAILED;
+            return;
+        }
+        readOut.seekg((int)blockSize * (Number - 1));
+        if(readOut.read(targetDest.data(), (int)blockSize)) resultStatus = ResultStatus::SUCCESSFUL;
         else resultStatus = ResultStatus::FAILED;
     }
 

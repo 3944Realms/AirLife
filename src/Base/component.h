@@ -160,6 +160,7 @@ namespace COMPONENT {
         // 序列化方法/反序列化方法
         std::vector<char> serialize() const;
         static Orders deserialize(const std::vector<char>& data, size_t& offset);
+        static Orders deserialize(const std::vector<char>& data) {size_t initOffset = 0; return Orders::deserialize(data, initOffset);};
 
     };
     class Chargebacks {
@@ -180,17 +181,17 @@ namespace COMPONENT {
         void enable();
         std::vector<char> serialize() const;
         static Chargebacks deserialize(const std::vector<char>& data, size_t& offset);
-
+        static Chargebacks deserialize(const std::vector<char>& data) { size_t initOffset = 0;return Chargebacks::deserialize(data, initOffset); }
     };
     class Account {
         airLifeHandler::AccountType AccountType;
         struct Inf{
             User AccountUser;
             std::string AdministerUUID;
-            Inf() {} // Default constructor for union
+            Inf() = default; // Default constructor for union
             explicit Inf(User  user) : AccountUser(std::move(user)) {}
             explicit Inf(std::string  uuid) : AdministerUUID(std::move(uuid)) {}
-            ~Inf() {} // Destructor for union
+            ~Inf() = default; // Destructor for union
         }inf;
         bool isValid;
     public:
@@ -203,5 +204,27 @@ namespace COMPONENT {
 
 
 } // COMPONENT
+namespace airLifeHandler {
+    enum DataType{
+        USER,
+        AIRPLANE,
+        ORDER,
+        CHARGEBACK,
+        FLIGHT,
+        AREA,
+        ACCOUNT,
+        DATA,
+        TIME,
+        UNKNOWN_DATA_TYPE
+    };
+    enum ResultStatus {
+        INITIAL,
+        INITIAL_FAILED,
+        WAITING,
+        RUNNING,
+        SUCCESSFUL,
+        FAILED
+    };
+}
 
 #endif //AIRLIFE_COMPONENT_H
