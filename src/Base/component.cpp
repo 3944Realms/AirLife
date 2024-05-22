@@ -252,31 +252,41 @@ class NaNException: public std::exception {
         return data;
     }
 
-    Airplane Airplane::deserialize(const std::vector<char> &data) {
-        Airplane airplane;
+    Airplane* Airplane::deserialize(const std::vector<char> &data) {
         size_t offset = 0;
 
         size_t uuidLen;
         std::memcpy(&uuidLen, data.data() + offset, sizeof(uuidLen));
         offset += sizeof(uuidLen);
-        airplane.UUID = std::string(data.data() + offset, uuidLen);
+        std::string uuid = std::string(data.data() + offset, uuidLen);
+        auto it = airplaneRegistry.find(uuid);
+        if(it != airplaneRegistry.end()) { return it->second; }
+        auto* airplane = new Airplane();
+        airplane->UUID = uuid;
         offset += uuidLen;
 
         UShort capacity;
         std::memcpy(&capacity, data.data() + offset, UShortLen);
-        airplane.Capacity = capacity;
+        airplane->Capacity = capacity;
         offset += UShortLen;
 
         UShort currentNumber;
         std::memcpy(&currentNumber, data.data() + offset, UShortLen);
         offset += UShortLen;
-        airplane.CurrentNumber = currentNumber;
+        airplane->CurrentNumber = currentNumber;
 
         return airplane;
     }
 
-    Area::Area(std::string areaName): AreaName(std::move(areaName)) {}
+    void Airplane::registerAirplane(Airplane *airplane) {
+        airplaneRegistry[airplane->UUID] = airplane;
+    }
 
+    Area::Area(const std::string& UUID, std::string areaName): UUID("regex-" + AreaName), AreaName(std::move(areaName)) {}
+//  在改名前创建了一个类 改过名时 由类调用Sync()方法来同步成员类信息【检查 UUID 是否一致 -> 将引用指向Area】-> 之后如果有类创建时（谁用了它？ 怎么处理·1）
+/*
+ * 对于类成员对象属性需要引用，保存时序列化引用对象的内容，反序列化时
+ */
     std::string Area::toString() {
         return AreaName;
     }
@@ -291,29 +301,41 @@ class NaNException: public std::exception {
 
     bool Area::initAreaNameOnce(const std::string &Name) {
         if(Name == "Default" ) return false;
+        else if(!Name.empty()) UUID = "regex-" + Name;
         return tryModifyName(Name);
     }
 
     std::vector<char> Area::serialize() const {
         std::vector<char> data;
-
+        size_t uuidLen = UUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&uuidLen), reinterpret_cast<const char*>(&uuidLen) + sizeof(uuidLen));
+        data.insert(data.end(), UUID.begin(), UUID.end());
         size_t nameLen = AreaName.size();
-        data.insert(data.end(), reinterpret_cast<const char*>(&nameLen), reinterpret_cast<const char*> (&nameLen) + sizeof(nameLen));
+        data.insert(data.end(), reinterpret_cast<const char*>(&nameLen), reinterpret_cast<const char*>(&nameLen) + sizeof(nameLen));
         data.insert(data.end(), AreaName.begin(), AreaName.end());
 
         return data;
     }
 
-    Area Area::deserialize(const std::vector<char> &data) {
-        Area area;
+    Area* Area::deserialize(const std::vector<char> &data) {
         size_t offset = 0;
-
+        size_t uuidLen;
+        std::memcpy(&uuidLen, data.data() + offset, sizeof(uuidLen));
+        offset += sizeof(uuidLen);
+        std::string uuid = std::string(data.data() + offset, uuidLen);
+        auto it = areaRegistry.find(uuid);
+        if(it != areaRegistry.end()) { return it->second; }
+        Area *area = new Area();
         size_t nameLen;
         std::memcpy(&nameLen, data.data() + offset, sizeof(nameLen));
         offset += sizeof(nameLen);
-        area.AreaName = std::string(data.data() + offset, nameLen);
-//        offset += nameLen;
+        area->AreaName = std::string(data.data() + offset, nameLen);
+        offset += nameLen;
         return area;
+    }
+
+    void Area::registerArea(Area *area) {
+        areaRegistry[area->UUID] = area;
     }
 
     Flight::Flight(std::string uuid) :UUID(std::move(uuid)) {hadInit = false;}
@@ -323,32 +345,32 @@ class NaNException: public std::exception {
         return UUID;
     }
 
-    bool Flight::initValueOnce(class Airplane airplane, const Area& startingPoint, const Area& destination, const Date& departureTime, const Date::Time& takeTime) {
+    bool Flight::initValueOnce(class Airplane& airplane, Area& startingPoint, Area& destination, const Date& departureTime, const Date::Time& takeTime) {
         if(hadInit) return false;
-        Airplane = std::move(airplane);
-        StartingPoint = startingPoint;
-        Destination = destination;
+        Airplane = &airplane;
+        StartingPoint = &startingPoint;
+        Destination = &destination;
         DepartureTime = departureTime;
         TakeTime = takeTime;
         hadInit = true;
         return true;
     }
 
-    bool Flight::tryModifyAirplane(struct Airplane newAirplane) {
+    bool Flight::tryModifyAirplane(struct Airplane& newAirplane) {
         if(newAirplane.getUUID() == "{DEFAULT}") return false;
-        Airplane = std::move(newAirplane);
+        Airplane = &newAirplane;
         return true;
     }
 
-    bool Flight::tryChangeStartPointArea(Area area) {
+    bool Flight::tryChangeStartPointArea(Area& area) {
         if(area.toString() == "Default") return false;
-        StartingPoint = area;
+        StartingPoint = &area;
         return true;
     }
 
-    bool Flight::tryChangeDestinationArea(Area area) {
+    bool Flight::tryChangeDestinationArea(Area& area) {
         if(area.toString() == "Default") return false;
-        Destination = area;
+        Destination = &area;
         return true;
     }
 
@@ -362,13 +384,13 @@ class NaNException: public std::exception {
         return true;
     }
 
-    class Airplane Flight::getAirplane() {
+    class Airplane* Flight::getAirplane() {
         return Airplane;
     }
-    Area Flight::getStartingPointArea() {
+    Area* Flight::getStartingPointArea() {
         return StartingPoint;
     }
-    Area Flight::getDestinationArea() {
+    Area* Flight::getDestinationArea() {
         return Destination;
     }
     Date Flight::getDepartureTime() {
@@ -393,13 +415,13 @@ class NaNException: public std::exception {
         data.insert(data.end(), UUID.begin(), UUID.end());
 
         //序列化 Airplane;
-        std::vector<char> airplaneData = Airplane.serialize();
+        std::vector<char> airplaneData = Airplane->serialize();
         size_t airplaneDataSize = airplaneData.size();
         data.insert(data.end(), reinterpret_cast<const char*>(&airplaneDataSize), reinterpret_cast<const char*>(&airplaneDataSize) + sizeof(airplaneDataSize));
         data.insert(data.end(), airplaneData.begin(), airplaneData.end());
 
         //序列化StartingPoint ,Destination
-        std::vector<char> startingPointData = StartingPoint.serialize(), destinationData = Destination.serialize();
+        std::vector<char> startingPointData = StartingPoint->serialize(), destinationData = Destination->serialize();
         size_t areaDataSize = sizeof(Area);
         data.insert(data.end(), reinterpret_cast<const char*>(&areaDataSize), reinterpret_cast<const char*>(&areaDataSize) + sizeof(areaDataSize));
         data.insert(data.end(), startingPointData.begin(), startingPointData.end());
@@ -424,15 +446,19 @@ class NaNException: public std::exception {
         return data;
     }
 
-    Flight Flight::deserialize(const std::vector<char> &data) {
-        Flight flight;
+    Flight* Flight::deserialize(const std::vector<char> &data) {
+
         size_t offset = 0;
 
         //反序列化UUID
         size_t uuidLen;
         std::memcpy(&uuidLen, data.data() + offset, sizeof(uuidLen));
         offset += sizeof(uuidLen);
-        flight.UUID = std::string(data.data() + offset, uuidLen);
+        std::string uuid(data.data() + offset, uuidLen);
+        auto it = flightRegistry.find(uuid);
+        if(it != flightRegistry.end()) { return it->second; }
+        auto* flight = new Flight();
+        flight->UUID = uuid;
         offset += uuidLen;
 
 
@@ -442,7 +468,7 @@ class NaNException: public std::exception {
         offset += sizeof(airplaneDataSize);
         std::vector<char> airplaneData(data.begin() + (int)offset, data.begin() + (int)offset + (int)airplaneDataSize);
         offset += airplaneDataSize;
-        flight.Airplane = Airplane::deserialize(airplaneData);
+        flight->Airplane = Airplane::deserialize(airplaneData);
 
         //反序列化StartingPoint ,Destination
         size_t areaDataSize;
@@ -454,8 +480,8 @@ class NaNException: public std::exception {
         offset += sizeof(areaDataSize);
         std::vector<char> destinationData(data.begin() + (int)offset, data.begin() + (int)offset + (int)areaDataSize);
         offset += areaDataSize;
-        flight.StartingPoint = Area::deserialize(startingPointData);
-        flight.Destination = Area::deserialize(destinationData);
+        flight->StartingPoint = Area::deserialize(startingPointData);
+        flight->Destination = Area::deserialize(destinationData);
 
         //反序列化DepartureTime
         size_t departureTimeSize;
@@ -463,7 +489,7 @@ class NaNException: public std::exception {
         offset += sizeof(departureTimeSize);
         std::vector<char> departureTimeData(data.begin() + offset, data.begin() + offset + departureTimeSize);
         offset += departureTimeSize;
-        flight.DepartureTime = Date::deserialize(departureTimeData);
+        flight->DepartureTime = Date::deserialize(departureTimeData);
 
         //反序列化TakeTime
         size_t takeTimeSize;
@@ -472,15 +498,19 @@ class NaNException: public std::exception {
         std::vector<char> takeTimeData(data.begin() + (int)offset, data.begin() + (int)offset + (int)takeTimeSize);
         offset += takeTimeSize;
         Date::Time takeTime = Date::Time::deserialize(takeTimeData);
-        flight.TakeTime = takeTime;
+        flight->TakeTime = takeTime;
 
         //反序列化hadInit
         bool _hadInit = (data[offset] == 1);
 //        std::memcpy(&_hadInit, data.data() + offset, sizeof(_hadInit));
-        flight.hadInit = _hadInit;
+        flight->hadInit = _hadInit;
         offset += sizeof(bool);
 
         return flight;
+    }
+
+    void Flight::registerFlight(Flight *flight) {
+        flightRegistry[flight->UUID] = flight;
     }
 
 
@@ -499,10 +529,10 @@ class NaNException: public std::exception {
         return UUID;
     }
 
-    std::vector<Orders> User::getOrderList() {
+    std::vector<Orders*> User::getOrderList() {
         return OrderList;
     }
-    std::vector<Chargebacks> User::getChargeBackList() {
+    std::vector<Chargebacks*> User::getChargeBackList() {
         return ChargeBackList;
     }
 
@@ -515,22 +545,21 @@ class NaNException: public std::exception {
     }
     std::vector<char> User::serialize() const {
         std::vector<char> data;
+        //序列化UUID
+        size_t uuidLen = UUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&uuidLen), reinterpret_cast<const char*>(&uuidLen) + sizeof(uuidLen));
+        data.insert(data.end(), UUID.begin(), UUID.end());
 
         //序列化Name
         size_t nameLen = Name.size();
         data.insert(data.end(), reinterpret_cast<const char*>(&nameLen), reinterpret_cast<const char*>(&nameLen) + sizeof(nameLen));
         data.insert(data.end(), Name.begin(), Name.end());
 
-        //序列化UUID
-        size_t uuidLen = UUID.size();
-        data.insert(data.end(), reinterpret_cast<const char*>(&uuidLen), reinterpret_cast<const char*>(&uuidLen) + sizeof(uuidLen));
-        data.insert(data.end(), UUID.begin(), UUID.end());
-
         //序列化OrderList
         size_t orderListSize = OrderList.size();
         data.insert(data.end(), reinterpret_cast<const char*>(&orderListSize), reinterpret_cast<const char*>(&orderListSize) + sizeof(orderListSize));
         for (const auto& order : OrderList) {
-            std::vector<char> orderData = order.serialize();
+            std::vector<char> orderData = order->serialize();
             data.insert(data.end(), orderData.begin(), orderData.end());
         }
 
@@ -538,38 +567,41 @@ class NaNException: public std::exception {
         size_t chargeBackListSize = ChargeBackList.size();
         data.insert(data.end(), reinterpret_cast<const char*>(&chargeBackListSize), reinterpret_cast<const char*>(&chargeBackListSize) + sizeof(chargeBackListSize));
         for (const auto& chargeback : ChargeBackList) {
-            std::vector<char> chargebackData = chargeback.serialize();
+            std::vector<char> chargebackData = chargeback->serialize();
             data.insert(data.end(), chargebackData.begin(), chargebackData.end());
         }
 
         return data;
     }
 
-    User User::deserialize(const std::vector<char>& data) {
-        User user;
+    User* User::deserialize(const std::vector<char>& data) {
         size_t offset = 0;
-
-        //反序列化Name
-        size_t nameLen;
-        std::memcpy(&nameLen, data.data() + offset, sizeof(nameLen));
-        offset += sizeof(nameLen);
-        user.Name = std::string(data.data() + offset, nameLen);
-        offset += nameLen;
 
         //反序列化UUID
         size_t uuidLen;
         std::memcpy(&uuidLen, data.data() + offset, sizeof(uuidLen));
         offset += sizeof(uuidLen);
-        user.UUID = std::string(data.data() + offset, uuidLen);
+        std::string uuid = std::string(data.data() + offset, uuidLen);
+        auto it = userRegistry.find(uuid);
+        if(it != userRegistry.end()) { return it->second; } //如果存在
+        User *user = new User();
+        user->UUID = uuid;
         offset += uuidLen;
+
+        //反序列化Name
+        size_t nameLen;
+        std::memcpy(&nameLen, data.data() + offset, sizeof(nameLen));
+        offset += sizeof(nameLen);
+        user->Name = std::string(data.data() + offset, nameLen);
+        offset += nameLen;
 
         //反序列化OrderList list->order
         size_t orderListDataSize;
         std::memcpy(&orderListDataSize, data.data() + offset, sizeof(orderListDataSize));
         offset += sizeof(orderListDataSize);
         for (size_t i = 0; i < orderListDataSize; ++i) {
-            Orders order = Orders::deserialize(data, offset);
-            user.OrderList.push_back(order);
+            Orders *order = Orders::deserialize(data, offset);
+            user->OrderList.push_back(order);
         }
 
         //反序列化ChargeBackList
@@ -577,24 +609,28 @@ class NaNException: public std::exception {
         std::memcpy(&chargeBackListSize, data.data() + offset, sizeof(chargeBackListSize));
         offset += sizeof(chargeBackListSize);
         for (size_t i = 0; i < chargeBackListSize; ++i) {
-            Chargebacks chargeback = Chargebacks::deserialize(data, offset);
-            user.ChargeBackList.push_back(chargeback);
+            Chargebacks *chargeback = Chargebacks::deserialize(data, offset);
+            user->ChargeBackList.push_back(chargeback);
         }
 
         return user;
     }
 
+    void User::registerUser(User *user) {
+        userRegistry[user->UUID] = user;
+    }
 
-    Orders::Orders(User o, const Date& oD, const Flight& tF, const std::string& oU) {
-        Owner = std::move(o);
+
+    Orders::Orders(User* o, const Date& oD, Flight* tF, const std::string& oU) {
+        Owner = o;
         OrderCreatedDate = oD;
         TargetFlight = tF;
         OrderUUID = oU;
         Valid = false;
     }
 
-    Orders *Orders::CreateOrder(User owner, const Date& orderCreateDate, const Flight& targetFlight, const std::string& orderUUID) {
-        return new Orders(std::move(owner), orderCreateDate, targetFlight, orderUUID);
+    Orders *Orders::CreateOrder(User& owner, const Date& orderCreateDate, Flight& targetFlight, const std::string& orderUUID) {
+        return new Orders(&owner, orderCreateDate, &targetFlight, orderUUID);
     }
 
     void Orders::enable(Orders od) {
@@ -604,13 +640,13 @@ class NaNException: public std::exception {
         od.Valid = false;
     }
 
-    User Orders::getUser() {
+    User* Orders::getUser() {
         return Owner;
     }
     Date Orders::getOrderCreatedDate() {
         return OrderCreatedDate;
     }
-    Flight Orders::getTargetFlight() {
+    Flight* Orders::getTargetFlight() {
         return TargetFlight;
     }
     std::string Orders::getOrderUUID() {
@@ -622,9 +658,13 @@ class NaNException: public std::exception {
     }
     std::vector<char> Orders::serialize() const {
         std::vector<char> data;
+        //序列化OrderUUID
+        size_t orderUUIDSize = OrderUUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&orderUUIDSize), reinterpret_cast<const char*>(&orderUUIDSize) + sizeof(orderUUIDSize));
+        data.insert(data.end(), OrderUUID.begin(), OrderUUID.end());
 
         //序列化Owner
-        std::vector<char> ownerData = Owner.serialize();
+        std::vector<char> ownerData = Owner->serialize();
         data.insert(data.end(), ownerData.begin(), ownerData.end());
 
         //序列化OrderCreateDate
@@ -632,13 +672,8 @@ class NaNException: public std::exception {
         data.insert(data.end(), orderCreatedDateData.begin(), orderCreatedDateData.end());
 
         //序列化TargetFlightData
-        std::vector<char> targetFlightData = TargetFlight.serialize();
+        std::vector<char> targetFlightData = TargetFlight->serialize();
         data.insert(data.end(), targetFlightData.begin(), targetFlightData.end());
-
-        //序列化OrderUUID
-        size_t orderUUIDSize = OrderUUID.size();
-        data.insert(data.end(), reinterpret_cast<const char*>(&orderUUIDSize), reinterpret_cast<const char*>(&orderUUIDSize) + sizeof(orderUUIDSize));
-        data.insert(data.end(), OrderUUID.begin(), OrderUUID.end());
 
         //序列化Valid
 //        data.insert(data.end(), reinterpret_cast<const char*>(&Valid), reinterpret_cast<const char*>(&Valid) + sizeof(Valid));
@@ -647,15 +682,24 @@ class NaNException: public std::exception {
         return data;
     }
 
-    Orders Orders::deserialize(const std::vector<char>& data, size_t& offset) {
-        Orders order;
+    Orders* Orders::deserialize(const std::vector<char>& data, size_t& offset) {
+        // 反序列化 OrderUUID
+        size_t orderUUIDLen;
+        std::memcpy(&orderUUIDLen, data.data() + offset, sizeof(orderUUIDLen));
+        offset += sizeof(orderUUIDLen);
+        std::string uuid = std::string(data.data() + offset, orderUUIDLen);
+        auto it = orderRegistry.find(uuid);
+        if(it != orderRegistry.end()) { return it->second; }
+        auto* order = new Orders();
+        order->OrderUUID = uuid;
+        offset += orderUUIDLen;
 
         // 反序列化 Owner
         size_t ownerDataSize;
         std::memcpy(&ownerDataSize, data.data() + offset , sizeof(ownerDataSize));
         offset += sizeof(ownerDataSize);
         std::vector<char> ownerData(data.begin() + (int)offset, data.begin() + (int)offset + (int)ownerDataSize);
-        order.Owner = User::deserialize(ownerData);
+        order->Owner = User::deserialize(ownerData);
         offset += ownerDataSize;
 
         //反序列化 orderCreateDateSize
@@ -663,7 +707,7 @@ class NaNException: public std::exception {
         std::memcpy(&orderCreateDateSize, data.data() + offset, sizeof(orderCreateDateSize));
         offset += sizeof(orderCreateDateSize);
         std::vector<char> orderCreateDateData(data.begin() + (int)offset, data.begin() + (int)offset + (int)orderCreateDateSize);
-        order.OrderCreatedDate = Date::deserialize(orderCreateDateData);
+        order->OrderCreatedDate = Date::deserialize(orderCreateDateData);
         offset += orderCreateDateSize;
 
         // 反序列化 OrderCreatedDate
@@ -671,7 +715,7 @@ class NaNException: public std::exception {
         std::memcpy(&orderCreatedDateDataSize, data.data() + offset, sizeof(orderCreateDateSize));
         offset += sizeof(orderCreateDateSize);
         std::vector<char> orderCreatedDateData(data.begin() + (int)offset, data.begin() + (int)offset + (int)orderCreatedDateDataSize);
-        order.OrderCreatedDate = Date::deserialize(orderCreatedDateData);
+        order->OrderCreatedDate = Date::deserialize(orderCreatedDateData);
         offset += orderCreateDateSize;
 
         // 反序列化 TargetFlight
@@ -679,27 +723,24 @@ class NaNException: public std::exception {
         std::memcpy(&targetFlightDataSize, data.data() + offset, sizeof(targetFlightDataSize));
         offset += sizeof(targetFlightDataSize);
         std::vector<char> targetFlightData(data.begin() + (int)offset, data.begin() + (int)offset + (int)targetFlightDataSize);
-        order.TargetFlight = Flight::deserialize(targetFlightData);
+        order->TargetFlight = Flight::deserialize(targetFlightData);
         offset += targetFlightDataSize;
-
-        // 反序列化 OrderUUID
-        size_t orderUUIDLen;
-        std::memcpy(&orderUUIDLen, data.data() + offset, sizeof(orderUUIDLen));
-        offset += sizeof(orderUUIDLen);
-        order.OrderUUID = std::string(data.data() + offset, orderUUIDLen);
-        offset += orderUUIDLen;
 
         // 反序列化 Valid
 //        std::memcpy(&order.Valid, data.data() + offset , sizeof(bool));
-        order.Valid = (data[offset] == 1);
+        order->Valid = (data[offset] == 1);
         offset += sizeof(bool);
 
         return order;
     }
 
+    void Orders::registerOrder(Orders *order) {
+        orderRegistry[order->OrderUUID] = order;
+    }
+
     Orders::Orders() = default;
 
-    User Chargebacks::getUser() {
+    User* Chargebacks::getUser() {
         return Owner;
     }
 
@@ -711,7 +752,7 @@ class NaNException: public std::exception {
         return ChargebackUUID;
     }
 
-    Orders Chargebacks::getTargetOrder() {
+    Orders* Chargebacks::getTargetOrder() {
         return TargetOrder;
     }
 
@@ -725,22 +766,21 @@ class NaNException: public std::exception {
 
     std::vector<char> Chargebacks::serialize() const {
         std::vector<char> data;
+        // Serialize序列化 ChargebackUUID
+        size_t uuidLength = ChargebackUUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&uuidLength), reinterpret_cast<const char*>(&uuidLength) + sizeof(uuidLength));
+        data.insert(data.end(), ChargebackUUID.begin(), ChargebackUUID.end());
 
         // Serialize序列化 Owner
-        std::vector<char> ownerData = Owner.serialize();
+        std::vector<char> ownerData = Owner->serialize();
         data.insert(data.end(), ownerData.begin(), ownerData.end());
 
         // Serialize序列化 ChargebackCreateDate
         std::vector<char> dateData = ChargebackCreateDate.serialize();
         data.insert(data.end(), dateData.begin(), dateData.end());
 
-        // Serialize序列化 ChargebackUUID
-        size_t uuidLength = ChargebackUUID.size();
-        data.insert(data.end(), reinterpret_cast<const char*>(&uuidLength), reinterpret_cast<const char*>(&uuidLength) + sizeof(uuidLength));
-        data.insert(data.end(), ChargebackUUID.begin(), ChargebackUUID.end());
-
         // Serialize序列化 TargetOrder
-        std::vector<char> orderData = TargetOrder.serialize();
+        std::vector<char> orderData = TargetOrder->serialize();
         data.insert(data.end(), orderData.begin(), orderData.end());
 
         // Serialize序列化 Successful flag
@@ -749,13 +789,23 @@ class NaNException: public std::exception {
         return data;
     }
 
-    Chargebacks Chargebacks::deserialize(const std::vector<char> &data, size_t &offset)  {
+    Chargebacks* Chargebacks::deserialize(const std::vector<char> &data, size_t &offset)  {
+
+        // Deserialize反序列化 ChargebackUUID
+        size_t uuidLength;
+        std::memcpy(&uuidLength, data.data() + offset, sizeof(uuidLength));
+        offset += sizeof(uuidLength);
+        std::string chargebackUUID(data.begin() + (int)offset, data.begin() + (int)offset + (int)uuidLength);
+        offset += uuidLength;
+        auto it = chargebacksRegistry.find(chargebackUUID);
+        if(it != chargebacksRegistry.end()) { return it->second; }
+
         // Deserialize反序列化 Owner
         size_t userDataSize;
         std::memcpy(&userDataSize, data.data() + offset, sizeof(userDataSize));
         offset += sizeof(userDataSize);
         std::vector<char> userdata(data.begin() + (int)offset, data.begin() + (int)offset + (int)userDataSize);
-        User owner = User::deserialize(userdata);
+        User* owner = User::deserialize(userdata);
         offset += userDataSize;
 
         // Deserialize反序列化 ChargebackCreateDate
@@ -766,34 +816,31 @@ class NaNException: public std::exception {
         Date chargebackCreateDate = Date::deserialize(chargebackCreateData);
         offset += chargebackCreateDataSize;
 
-        // Deserialize反序列化 ChargebackUUID
-        size_t uuidLength;
-        std::memcpy(&uuidLength, data.data() + offset, sizeof(uuidLength));
-        offset += sizeof(uuidLength);
-        std::string chargebackUUID(data.begin() + (int)offset, data.begin() + (int)offset + (int)uuidLength);
-        offset += uuidLength;
-
         // Deserialize反序列化 TargetOrder
-        Orders targetOrder = Orders::deserialize(data, offset);
+        Orders* targetOrder = Orders::deserialize(data, offset);
 
         // Deserialize反序列化 Successful flag
         bool successful = (data[offset] == 1);
         offset += sizeof(bool);
-        Chargebacks chargeback(owner, chargebackCreateDate, targetOrder, chargebackUUID);
-        chargeback.Successful = successful;
+        auto* chargeback = new Chargebacks(owner, chargebackCreateDate, targetOrder, chargebackUUID);
+        chargeback->Successful = successful;
 
         return chargeback;
     }
 
     Chargebacks::Chargebacks() = default;
 
-    Chargebacks::Chargebacks(User o, const Date &oD, Orders os, std::string oU) :Owner(std::move(o)), ChargebackCreateDate(oD), TargetOrder(std::move(os)), ChargebackUUID(std::move(oU)){ Successful = false;}
+    Chargebacks::Chargebacks(User* o, const Date &oD, Orders* os, std::string oU) :Owner(o), ChargebackCreateDate(oD), TargetOrder(os), ChargebackUUID(std::move(oU)){ Successful = false;}
+
+    void Chargebacks::registerChargeback(Chargebacks* chargebacks) {
+        chargebacksRegistry[chargebacks->ChargebackUUID] = chargebacks;
+    }
 
 
     Account::Account(airLifeHandler::AccountType accountType, std::string uuid) {
         switch (accountType) {
             case airLifeHandler::DEFAULT:
-                inf.AccountUser = User(std::move(uuid));
+                inf.AccountUser = new User(uuid);
                 isValid = true;
                 break;
             case airLifeHandler::ADMIN:
@@ -807,10 +854,10 @@ class NaNException: public std::exception {
         AccountType = accountType;
     }
 
-    Account::Account(airLifeHandler::AccountType accountType, User user) {
+    Account::Account(airLifeHandler::AccountType accountType, User& user) {
         switch (accountType) {
             case airLifeHandler::DEFAULT:
-                inf.AccountUser = std::move(user);
+                inf.AccountUser = &user;
                 isValid = true;
                 break;
             case airLifeHandler::ADMIN:
@@ -835,7 +882,7 @@ class NaNException: public std::exception {
 
         // Serialize序列化 union based on基于 AccountType
         if (AccountType == airLifeHandler::AccountType::DEFAULT) {
-            std::vector<char> userData = inf.AccountUser.serialize();
+            std::vector<char> userData = inf.AccountUser->serialize();
             data.insert(data.end(), userData.begin(), userData.end());
         } else if (AccountType == airLifeHandler::AccountType::ADMIN) {
             size_t uuidLength = inf.AdministerUUID.size();
@@ -847,7 +894,7 @@ class NaNException: public std::exception {
     }
 
     Account Account::deserialize(const std::vector<char> &data) {
-        size_t offset;
+        size_t offset = 0;
         // Deserialize AccountType
         airLifeHandler::AccountType accountType;
         std::memcpy(&accountType, &data[offset], sizeof(accountType));

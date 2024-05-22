@@ -24,6 +24,8 @@ add_library(CoreCode
         ReadFileHandler.h
         WriteFileHandler.cpp
         WriteFileHandler.h
+        InitialClassWorkHandler.cpp
+        InitialClassWorkHandler.h
 )
 target_include_directories(CoreCode PUBLIC ${Qt5Widgets_INCLUDE_DIRS})
 
