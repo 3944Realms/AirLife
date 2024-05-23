@@ -26,10 +26,10 @@ namespace COMPONENT {
     class Area;
     class Account;
     /* 注册全局表 */
-    std::unordered_map<std::string, User*> userRegistry;
-    std::unordered_map<std::string, Flight*> flightRegistry;
     std::unordered_map<std::string, Area*> areaRegistry;
     std::unordered_map<std::string, Airplane*> airplaneRegistry;
+    std::unordered_map<std::string, Flight*> flightRegistry;
+    std::unordered_map<std::string, User*> userRegistry;
     std::unordered_map<std::string, Orders*> orderRegistry;
     std::unordered_map<std::string, Chargebacks*> chargebacksRegistry;
     class Date {
@@ -74,7 +74,7 @@ namespace COMPONENT {
         std::string AreaName;
         std::string UUID;
     public:
-        explicit Area(const std::string& UUID, std::string areaName);
+        explicit Area(std::string areaName);
         Area();
         std::string toString();
         static void registerArea(Area* area);
@@ -152,9 +152,9 @@ namespace COMPONENT {
         static User* deserialize(const std::vector<char> &data);
     };
     class Orders {
-        User* Owner;
+        User* Owner{};
         Date OrderCreatedDate;
-        Flight* TargetFlight;
+        Flight* TargetFlight{};
         std::string OrderUUID;
         bool Valid{};//有效
     protected:
@@ -210,7 +210,7 @@ namespace COMPONENT {
         }inf;
         bool isValid;
     public:
-        Account(airLifeHandler::AccountType accountType ,std::string uuid);
+        Account(airLifeHandler::AccountType accountType ,const std::string& uuid);
         Account(airLifeHandler::AccountType accountType, User& user);
         std::vector<char> serialize() const;
         static Account deserialize(const std::vector<char>& data);

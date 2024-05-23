@@ -282,7 +282,7 @@ class NaNException: public std::exception {
         airplaneRegistry[airplane->UUID] = airplane;
     }
 
-    Area::Area(const std::string& UUID, std::string areaName): UUID("regex-" + AreaName), AreaName(std::move(areaName)) {}
+    Area::Area(std::string areaName) : UUID("regex-" + AreaName), AreaName(std::move(areaName)) {}
 //  在改名前创建了一个类 改过名时 由类调用Sync()方法来同步成员类信息【检查 UUID 是否一致 -> 将引用指向Area】-> 之后如果有类创建时（谁用了它？ 怎么处理·1）
 /*
  * 对于类成员对象属性需要引用，保存时序列化引用对象的内容，反序列化时
@@ -837,7 +837,7 @@ class NaNException: public std::exception {
     }
 
 
-    Account::Account(airLifeHandler::AccountType accountType, std::string uuid) {
+    Account::Account(airLifeHandler::AccountType accountType, const std::string& uuid) {
         switch (accountType) {
             case airLifeHandler::DEFAULT:
                 inf.AccountUser = new User(uuid);
