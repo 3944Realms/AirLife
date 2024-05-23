@@ -620,14 +620,28 @@ class NaNException: public std::exception {
         userRegistry[user->UUID] = user;
     }
 
+    User *User::getUserByUUID(const std::string& uuid) {
+        auto it = userRegistry.find(uuid);
+        if(it != userRegistry.end()) { return it->second; } //如果存在
+        return nullptr;
+    }
 
-    Orders::Orders(User* o, const Date& oD, Flight* tF, const std::string& oU) {
-        Owner = o;
+
+    Orders::Orders(User* o, const Date& oD, Flight* tF, const std::string& oU) : Owner(o) {
         OrderCreatedDate = oD;
         TargetFlight = tF;
         OrderUUID = oU;
         Valid = false;
     }
+
+    Orders::Orders(std::string  ownerUUID, const Date &oD, Flight *tF, const std::string &oU)
+        :OwnerUUID(std::move(ownerUUID)),
+         OrderCreatedDate(oD),
+         TargetFlight(tF),
+         OrderUUID(ownerUUID),
+         Valid(false) {}
+
+    Orders::Orders() = default;
 
     Orders *Orders::CreateOrder(User& owner, const Date& orderCreateDate, Flight& targetFlight, const std::string& orderUUID) {
         return new Orders(&owner, orderCreateDate, &targetFlight, orderUUID);
@@ -641,7 +655,7 @@ class NaNException: public std::exception {
     }
 
     User* Orders::getUser() {
-        return Owner;
+        return User::getUserByUUID(OwnerUUID);
     }
     Date Orders::getOrderCreatedDate() {
         return OrderCreatedDate;
@@ -659,13 +673,17 @@ class NaNException: public std::exception {
     std::vector<char> Orders::serialize() const {
         std::vector<char> data;
         //序列化OrderUUID
-        size_t orderUUIDSize = OrderUUID.size();
-        data.insert(data.end(), reinterpret_cast<const char*>(&orderUUIDSize), reinterpret_cast<const char*>(&orderUUIDSize) + sizeof(orderUUIDSize));
+        size_t orderUUIDLen = OrderUUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&orderUUIDLen), reinterpret_cast<const char*>(&orderUUIDLen) + sizeof(orderUUIDLen));
         data.insert(data.end(), OrderUUID.begin(), OrderUUID.end());
 
-        //序列化Owner
-        std::vector<char> ownerData = Owner->serialize();
-        data.insert(data.end(), ownerData.begin(), ownerData.end());
+        //序列化Owner[UUID]
+        size_t ownerUUIDLen = OwnerUUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&ownerUUIDLen), reinterpret_cast<const char*>(&ownerUUIDLen) + sizeof(ownerUUIDLen));
+        data.insert(data.end(), OwnerUUID.begin(), OwnerUUID.end());
+        /* 已废弃直接写入USER（存在无限循环调用问题）*/
+//        std::vector<char> ownerData = Owner->serialize();
+//        data.insert(data.end(), ownerData.begin(), ownerData.end());
 
         //序列化OrderCreateDate
         std::vector<char> orderCreatedDateData = OrderCreatedDate.serialize();
@@ -694,13 +712,15 @@ class NaNException: public std::exception {
         order->OrderUUID = uuid;
         offset += orderUUIDLen;
 
-        // 反序列化 Owner
-        size_t ownerDataSize;
-        std::memcpy(&ownerDataSize, data.data() + offset , sizeof(ownerDataSize));
-        offset += sizeof(ownerDataSize);
-        std::vector<char> ownerData(data.begin() + (int)offset, data.begin() + (int)offset + (int)ownerDataSize);
-        order->Owner = User::deserialize(ownerData);
-        offset += ownerDataSize;
+        // 反序列化 Owner[UUID]
+        size_t ownerUUIDLen;
+        std::memcpy(&ownerUUIDLen, data.data() + offset , sizeof(ownerUUIDLen));
+        offset += sizeof(ownerUUIDLen);
+        std::string ownerData(data.begin() + (int)offset, data.begin() + (int)offset + (int)ownerUUIDLen);
+        User* owner = User::getUserByUUID(ownerData);
+        if(owner == nullptr) return nullptr;
+        offset += ownerUUIDLen;
+        /* 已废弃直接加载USER（存在无限循环调用问题）*/
 
         //反序列化 orderCreateDateSize
         size_t orderCreateDateSize;
@@ -738,10 +758,9 @@ class NaNException: public std::exception {
         orderRegistry[order->OrderUUID] = order;
     }
 
-    Orders::Orders() = default;
 
     User* Chargebacks::getUser() {
-        return Owner;
+        return User::getUserByUUID(OwnerUUID);
     }
 
     Date Chargebacks::getChargebackCreatedDate() {
@@ -771,9 +790,13 @@ class NaNException: public std::exception {
         data.insert(data.end(), reinterpret_cast<const char*>(&uuidLength), reinterpret_cast<const char*>(&uuidLength) + sizeof(uuidLength));
         data.insert(data.end(), ChargebackUUID.begin(), ChargebackUUID.end());
 
-        // Serialize序列化 Owner
-        std::vector<char> ownerData = Owner->serialize();
-        data.insert(data.end(), ownerData.begin(), ownerData.end());
+        // Serialize序列化 Owner(UUID)
+        size_t ownerUUIDLen = OwnerUUID.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&ownerUUIDLen), reinterpret_cast<const char*>(&ownerUUIDLen) + sizeof(ownerUUIDLen));
+        data.insert(data.end(), OwnerUUID.begin(), OwnerUUID.end());
+        /* 已废弃直接写入USER（存在无限循环调用问题）*/
+//        std::vector<char> ownerData = Owner->serialize();
+//        data.insert(data.end(), ownerData.begin(), ownerData.end());
 
         // Serialize序列化 ChargebackCreateDate
         std::vector<char> dateData = ChargebackCreateDate.serialize();
@@ -800,13 +823,21 @@ class NaNException: public std::exception {
         auto it = chargebacksRegistry.find(chargebackUUID);
         if(it != chargebacksRegistry.end()) { return it->second; }
 
-        // Deserialize反序列化 Owner
-        size_t userDataSize;
-        std::memcpy(&userDataSize, data.data() + offset, sizeof(userDataSize));
-        offset += sizeof(userDataSize);
-        std::vector<char> userdata(data.begin() + (int)offset, data.begin() + (int)offset + (int)userDataSize);
-        User* owner = User::deserialize(userdata);
-        offset += userDataSize;
+        // Deserialize反序列化 Owner[UUID]
+        size_t ownerUUIDLen;
+        std::memcpy(&ownerUUIDLen, data.data() + offset , sizeof(ownerUUIDLen));
+        offset += sizeof(ownerUUIDLen);
+        std::string ownerData(data.begin() + (int)offset, data.begin() + (int)offset + (int)ownerUUIDLen);
+        User* owner = User::getUserByUUID(ownerData);
+        if(owner == nullptr) return nullptr;
+        offset += ownerUUIDLen;
+        /* 已废弃直接加载USER（存在无限循环调用问题）*/
+//        size_t userDataSize;
+//        std::memcpy(&userDataSize, data.data() + offset, sizeof(userDataSize));
+//        offset += sizeof(userDataSize);
+//        std::vector<char> userdata(data.begin() + (int)offset, data.begin() + (int)offset + (int)userDataSize);
+//        User* owner = User::deserialize(userdata);
+//        offset += userDataSize;
 
         // Deserialize反序列化 ChargebackCreateDate
         size_t chargebackCreateDataSize;
@@ -835,6 +866,13 @@ class NaNException: public std::exception {
     void Chargebacks::registerChargeback(Chargebacks* chargebacks) {
         chargebacksRegistry[chargebacks->ChargebackUUID] = chargebacks;
     }
+
+    Chargebacks::Chargebacks(std::string ownerUUID, const Date &oD, Orders *os, const std::string& cU)
+            :OwnerUUID(std::move(ownerUUID)),
+             ChargebackCreateDate(oD),
+             TargetOrder(os),
+             ChargebackUUID(cU),
+             Successful(false) {}
 
 
     Account::Account(airLifeHandler::AccountType accountType, const std::string& uuid) {

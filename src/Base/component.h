@@ -145,6 +145,7 @@ namespace COMPONENT {
         std::string getUUID();
         std::vector<Orders*> getOrderList();
         std::vector<Chargebacks*> getChargeBackList();
+        static User* getUserByUUID(const std::string& uuid);
         bool initUUID(std::string uuid);
         bool tryChangeName(const std::string& name);
 
@@ -152,6 +153,7 @@ namespace COMPONENT {
         static User* deserialize(const std::vector<char> &data);
     };
     class Orders {
+        std::string OwnerUUID{};
         User* Owner{};
         Date OrderCreatedDate;
         Flight* TargetFlight{};
@@ -159,6 +161,7 @@ namespace COMPONENT {
         bool Valid{};//有效
     protected:
         Orders(User* o, const Date& oD, Flight* tF, const std::string& oU);
+        Orders(std::string  ownerUUID, const Date& oD,Flight* tF, const std::string& oU);
     public:
         Orders();
         static void registerOrder(Orders* order);
@@ -177,13 +180,15 @@ namespace COMPONENT {
 
     };
     class Chargebacks {
+        std::string OwnerUUID;
         User* Owner{};
         Date ChargebackCreateDate;
         std::string ChargebackUUID;
         Orders* TargetOrder{};
         bool Successful{};//是否成功
     protected:
-        Chargebacks(User* o, const Date& oD,Orders*  os, std::string oU);
+        Chargebacks(User* o, const Date& oD,Orders* os, std::string cU);
+        Chargebacks(std::string  ownerUUID, const Date &oD, Orders* os, const std::string& cU);
     public:
         Chargebacks();
         static void registerChargeback(Chargebacks* chargebacks);

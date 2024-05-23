@@ -13,13 +13,23 @@ namespace airLifeHandler {
 
     public:
         InitialClassWorkHandler();//Area(String) 、 Airplane(String, UShort, UShort)  Flight(string, Airplane, Area[2], Date, Time, bool)
-        // init()[Build Object{DataFile: Directory: {AirLifeData}  File: AreaData.dat, Airplane.dat, Flight.dat, User.dat, Account.dat[未实现]}] ->
+        // init()[Build Object{
+        // DataFile: Directory: {AirLifeData}
+        // File:
+        //      AreaData.dat, Airplane.dat,
+        //      Flight.dat, Order.dat,
+        //      Chargeback.dat, User.dat,
+        //      Account.dat[未实现]}]
+        //
+        //      ->
         // Area(UUID) ,
         // Airplane(UUID) ,
         // Flight(UUID)[ Airplane , Area ] ,
+        // Order(OrderUUID)[Flight],
+        // Chargeback(ChargebackUUID) ,
         // User(UUID)[
-        //              Orders(OrderUUID)[User , Flight] ,
-        //              Chargebacks(ChargeBackUUID)[User , Order]
+        //              Orders(OrderUUID)[Flight] ,
+        //              Chargebacks(ChargeBackUUID)[Order]
         //            ];
         // Account(){User}
 
