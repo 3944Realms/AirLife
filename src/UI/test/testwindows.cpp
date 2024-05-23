@@ -6,7 +6,7 @@
  * 网格布局
  * 按钮属性 - 背景颜色（有点类似与CSS） 加载图片
  */
-// You may need to build the project (run Qt uic code generator) to get "ui_testWindows.h" resolved
+// You may need to build the project (initTaskRun Qt uic code generator) to get "ui_testWindows.h" resolved
 
 #include <QMessageBox>
 #include "testwindows.h"

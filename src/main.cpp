@@ -7,6 +7,7 @@
 #include "UI/mainWindows/customermainwindow.h"
 
 int main(int argc,char *argv[]) {
+    std::cout<<__cplusplus;
     QApplication a(argc,argv);
     QApplication::setWindowIcon(QIcon(":/Logo/airLifeLogo.ico"));
     airLifeHandler::LoginHandler loginHandler;

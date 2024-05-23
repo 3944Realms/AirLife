@@ -931,7 +931,7 @@ class NaNException: public std::exception {
         return data;
     }
 
-    Account Account::deserialize(const std::vector<char> &data) {
+    Account* Account::deserialize(const std::vector<char> &data) {
         size_t offset = 0;
         // Deserialize AccountType
         airLifeHandler::AccountType accountType;
@@ -943,14 +943,14 @@ class NaNException: public std::exception {
         offset += 1;
 
         // Create Account object
-        Account account(accountType, " ");
+        auto *account = new Account(accountType, " ");
 
         // Set isValid field
-        account.isValid = isValid;
+        account->isValid = isValid;
 
         // Deserialize union based on AccountType
         if (accountType == airLifeHandler::AccountType::DEFAULT) {
-            account.inf.AccountUser = User::deserialize(data);
+            account->inf.AccountUser = User::deserialize(data);
         } else if (accountType == airLifeHandler::AccountType::ADMIN) {
             size_t uuidLength;
             std::memcpy(&uuidLength, &data[offset], sizeof(uuidLength));
@@ -959,7 +959,7 @@ class NaNException: public std::exception {
             std::string uuid(data.begin() + offset, data.begin() + offset + uuidLength);
             offset += uuidLength;
 
-            account.inf.AdministerUUID = uuid;
+            account->inf.AdministerUUID = uuid;
         }
 
         return account;

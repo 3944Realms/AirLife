@@ -218,10 +218,17 @@ namespace COMPONENT {
         Account(airLifeHandler::AccountType accountType ,const std::string& uuid);
         Account(airLifeHandler::AccountType accountType, User& user);
         std::vector<char> serialize() const;
-        static Account deserialize(const std::vector<char>& data);
+        static Account* deserialize(const std::vector<char>& data);
     };
 
-
+    size_t
+    AreaBlockSize = sizeof(Area),
+    AirplaneBlockSize = sizeof(Airplane),
+    FlightBlockSize = sizeof(Flight),
+    OrderBlockSize = sizeof(Orders),
+    ChargebacksBlockSize = sizeof(Chargebacks),
+    UserBlockSize = sizeof(User),
+    AccountBlockSize = sizeof(Account);
 
 } // COMPONENT
 namespace airLifeHandler {
@@ -233,7 +240,7 @@ namespace airLifeHandler {
         FLIGHT,
         AREA,
         ACCOUNT,
-        DATA,
+        DATE,
         TIME,
         UNKNOWN_DATA_TYPE
     };
