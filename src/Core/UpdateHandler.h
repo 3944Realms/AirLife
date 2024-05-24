@@ -1,26 +1,25 @@
 //
-// Created by f2561 on 24-5-23.
+// Created by f2561 on 24-5-24.
 //
 
-#ifndef AIRLIFE_INITIALHANDLER_H
-#define AIRLIFE_INITIALHANDLER_H
+#ifndef AIRLIFE_UPDATEHANDLER_H
+#define AIRLIFE_UPDATEHANDLER_H
 #include "ClassWorkHandler.h"
-#include "../Base/component.h"
-#include <iostream>
-#include <vector>
+#include "WriteFileHandler.h"
+
 namespace airLifeHandler {
 
-    class InitialHandler
-        :public ClassWorkHandler {
-        std::vector<std::string> InitialFileNameList;
+    class UpdateHandler
+            :public ClassWorkHandler {
+        std::vector<std::string> UpdateFileNameList;
         std::string directory;
-        ReadFileHandler *AreaData{},
-                        *AirplaneData{},
-                        *FlightData{},
-                        *OrderData{},
-                        *ChargebackData{},
-                        *UserData{},
-                        *AccountData{};
+        WriteFileHandler *AreaData{},
+                *AirplaneData{},
+                *FlightData{},
+                *OrderData{},
+                *ChargebackData{},
+                *UserData{},
+                *AccountData{};
         std::vector<COMPONENT::Area *> AreaList;
         std::vector<COMPONENT::Airplane *> AirplaneList;
         std::vector<COMPONENT::Flight *> FlightList;
@@ -28,12 +27,9 @@ namespace airLifeHandler {
         std::vector<COMPONENT::Chargebacks *> ChargebackList;
         std::vector<COMPONENT::User *> UserList;
         std::vector<COMPONENT::Account *> AccountList;
-
     public:
-        InitialHandler();
-        void initDataArray() {}
-        bool initTaskRun(std::string file) override;
-        void putVector(
+        UpdateHandler();
+        void putClazzList(
                     std::vector<COMPONENT::Area*> &areaList,
                     std::vector<COMPONENT::Airplane*> &airplaneList,
                     std::vector<COMPONENT::Flight*> &flightList,
@@ -42,7 +38,7 @@ namespace airLifeHandler {
                     std::vector<COMPONENT::User*> &userList,
                     std::vector<COMPONENT::Account*> &accountList
                 );
-
+        bool initTaskRun(std::string file) override;
         bool isAllReady(){
             return
                     (AreaData != nullptr) &&
@@ -55,9 +51,9 @@ namespace airLifeHandler {
 
         }
         void runTask() override;
-        void ReadAndUpVector();
+        void WriteAndDownVector();
     };
 
 } // airLifeHandler
 
-#endif //AIRLIFE_INITIALHANDLER_H
+#endif //AIRLIFE_UPDATEHANDLER_H

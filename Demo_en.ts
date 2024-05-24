@@ -68,6 +68,14 @@
         <source>取消(&amp;C)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>请输入用户名</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>请输入密码</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>airLifeMainWindow::AdministerMainWindow</name>

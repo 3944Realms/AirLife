@@ -5,7 +5,8 @@
 #include "InitialHandler.h"
 
 namespace airLifeHandler {
-    InitialHandler::InitialHandler() {
+    InitialHandler::InitialHandler() : ClassWorkHandler() {
+
         directory = std::string("airLifeData");
         InitialFileNameList.emplace_back("AreaData.dat");
         InitialFileNameList.emplace_back("AirplaneData.dat");
@@ -14,6 +15,8 @@ namespace airLifeHandler {
         InitialFileNameList.emplace_back("ChargebackData.dat");
         InitialFileNameList.emplace_back("UserData.dat");
         InitialFileNameList.emplace_back("AccountData.dat");
+
+        InitFile(InitialFileNameList, directory);
     /*
      * DataType  的读入
      * USER -> UUID ReadHandler(file, USER)
@@ -44,7 +47,7 @@ namespace airLifeHandler {
     }
 
     bool InitialHandler::initTaskRun(std::string file) {
-        std::string pathFile = directory + "/" + file;
+        std::string pathFile = directory + "\\" + file;
         if(file == "AreaData.dat")
             AreaData = new ReadFileHandler(pathFile, DataType::AREA);
         else if(file == "AirplaneData.dat")
@@ -62,6 +65,7 @@ namespace airLifeHandler {
         else{
             return false;
         }
+        isInit = true;
         return true;
     }
 
@@ -71,6 +75,7 @@ namespace airLifeHandler {
             return;
         }
         ReadAndUpVector();
+
     }
 
     void InitialHandler::putVector(std::vector<COMPONENT::Area *> &areaList,
@@ -104,26 +109,27 @@ namespace airLifeHandler {
         ChargebackData->readAll(ChargebackDest, COMPONENT::ChargebacksBlockSize);
         UserData->readAll(UserDest, COMPONENT::UserBlockSize);
         AccountData->readAll(AccountDest, COMPONENT::AccountBlockSize);
-        for(const auto& l : AreaDest){
+        for(auto& l : AreaDest){
             AreaList.push_back(COMPONENT::Area::deserialize(l));
         }
-        for(const auto& l : AirplaneDest){
+        for(auto& l : AirplaneDest){
             AirplaneList.push_back(COMPONENT::Airplane::deserialize(l));
         }
-        for(const auto& l : FlightDest){
+        for(auto& l : FlightDest){
             FlightList.push_back(COMPONENT::Flight::deserialize(l));
         }
-        for(const auto& l : OrderDest){
+        for(auto& l : OrderDest){
             OrderList.push_back(COMPONENT::Orders::deserialize(l));
         }
-        for(const auto& l : ChargebackDest){
+        for(auto& l : ChargebackDest){
             ChargebackList.push_back(COMPONENT::Chargebacks::deserialize(l));
         }
-        for(const auto& l : UserDest){
+        for(auto& l : UserDest){
             UserList.push_back(COMPONENT::User::deserialize(l));
         }
-        for(const auto& l : AccountDest){
+        for(auto& l : AccountDest){
             AccountList.push_back(COMPONENT::Account::deserialize(l));
         }
+        taskSuccessful = true;
     }
 } // airLifeHandler

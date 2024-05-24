@@ -28,10 +28,14 @@ add_library(CoreCode
         ClassWorkHandler.h
         InitialHandler.cpp
         InitialHandler.h
+        UpdateHandler.cpp
+        UpdateHandler.h
 )
 target_include_directories(CoreCode PUBLIC ${Qt5Widgets_INCLUDE_DIRS})
 
 target_link_libraries(CoreCode
         PUBLIC
         Qt5::Core Qt5::Widgets
+        PRIVATE
+        Component
 )

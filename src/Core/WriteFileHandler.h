@@ -16,6 +16,9 @@ namespace airLifeHandler {
         ResultStatus resultStatus;
     public:
         WriteFileHandler(const std::string& filePath, DataType writeDataType, std::ios::openmode openMode);
+        WriteFileHandler(const std::string& filepath, DataType writeDataType)
+            : WriteFileHandler(filepath, writeDataType, std::ios::out | std::ios::binary) {}
+
         ResultStatus getStatue() {return resultStatus;}
         DataType getReadDataType() {return dataType;}
         void writeNext(std::vector<char>  &target, size_t size);

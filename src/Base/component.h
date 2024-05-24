@@ -26,12 +26,12 @@ namespace COMPONENT {
     class Area;
     class Account;
     /* 注册全局表 */
-    std::unordered_map<std::string, Area*> areaRegistry;
-    std::unordered_map<std::string, Airplane*> airplaneRegistry;
-    std::unordered_map<std::string, Flight*> flightRegistry;
-    std::unordered_map<std::string, User*> userRegistry;
-    std::unordered_map<std::string, Orders*> orderRegistry;
-    std::unordered_map<std::string, Chargebacks*> chargebacksRegistry;
+    static std::unordered_map<std::string, Area*> areaRegistry;
+    static std::unordered_map<std::string, Airplane*> airplaneRegistry;
+    static std::unordered_map<std::string, Flight*> flightRegistry;
+    static std::unordered_map<std::string, User*> userRegistry;
+    static std::unordered_map<std::string, Orders*> orderRegistry;
+    static std::unordered_map<std::string, Chargebacks*> chargebacksRegistry;
     class Date {
     public:
         Date();
@@ -205,8 +205,8 @@ namespace COMPONENT {
     class Account {
         airLifeHandler::AccountType AccountType;
         struct Inf{
-            Inf();
-            User* AccountUser;
+            Inf() = default;
+            User* AccountUser{};
             std::string AdministerUUID;
             explicit Inf(User* user) : AccountUser(user) {}
             explicit Inf(std::string uuid)
@@ -221,7 +221,7 @@ namespace COMPONENT {
         static Account* deserialize(const std::vector<char>& data);
     };
 
-    size_t
+    static size_t
     AreaBlockSize = sizeof(Area),
     AirplaneBlockSize = sizeof(Airplane),
     FlightBlockSize = sizeof(Flight),

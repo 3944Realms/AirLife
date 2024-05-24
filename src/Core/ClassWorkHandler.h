@@ -11,11 +11,16 @@
 namespace airLifeHandler {
 
     class ClassWorkHandler {
+    protected:
+        bool taskSuccessful;
         bool isInit;
     public:
+        //taskSuccessful implement
         void InitFile(const std::vector<std::string>& files, const std::string& filesPath);
+        bool getInitStatus() const { return isInit; }
+        bool getTaskStatus() const { return taskSuccessful; }
         static bool IsFileExist(const std::string& fileName, const std::string& filePath);
-        static bool CreateFile(const std::string& fileName, const std::string& filePath);
+        static bool CCreateFile(const std::string& fileName, const std::string& filePath);
         ClassWorkHandler();//Area(String) 、 Airplane(String, UShort, UShort)  Flight(string, Airplane, Area[2], Date, Time, bool)
         virtual bool initTaskRun(std::string file) = 0;
         virtual void runTask() = 0;
