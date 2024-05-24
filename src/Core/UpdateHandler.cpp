@@ -8,10 +8,11 @@ namespace airLifeHandler {
     UpdateHandler::UpdateHandler() {
         directory = std::string("airLifeData");
         UpdateFileNameList.emplace_back("AreaData.dat");
+        UpdateFileNameList.emplace_back("AirplaneData.dat");
         UpdateFileNameList.emplace_back("FlightData.dat");
         UpdateFileNameList.emplace_back("OrderData.dat");
         UpdateFileNameList.emplace_back("ChargebackData.dat");
-        UpdateFileNameList.emplace_back("UseData.dat");
+        UpdateFileNameList.emplace_back("UserData.dat");
         UpdateFileNameList.emplace_back("AccountData.dat");
 
         InitFile(UpdateFileNameList, directory);
