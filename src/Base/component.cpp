@@ -282,13 +282,18 @@ class NaNException: public std::exception {
         airplaneRegistry[airplane->UUID] = airplane;
     }
 
-    Area::Area(std::string areaName) : UUID("regex-" + AreaName), AreaName(std::move(areaName)) {}
+    std::string Airplane::toString() {
+        return   "{ AirplaneUUID:" + UUID + ", Capacity:" + std::to_string(Capacity) + " }";
+    }
+
+
+    Area::Area(std::string _uuid, std::string areaName) : UUID(std::move(_uuid)), AreaName(std::move(areaName)) {}
 //  在改名前创建了一个类 改过名时 由类调用Sync()方法来同步成员类信息【检查 UUID 是否一致 -> 将引用指向Area】-> 之后如果有类创建时（谁用了它？ 怎么处理·1）
 /*
  * 对于类成员对象属性需要引用，保存时序列化引用对象的内容，反序列化时
  */
     std::string Area::toString() {
-        return AreaName;
+        return "{ AreaUUID:" + UUID + ", AreaName:" + AreaName + " }";
     }
 
     bool Area::tryModifyName(const std::string& newName) {
@@ -299,9 +304,9 @@ class NaNException: public std::exception {
 
     Area::Area() {AreaName = "Default";}
 
-    bool Area::initAreaNameOnce(const std::string &Name) {
+    bool Area::initAreaNameAndUUIDOnce(const std::string &Name, std::string uuid) {
         if(Name == "Default" ) return false;
-        else if(!Name.empty()) UUID = "regex-" + Name;
+        else if(!Name.empty()) UUID = std::move(uuid);
         return tryModifyName(Name);
     }
 
@@ -363,13 +368,13 @@ class NaNException: public std::exception {
     }
 
     bool Flight::tryChangeStartPointArea(Area& area) {
-        if(area.toString() == "Default") return false;
+        if(area.getUUID() == "Default") return false;
         StartingPoint = &area;
         return true;
     }
 
     bool Flight::tryChangeDestinationArea(Area& area) {
-        if(area.toString() == "Default") return false;
+        if(area.getUUID() == "Default") return false;
         Destination = &area;
         return true;
     }
@@ -511,6 +516,15 @@ class NaNException: public std::exception {
 
     void Flight::registerFlight(Flight *flight) {
         flightRegistry[flight->UUID] = flight;
+    }
+
+    std::string Flight::toString() {
+        return "{ UUID:" + UUID +
+                ", Airplane:{ UUID:" + Airplane->toString() +
+                " }, StartingPoint:" + StartingPoint->toString() +
+                ", Destination:" + Destination->toString() +
+                ", DepartureTime:" + DepartureTime.toString() +
+                " }";
     }
 
 

@@ -6,6 +6,10 @@
 #define AIRLIFE_ORDERDESTROYERWIDGET_H
 
 #include <QWidget>
+#include "../../Base/component.h"
+#include "../../UI/dialogs/airlifeerrordialog.h"
+#include "../../UI/dialogs/airlifeinfodialog.h"
+#include "../../UI/dialogs/airliferunningdialog.h"
 
 namespace airLifeWidget {
     QT_BEGIN_NAMESPACE

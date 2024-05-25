@@ -35,6 +35,7 @@ int main(int argc,char *argv[]) {
     std::vector<COMPONENT::Account*> AccountList;
     std::cout << __cplusplus << std::endl;
     init(AreaList, AirplaneList, FlightList, OrderList, ChargebackList, UserList, AccountList);
+
     QApplication a(argc,argv);
     QApplication::setWindowIcon(QIcon(":/Logo/airLifeLogo.ico"));
     airLifeHandler::LoginHandler loginHandler;
@@ -45,6 +46,7 @@ int main(int argc,char *argv[]) {
     airLifeMainWindow::AdministerMainWindow AdWi;
     guiHandler->Gui(loginDialog,AdWi,CuWi);
     int result = QApplication::exec();
+
     save(AreaList, AirplaneList, FlightList, OrderList, ChargebackList, UserList, AccountList);
     return result;
 }
@@ -73,4 +75,5 @@ void save(std::vector<COMPONENT::Area *> &areaList,
     updateHandler->putClazzList(areaList, airplaneList, flightList, orderList, chargebackList, userList, accountList);
     updateHandler->runTask();
     if(updateHandler->getTaskStatus()) delete updateHandler;
+    COMPONENT::synchronization(areaList, airplaneList, flightList, orderList, chargebackList, userList, accountList);
 }

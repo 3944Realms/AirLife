@@ -7,6 +7,7 @@
 
 #include <QDialog>
 #include <iostream>
+#include "../../Base/component.h"
 #include "../easterEgg/hui.h"
 #include "../../Core/LoginHandler.h"
 #include "../../Core/GuiHandler.h"

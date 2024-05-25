@@ -21,4 +21,28 @@ namespace airLifeWidget {
         this->close();
         emit destroyed();
     }
+
+    void informationModifierWidget::on_airLifeModifyAreasPushButton_clicked() {
+        //修改地点按钮
+    }
+
+    void informationModifierWidget::on_airLifeModifyAirplanePushButton_clicked() {
+        //修改飞机按钮
+    }
+
+    void informationModifierWidget::on_airLifeModifyFlightPushButton_clicked() {
+        //修改航班按钮
+    }
+
+    void informationModifierWidget::on_airLifeDeleteAreaPushButton_clicked() {
+        //删除地点按钮
+    }
+
+    void informationModifierWidget::on_airLifeDeleteAirplanePushButton_clicked() {
+        //删除飞机按钮
+    }
+
+    void informationModifierWidget::on_airLifeDeleteFlightPushButton_clicked() {
+        //删除航班按钮
+    }
 } // airLifeWidget

@@ -16,12 +16,16 @@ namespace airLifeDialog {
     Q_OBJECT
 
     public:
-        explicit AirLifeErrorDialog(QWidget *parent = nullptr);
+        explicit AirLifeErrorDialog(QWidget *parent = nullptr, const QString& errorMessage = nullptr);
 
         ~AirLifeErrorDialog() override;
 
+        void setMessage(const QString& mess);
+
     private:
         Ui::AirLifeErrorDialog *ui;
+        QString error_Message{};
+        void closeEvent(QCloseEvent *) override;
     private slots:
         void on_airLifeSurePushButton_clicked();
     };

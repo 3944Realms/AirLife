@@ -45,7 +45,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>140</y>
+      <y>190</y>
       <width>301</width>
       <height>141</height>
      </rect>
@@ -99,34 +99,63 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
+   <widget class="QGroupBox" name="airLifeAddNewAreaGroupBox">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>30</x>
       <y>30</y>
-      <width>281</width>
-      <height>51</height>
+      <width>301</width>
+      <height>131</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="airLifeAddNewAreasLabel">
-       <property name="text">
-        <string>新地点：</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="airLifeAddNewAreasLineEdit"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="airLifeAddNewAreasPushButton">
-       <property name="text">
-        <string>添加</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <property name="title">
+     <string>新地点</string>
+    </property>
+    <widget class="QWidget" name="gridLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>20</y>
+       <width>231</width>
+       <height>80</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="airLifeAddNewAreaUUIDLabel">
+        <property name="text">
+         <string>地点编号：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="airLifeAddNewAreaUUIDLineEdit"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="airLifeAddNewAreaNameLabel">
+        <property name="text">
+         <string>新地点名：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="airLifeAddNewAreaNameLineEdit"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QPushButton" name="airLifeAddNewAreasPushButton">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>100</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>添加</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QGroupBox" name="airLifeFlightGroupBox">
@@ -157,19 +186,6 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QComboBox" name="airLifeFlightComboBox">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>30</y>
-      <width>311</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="editable">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QLabel" name="airLifeAirplaneUUIDLabel">
     <property name="geometry">
      <rect>
@@ -191,6 +207,12 @@
       <width>311</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="editable">
+     <bool>true</bool>
+    </property>
+    <property name="frame">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="airLifeAddNewFlightPushButton">
@@ -268,11 +290,24 @@
          <property name="readOnly">
           <bool>false</bool>
          </property>
+         <property name="placeholderText">
+          <string>格式: xxxx/xx/xx-xx:xx</string>
+         </property>
         </widget>
        </item>
       </layout>
      </item>
     </layout>
+   </widget>
+   <widget class="QLineEdit" name="airLifeFlightLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>30</y>
+      <width>311</width>
+      <height>20</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QPushButton" name="airLifeBackPushButton">

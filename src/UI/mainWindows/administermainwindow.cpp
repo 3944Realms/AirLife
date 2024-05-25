@@ -11,17 +11,24 @@ namespace airLifeMainWindow {
     AdministerMainWindow::AdministerMainWindow(QWidget *parent) :
             QMainWindow(parent), ui(new Ui::AdministerMainWindow) {
         ui->setupUi(this);
+
         connect(ui->airLifeAccountLogOutAction, &QAction::triggered, this,
                 &AdministerMainWindow::airLifeAccountLogOutActionSlot);
+        connect(ui->airLifeAddInformationAction, &QAction::triggered, this,
+                &AdministerMainWindow::airLifeAddInformationActionSlot);
+        connect(ui->airLifeMRInformationAction, &QAction::triggered, this,
+                &AdministerMainWindow::airLifeMRInformationActionSlot);
+        connect(ui->airLifeSearchFlightAction, &QAction::triggered, this,
+                &AdministerMainWindow::airLifeSearchFlightActionSlot);
         informationFinderWidget = new airLifeWidget::informationFinderWidget();
         informationLoggerWidget = new airLifeWidget::informationLoggerWidget();
         informationModifierWidget = new airLifeWidget::informationModifierWidget();
         connect(informationFinderWidget, &airLifeWidget::informationFinderWidget::destroyed,
-                this, &AdministerMainWindow::airLifeSearchFlightActionSlot);
+                this, &AdministerMainWindow::childWindowClosed);
         connect(informationLoggerWidget, &airLifeWidget::informationLoggerWidget::destroyed,
-                this, &AdministerMainWindow::airLifeAddInformationActionSlot);
+                this, &AdministerMainWindow::childWindowClosed);
         connect(informationModifierWidget, &airLifeWidget::informationModifierWidget::destroyed,
-                this, &AdministerMainWindow::airLifeMRInformationActionSlot);
+                this, &AdministerMainWindow::childWindowClosed);
     }
 
     AdministerMainWindow::~AdministerMainWindow() {
@@ -63,23 +70,23 @@ namespace airLifeMainWindow {
 
     void AdministerMainWindow::disconnectAllSignalsAndSlots() {
         disconnect(informationFinderWidget, &airLifeWidget::informationFinderWidget::destroyed,
-                this, &AdministerMainWindow::airLifeSearchFlightActionSlot);
+                this, &AdministerMainWindow::childWindowClosed);
         disconnect(informationLoggerWidget, &airLifeWidget::informationLoggerWidget::destroyed,
-                this, &AdministerMainWindow::airLifeAddInformationActionSlot);
+                this, &AdministerMainWindow::childWindowClosed);
         disconnect(informationModifierWidget, &airLifeWidget::informationModifierWidget::destroyed,
-                this, &AdministerMainWindow::airLifeMRInformationActionSlot);
+                this, &AdministerMainWindow::childWindowClosed);
     }
 
     void AdministerMainWindow::on_airLifeAddInformationPushButton_clicked() {
-
+        airLifeAddInformationActionSlot();
     }
 
     void AdministerMainWindow::on_airLifeMRInformationPushButton_clicked() {
-
+        airLifeMRInformationActionSlot();
     }
 
     void AdministerMainWindow::childWindowClosed() {
-
+        this->show();
     }
 
 

@@ -262,7 +262,7 @@
       </item>
      </layout>
     </widget>
-    <widget class="QPushButton" name="airLifeDeleteAirplanePushButton_2">
+    <widget class="QPushButton" name="airLifeDeleteAirplanePushButton">
      <property name="geometry">
       <rect>
        <x>260</x>
@@ -287,9 +287,9 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>20</y>
+      <y>30</y>
       <width>301</width>
-      <height>171</height>
+      <height>201</height>
      </rect>
     </property>
     <property name="title">
@@ -299,26 +299,13 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>30</y>
+       <y>40</y>
        <width>241</width>
        <height>80</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="1">
-       <widget class="QComboBox" name="airLifeThisAreaComboBox"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="airLifeThisAreaLabel">
-        <property name="text">
-         <string>修改地点：</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="airLifeThisAreaNewNameLineEdit"/>
-      </item>
-      <item row="1" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="airLifeThisAreaNewNameLabel">
         <property name="text">
          <string>修改为：</string>
@@ -328,13 +315,40 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="airLifeThisAreaNameLabel">
+        <property name="text">
+         <string>修改地点：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLineEdit" name="airLifeThisAreaUUIDLineEdit"/>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="airLifeThisAreaUUIDLabel">
+        <property name="text">
+         <string>地点编号：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="airLifeThisAreaNewNameLineEdit"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="airLifeThisAreaNameComboBox"/>
+      </item>
      </layout>
     </widget>
     <widget class="QPushButton" name="airLifeModifyAreasPushButton">
      <property name="geometry">
       <rect>
        <x>110</x>
-       <y>120</y>
+       <y>150</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -347,7 +361,7 @@
      <property name="geometry">
       <rect>
        <x>260</x>
-       <y>130</y>
+       <y>160</y>
        <width>41</width>
        <height>41</height>
       </rect>

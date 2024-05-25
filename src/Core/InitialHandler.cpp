@@ -71,7 +71,7 @@ namespace airLifeHandler {
 
     void InitialHandler::runTask() {
         if(!isAllReady()) {
-            std::cout << "[*]" << "Not Ready\n";
+            std::cout << "[*] " << "Not Ready.\n";
             return;
         }
         ReadAndUpVector();

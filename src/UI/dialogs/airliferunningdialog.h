@@ -20,8 +20,21 @@ namespace airLifeDialog {
 
         ~AirLifeRunningDialog() override;
 
+        void resetMessage();
+        void setMessage(const QString& pMessage);
+        void addMessage(const QString& pMessage);
+        void setProcessBarCurrentValue(int processValue_);
+        void processBarValueChanged(int valueChanged);
+        int getProcessBarValue();
+
     private:
         Ui::AirLifeRunningDialog *ui;
+        int processValue;
+        QString message;
+        void closeEvent(QCloseEvent *) override;
+    private slots:
+        void onAirLifeProgressBarValueChange();
+
     };
 } // airLifeDialog
 

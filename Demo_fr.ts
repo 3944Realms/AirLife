@@ -301,10 +301,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>新地点：</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>航班信息新增</source>
         <translation type="unfinished"></translation>
     </message>
@@ -334,6 +330,18 @@
     </message>
     <message>
         <source>返回(&amp;R)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>新地点</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>地点编号：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>新地点名：</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -417,6 +425,10 @@
     </message>
     <message>
         <source>返回(&amp;R)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>地点编号：</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -42,7 +42,7 @@ namespace airLifeHandler {
 
     void UpdateHandler::runTask() {
         if(!isAllReady()) {
-            std::cout << "[*]" << "Not Ready\n";
+            std::cout << "[*] " << "Not Ready.\n";
             return;
         }
         WriteAndDownVector();

@@ -6,6 +6,10 @@
 #define AIRLIFE_INFORMATIONMODIFIERWIDGET_H
 
 #include <QWidget>
+#include "../../Base/component.h"
+#include "../../UI/dialogs/airlifeerrordialog.h"
+#include "../../UI/dialogs/airlifeinfodialog.h"
+#include "../../UI/dialogs/airliferunningdialog.h"
 
 namespace airLifeWidget {
     QT_BEGIN_NAMESPACE
@@ -24,6 +28,14 @@ namespace airLifeWidget {
         Ui::informationModifierWidget *ui;
     private slots:
         void on_airLifeBackPushButton_clicked();
+        void on_airLifeModifyAreasPushButton_clicked();
+        void on_airLifeModifyAirplanePushButton_clicked();
+        void on_airLifeModifyFlightPushButton_clicked();
+
+        void on_airLifeDeleteAreaPushButton_clicked();
+        void on_airLifeDeleteAirplanePushButton_clicked();
+        void on_airLifeDeleteFlightPushButton_clicked();
+
     };
 } // airLifeWidget
 

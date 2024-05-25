@@ -32,6 +32,31 @@ namespace COMPONENT {
     static std::unordered_map<std::string, User*> userRegistry;
     static std::unordered_map<std::string, Orders*> orderRegistry;
     static std::unordered_map<std::string, Chargebacks*> chargebacksRegistry;
+
+    static std::vector<COMPONENT::Area *> AreaList;
+    static std::vector<COMPONENT::Airplane *> AirplaneList;
+    static std::vector<COMPONENT::Flight *> FlightList;
+    static std::vector<COMPONENT::Orders *> OrderList;
+    static std::vector<COMPONENT::Chargebacks *> ChargebackList;
+    static std::vector<COMPONENT::User *> UserList;
+    static std::vector<COMPONENT::Account *> AccountList;
+
+    static void synchronization(std::vector<COMPONENT::Area *> &areaList,
+                                std::vector<COMPONENT::Airplane *> &airplaneList,
+                                std::vector<COMPONENT::Flight *> &flightList,
+                                std::vector<COMPONENT::Orders *> &orderList,
+                                std::vector<COMPONENT::Chargebacks *> &chargebackList,
+                                std::vector<COMPONENT::User *> &userList,
+                                std::vector<COMPONENT::Account *> &accountList){
+        AreaList = areaList;
+        AirplaneList = airplaneList;
+        FlightList = flightList;
+        OrderList = orderList;
+        ChargebackList = chargebackList;
+        UserList = userList;
+        AccountList = accountList;
+    }
+
     class Date {
     public:
         Date();
@@ -58,10 +83,11 @@ namespace COMPONENT {
         UShort Month{};
         UShort Day{};
         Time time{};
-        static UShort getMonthDay(UShort Year, UShort Month);
+
         Date(UShort Year, UShort Month, UShort Day, const Time& time);
     public:
         static Date *getDate(UShort Year, UShort Month, UShort Day, const Time& time);
+        static UShort getMonthDay(UShort Year, UShort Month);
         UShort getYear() const;
         UShort getMonth() const;
         UShort getDay() const;
@@ -74,12 +100,14 @@ namespace COMPONENT {
         std::string AreaName;
         std::string UUID;
     public:
-        explicit Area(std::string areaName);
+        explicit Area(std::string _uuid, std::string areaName);
         Area();
         std::string toString();
         static void registerArea(Area* area);
-        bool initAreaNameOnce(const std::string& Name);
+        bool initAreaNameAndUUIDOnce(const std::string& Name, std::string uuid);
         bool tryModifyName(const std::string& newName);
+        std::string getUUID() const { return UUID; }
+        std::string getName() const { return AreaName; }
         std::vector<char> serialize() const;
         static Area* deserialize(const std::vector<char>& data);
     };
@@ -99,6 +127,7 @@ namespace COMPONENT {
         bool tryChangeCurrentNumber(int delta);
         bool isFull() const;
         std::vector<char> serialize() const;
+        std::string toString();
         static Airplane* deserialize(const std::vector<char>& data);
 
     };
@@ -117,6 +146,7 @@ namespace COMPONENT {
         std::string getUUID();
         class Airplane* getAirplane();
         Area* getStartingPointArea();
+        std::string toString();
         Area* getDestinationArea();
         Date getDepartureTime();
         Date::Time getTakeTime();
@@ -251,6 +281,16 @@ namespace airLifeHandler {
         RUNNING,
         SUCCESSFUL,
         FAILED
+    };
+    enum FailedResult {
+        NONE,
+        REPEATED,
+        SAME_CHOICE,
+        LOST,
+        INCORRECT_VALUE,
+        OUT_OF_RANGE,
+        INCORRECT_FORMAT,
+        UNDEFINED
     };
 }
 
