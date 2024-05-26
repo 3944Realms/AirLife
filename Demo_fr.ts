@@ -344,6 +344,18 @@
         <source>新地点名：</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>格式: xxxx/xx/xx-xx:xx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>格式:  xx:xx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>预计航时：</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>airLifeWidget::informationModifierWidget</name>
@@ -429,6 +441,22 @@
     </message>
     <message>
         <source>地点编号：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>格式: xxxx/xx/xx-xx:xx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>预计航时：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>格式:  xx:xx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>修改为 ：</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

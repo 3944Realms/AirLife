@@ -7,9 +7,11 @@
 
 #include <QWidget>
 #include "../../Base/component.h"
+#include "../../Core/AirLifeInputTipWidget.h"
 #include "../../UI/dialogs/airlifeerrordialog.h"
 #include "../../UI/dialogs/airlifeinfodialog.h"
 #include "../../UI/dialogs/airliferunningdialog.h"
+
 
 namespace airLifeWidget {
     QT_BEGIN_NAMESPACE
@@ -23,6 +25,8 @@ namespace airLifeWidget {
         explicit informationModifierWidget(QWidget *parent = nullptr);
 
         ~informationModifierWidget() override;
+    protected:
+        void timerEvent(QTimerEvent *event) override;
 
     private:
         int timerId;
@@ -31,6 +35,10 @@ namespace airLifeWidget {
         airLifeDialog::AirLifeRunningDialog* runningDialog;
         airLifeHandler::DataType dataType;
         QString windowTitle;
+        COMPONENT::Area *TempArea;
+        COMPONENT::Airplane *TempAirplane;
+        COMPONENT::Flight *TempFlight;
+        airLifeTipWidget::InputTipWidget * tipWidget;
         void initWork(airLifeHandler::DataType d);
         void clearAreaText();
         void clearAirplaneText();

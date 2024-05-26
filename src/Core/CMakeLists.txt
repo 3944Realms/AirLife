@@ -30,6 +30,7 @@ add_library(CoreCode
         InitialHandler.h
         UpdateHandler.cpp
         UpdateHandler.h
+        AirLifeInputTipWidget.h
 )
 target_include_directories(CoreCode PUBLIC ${Qt5Widgets_INCLUDE_DIRS})
 

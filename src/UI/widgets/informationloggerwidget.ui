@@ -170,51 +170,6 @@
    <property name="title">
     <string>航班信息新增</string>
    </property>
-   <widget class="QLabel" name="airLifeFlightLabel">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>20</y>
-      <width>61</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>航班编号：</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="airLifeAirplaneUUIDLabel">
-    <property name="geometry">
-     <rect>
-      <x>42</x>
-      <y>70</y>
-      <width>72</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>飞机编号：</string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="airLifeFlightAirplaneUUIDComboBox">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>70</y>
-      <width>311</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="editable">
-     <bool>true</bool>
-    </property>
-    <property name="frame">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="airLifeAddNewFlightPushButton">
     <property name="geometry">
      <rect>
@@ -228,112 +183,124 @@
      <string>添加航班</string>
     </property>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
+   <widget class="QWidget" name="gridLayoutWidget_3">
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>90</y>
+      <y>30</y>
       <width>371</width>
-      <height>101</height>
+      <height>191</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="airLifeSELabel">
-         <property name="text">
-          <string>起点/终点：</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="airLifeFlightEComboBox">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="airLifeArrowLabel">
-         <property name="focusPolicy">
-          <enum>Qt::NoFocus</enum>
-         </property>
-         <property name="text">
-          <string>---&gt;</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="airLifeFlightSComboBox">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="2" column="1">
+      <widget class="QLabel" name="airLifeSELabel">
+       <property name="text">
+        <string>起点/终点：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
      </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QLabel" name="airLifeSTimeELabel">
-         <property name="text">
-          <string>发班时刻：</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="airLifeFlightTimeLineEdit">
-         <property name="readOnly">
-          <bool>false</bool>
-         </property>
-         <property name="placeholderText">
-          <string>格式: xxxx/xx/xx-xx:xx</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+     <item row="3" column="1">
+      <widget class="QLabel" name="airLifeSTimeELabel">
+       <property name="text">
+        <string>发班时刻：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QComboBox" name="airLifeFlightEComboBox">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="airLifeFlightLabel">
+       <property name="text">
+        <string>航班编号：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="airLifeTakeTimeLabel">
+       <property name="text">
+        <string>预计航时：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="airLifeAirplaneUUIDLabel">
+       <property name="text">
+        <string>飞机编号：</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QLabel" name="airLifeArrowLabel">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string>---&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QComboBox" name="airLifeFlightSComboBox">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2" colspan="3">
+      <widget class="QComboBox" name="airLifeFlightAirplaneUUIDComboBox">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="frame">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2" colspan="3">
+      <widget class="QLineEdit" name="airLifeFlightUUIDLineEdit"/>
+     </item>
+     <item row="3" column="2" colspan="3">
+      <widget class="QLineEdit" name="airLifeFlightTimeLineEdit">
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
+       <property name="placeholderText">
+        <string>格式: xxxx/xx/xx-xx:xx</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2" colspan="3">
+      <widget class="QLineEdit" name="airLifeFlightTakeTimeLineEdit">
+       <property name="placeholderText">
+        <string>格式:  xx:xx</string>
+       </property>
+      </widget>
      </item>
     </layout>
-   </widget>
-   <widget class="QLineEdit" name="airLifeFlightUUIDLineEdit">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>30</y>
-      <width>311</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="airLifeFlightTakeTimeLineEdit">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>200</y>
-      <width>301</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="placeholderText">
-     <string>格式:  xx:xx</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="airLifeTakeTimeLabel">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>190</y>
-      <width>60</width>
-      <height>44</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>预计航时：</string>
-    </property>
    </widget>
   </widget>
   <widget class="QPushButton" name="airLifeBackPushButton">

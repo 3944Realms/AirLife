@@ -36,6 +36,8 @@ namespace airLifeDialog {
             //Test#1管理员
             pLoginHandler->setLoginStatus(airLifeHandler::AccountStatus::ADMIN_LOGIN_IN);
             int result = pGuiHandler->tryOpenMainWindowsShow();
+            ui->acc_inp->setText("");
+            ui->pas_inp->setText("");
             if(result == -1) std::cerr<<"Please invoke GUI method first to init Widget!"<<std::endl;
             else if(result == -2) std::cerr<<""<<std::endl;
             //Test#1 End

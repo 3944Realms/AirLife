@@ -173,7 +173,7 @@ JUMP$isValid$Airplane:
         //添加新航班
         initWork(airLifeHandler::FLIGHT);
         std::string FlightUUID = this->ui->airLifeFlightUUIDLineEdit->text().toStdString();
-        std::string airplaneUUID = this->ui->airLifeFlightAirplaneUUIDComboBox->currentText().toStdString();
+        std::string Flight$AirplaneUUID = this->ui->airLifeFlightAirplaneUUIDComboBox->currentText().toStdString();
         std::string Flight$AreaE = this->ui->airLifeFlightEComboBox->currentText().toStdString();
         std::string Flight$AreaS = this->ui->airLifeFlightSComboBox->currentText().toStdString();
         std::string Flight$DDate = this->ui->airLifeFlightTimeLineEdit->text().toStdString();
@@ -182,7 +182,7 @@ JUMP$isValid$Airplane:
         airLifeHandler::FailedResult failedResult;
         COMPONENT::Flight* interruptFlight = nullptr;
         unsigned short dDate$year, dDate$month, dDate$day, dDate$hour, dDate$minute, takeTime$hour, takeTime$minute;
-        if(FlightUUID.empty() || airplaneUUID.empty() || Flight$AreaE.empty() || Flight$AreaS.empty() || Flight$DDate.empty()) {
+        if(FlightUUID.empty() || Flight$AirplaneUUID.empty() || Flight$AreaE.empty() || Flight$AreaS.empty() || Flight$DDate.empty()) {
             isValid = false;
             failedResult = airLifeHandler::LOST;
             goto JUMP$isValid$Flight;

@@ -290,6 +290,7 @@ namespace airLifeHandler {
         INCORRECT_VALUE,
         INCORRECT_FORMAT,
         OUT_OF_RANGE,
+        NOT_FOUND,
         UNDEFINED
     };
 }
