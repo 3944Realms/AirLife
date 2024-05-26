@@ -26,12 +26,13 @@ namespace airLifeDialog {
         void setProcessBarCurrentValue(int processValue_);
         void processBarValueChanged(int valueChanged);
         int getProcessBarValue();
-
+    protected:
+        void closeEvent(QCloseEvent *event) override;
     private:
         Ui::AirLifeRunningDialog *ui;
         int processValue;
         QString message;
-        void closeEvent(QCloseEvent *) override;
+
     private slots:
         void onAirLifeProgressBarValueChange();
 

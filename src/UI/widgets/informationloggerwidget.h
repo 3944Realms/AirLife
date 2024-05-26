@@ -32,21 +32,24 @@ namespace airLifeWidget {
         airLifeDialog::AirLifeErrorDialog* errorDialog;
         airLifeDialog::AirLifeRunningDialog* runningDialog;
         airLifeHandler::DataType dataType;
+        QString windowTitle;
+        void initWork(airLifeHandler::DataType d);
+        void clearAreaText();
+        void clearAirplaneText();
+        void clearFlightText();
+
     private slots:
         void enableWindowsSlot();
         void on_airLifeBackPushButton_clicked();
+
         void on_airLifeAddNewAreasPushButton_clicked();
         void on_airLifeAddNewAirplanePushButton_clicked();
         void on_airLifeAddNewFlightPushButton_clicked();
 
-        void clearAreaText();
-
-        void clearAirplaneText();
-
-        void clearFlightText();
 
 
-        void initWork(airLifeHandler::DataType d);
+
+
     };
 } // airLifeWidget
 

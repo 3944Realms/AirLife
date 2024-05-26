@@ -11,6 +11,7 @@
 #include <QTime>
 
 namespace airLifeWidget {
+    static int waitTime = 1000;
     //然后在List中添加编号（Name（UUID））
     informationLoggerWidget::informationLoggerWidget(QWidget *parent) :
             QWidget(parent), ui(new Ui::informationLoggerWidget) {
@@ -18,6 +19,7 @@ namespace airLifeWidget {
         errorDialog = new airLifeDialog::AirLifeErrorDialog(this);
         runningDialog = new airLifeDialog::AirLifeRunningDialog(this);
         dataType = airLifeHandler::UNKNOWN_DATA_TYPE;
+        windowTitle = this->window()->windowTitle();
         timerId = 0;
         connect(errorDialog, &airLifeDialog::AirLifeErrorDialog::destroyed, this, &informationLoggerWidget::enableWindowsSlot);
         connect(runningDialog, &airLifeDialog::AirLifeRunningDialog::destroyed, this, &informationLoggerWidget::enableWindowsSlot);
@@ -36,6 +38,7 @@ namespace airLifeWidget {
         emit destroyed();
     }
     void informationLoggerWidget::initWork(airLifeHandler::DataType type){
+        this->setWindowTitle(windowTitle + " (RUNNING...)");
         this->setEnabled(false);
         this->errorDialog->setEnabled(true);
         this->runningDialog->setEnabled(true);
@@ -85,7 +88,7 @@ JUMP$isValid$Area:
             runningDialog->setMessage("Preparing...");
             runningDialog->setProcessBarCurrentValue(0);
             runningDialog->show();
-            timerId = startTimer(100);
+            timerId = startTimer(waitTime);
 
         }
 
@@ -162,23 +165,24 @@ JUMP$isValid$Airplane:
             runningDialog->setMessage("Preparing...");
             runningDialog->setProcessBarCurrentValue(0);
             runningDialog->show();
-            timerId = startTimer(100);
+            timerId = startTimer(waitTime);
         }
     }
 
     void informationLoggerWidget::on_airLifeAddNewFlightPushButton_clicked() {
         //添加新航班
         initWork(airLifeHandler::FLIGHT);
-        std::string FlightUUID = this->ui->airLifeFlightLineEdit->text().toStdString();
-        std::string airplaneUUID = this->ui->airLifeAirplaneUUIDComboBox->currentText().toStdString();
-        std::string Flight$AreaE = this->ui->airLifeEComboBox->currentText().toStdString();
-        std::string Flight$AreaS = this->ui->airLifeSComboBox->currentText().toStdString();
-        std::string FlightDDate = this->ui->airLifeTimeLineEdit->text().toStdString();
+        std::string FlightUUID = this->ui->airLifeFlightUUIDLineEdit->text().toStdString();
+        std::string airplaneUUID = this->ui->airLifeFlightAirplaneUUIDComboBox->currentText().toStdString();
+        std::string Flight$AreaE = this->ui->airLifeFlightEComboBox->currentText().toStdString();
+        std::string Flight$AreaS = this->ui->airLifeFlightSComboBox->currentText().toStdString();
+        std::string Flight$DDate = this->ui->airLifeFlightTimeLineEdit->text().toStdString();
+        std::string Flighty$TakeTime = this->ui->airLifeFlightTakeTimeLineEdit->text().toStdString();
         bool isValid = true;
         airLifeHandler::FailedResult failedResult;
         COMPONENT::Flight* interruptFlight = nullptr;
-        unsigned short $year, $month, $day, $hour, $minute;
-        if(FlightUUID.empty() || airplaneUUID.empty() || Flight$AreaE.empty() || Flight$AreaS.empty() || FlightDDate.empty()) {
+        unsigned short dDate$year, dDate$month, dDate$day, dDate$hour, dDate$minute, takeTime$hour, takeTime$minute;
+        if(FlightUUID.empty() || airplaneUUID.empty() || Flight$AreaE.empty() || Flight$AreaS.empty() || Flight$DDate.empty()) {
             isValid = false;
             failedResult = airLifeHandler::LOST;
             goto JUMP$isValid$Flight;
@@ -188,12 +192,11 @@ JUMP$isValid$Airplane:
             failedResult = airLifeHandler::SAME_CHOICE;
             goto JUMP$isValid$Flight;
         }
-        else if(sscanf(FlightDDate.c_str(),"%hd/%hd/%hd-%hd:%hd", &$year, &$month, &$day, &$hour, &$minute) != 5) {
+        else if((sscanf(Flight$DDate.c_str(), "%hd/%hd/%hd-%hd:%hd", &dDate$year, &dDate$month, &dDate$day, &dDate$hour, &dDate$minute) != 5) || (sscanf(Flighty$TakeTime.c_str(), "%hd:%hd", &takeTime$hour, &takeTime$minute) != 2)) {
             isValid = false;
             failedResult = airLifeHandler::INCORRECT_FORMAT;
-
         }
-        else if($month > 12 || $month == 0 ||  $day > COMPONENT::Date::getMonthDay($year, $month) || $day == 0 || $hour >= 60 || $minute >= 60) {
+        else if(dDate$month > 12 || dDate$month == 0 || dDate$day > COMPONENT::Date::getMonthDay(dDate$year, dDate$month) || dDate$day == 0 || dDate$hour >= 60 || dDate$minute >= 60) {
             isValid = false;
             failedResult = airLifeHandler::INCORRECT_VALUE;
             goto JUMP$isValid$Flight;
@@ -215,7 +218,7 @@ JUMP$isValid$Flight:
                     break;
                 }
                 case airLifeHandler::INCORRECT_FORMAT: {
-                    message = "Incorrect Format: Incorrect Date Format: XXXX/XX/XX-XX:XX";
+                    message = "Incorrect Format:\n Incorrect Date Format: XXXX/XX/XX-XX:XX \nOR\n Incorrect Time Format: XX:XX";
                     break;
                 }
                 case airLifeHandler::INCORRECT_VALUE: {
@@ -241,7 +244,7 @@ JUMP$isValid$Flight:
             runningDialog->setMessage("Preparing...");
             runningDialog->setProcessBarCurrentValue(0);
             runningDialog->show();
-            timerId = startTimer(100);
+            timerId = startTimer(waitTime);
         }
     }
 
@@ -256,11 +259,12 @@ JUMP$isValid$Flight:
     }
 
     void informationLoggerWidget::clearFlightText() {
-        this->ui->airLifeFlightLineEdit->clear();
-        this->ui->airLifeAirplaneUUIDComboBox->clearEditText();
-        this->ui->airLifeEComboBox->clearEditText();
-        this->ui->airLifeSComboBox->clearEditText();
-        this->ui->airLifeTimeLineEdit->clear();
+        this->ui->airLifeFlightUUIDLineEdit->clear();
+        this->ui->airLifeFlightAirplaneUUIDComboBox->clearEditText();
+        this->ui->airLifeFlightEComboBox->clearEditText();
+        this->ui->airLifeFlightSComboBox->clearEditText();
+        this->ui->airLifeFlightTimeLineEdit->clear();
+        this->ui->airLifeFlightTakeTimeLineEdit->clear();
     }
 
     void informationLoggerWidget::enableWindowsSlot() {
@@ -280,6 +284,7 @@ JUMP$isValid$Flight:
             default:
                 break;
         }
+        this->setWindowTitle(windowTitle);
         this->setEnabled(true);
     }
 

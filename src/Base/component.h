@@ -284,12 +284,12 @@ namespace airLifeHandler {
     };
     enum FailedResult {
         NONE,
+        LOST,
         REPEATED,
         SAME_CHOICE,
-        LOST,
         INCORRECT_VALUE,
-        OUT_OF_RANGE,
         INCORRECT_FORMAT,
+        OUT_OF_RANGE,
         UNDEFINED
     };
 }

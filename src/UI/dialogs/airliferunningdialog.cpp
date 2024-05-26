@@ -4,6 +4,7 @@
 
 // You may need to build the project (initTaskRun Qt uic code generator) to get "ui_AirLifeRunningDialog.h" resolved
 
+#include <QMessageBox>
 #include "airliferunningdialog.h"
 #include "ui_AirLifeRunningDialog.h"
 
@@ -54,9 +55,13 @@ namespace airLifeDialog {
         }
     }
 
-    void AirLifeRunningDialog::closeEvent(QCloseEvent *) {
-        this->close();
-        emit destroyed();
+    void AirLifeRunningDialog::closeEvent(QCloseEvent *event) {
+        if(processValue == 100) {
+            this->close();
+            emit destroyed();
+        } else {
+
+        }
     }
 
 

@@ -29,7 +29,7 @@
      <x>370</x>
      <y>10</y>
      <width>441</width>
-     <height>281</height>
+     <height>331</height>
     </rect>
    </property>
    <property name="title">
@@ -51,7 +51,7 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QComboBox" name="airLifeFlightComboBox">
+   <widget class="QComboBox" name="airLifeFlightUUIDComboBox">
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -77,7 +77,7 @@
      <string>飞机编号：</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="airLifeAirplaneUUIDComboBox">
+   <widget class="QComboBox" name="airLifeFlightAirplaneUUIDComboBox">
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -90,8 +90,8 @@
    <widget class="QPushButton" name="airLifeModifyFlightPushButton">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>200</y>
+      <x>150</x>
+      <y>250</y>
       <width>141</width>
       <height>61</height>
      </rect>
@@ -120,7 +120,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="airLifeEComboBox">
+        <widget class="QComboBox" name="airLifeFlightEComboBox">
          <property name="editable">
           <bool>true</bool>
          </property>
@@ -140,7 +140,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="airLifeSComboBox">
+        <widget class="QComboBox" name="airLifeFlightSComboBox">
          <property name="editable">
           <bool>true</bool>
          </property>
@@ -158,9 +158,12 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="airLifeTimeLineEdit">
+        <widget class="QLineEdit" name="airLifeFlightTimeLineEdit">
          <property name="readOnly">
           <bool>false</bool>
+         </property>
+         <property name="placeholderText">
+          <string>格式: xxxx/xx/xx-xx:xx</string>
          </property>
         </widget>
        </item>
@@ -172,7 +175,7 @@
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>240</y>
+      <y>290</y>
       <width>41</width>
       <height>41</height>
      </rect>
@@ -186,6 +189,35 @@
     <property name="icon">
      <iconset resource="../../../resource/resource.qrc">
       <normaloff>:/Simon/SymbolsDeleteSi.png</normaloff>:/Simon/SymbolsDeleteSi.png</iconset>
+    </property>
+   </widget>
+   <widget class="QLabel" name="airLifeTakeTimeLabel">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>190</y>
+      <width>60</width>
+      <height>44</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>预计航时：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="airLifeFlightTakeTimeLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>200</y>
+      <width>301</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>格式:  xx:xx</string>
     </property>
    </widget>
   </widget>
@@ -308,7 +340,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="airLifeThisAreaNewNameLabel">
         <property name="text">
-         <string>修改为：</string>
+         <string>修改为 ：</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -325,7 +357,7 @@
       <item row="0" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLineEdit" name="airLifeThisAreaUUIDLineEdit"/>
+         <widget class="QComboBox" name="airLifeThisAreaUUIDComboBox"/>
         </item>
        </layout>
       </item>
