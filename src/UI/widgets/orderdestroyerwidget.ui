@@ -23,130 +23,6 @@
    <iconset resource="../../../resource/resource.qrc">
     <normaloff>:/Logo/airLifeLogo.ico</normaloff>:/Logo/airLifeLogo.ico</iconset>
   </property>
-  <widget class="QLabel" name="airLifeFlightLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>50</y>
-     <width>51</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>航班：</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>90</y>
-     <width>371</width>
-     <height>101</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="airLifeSELabel">
-        <property name="text">
-         <string>起点/终点：</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="airLifeSLineEdit">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="airLifeArrowLabel">
-        <property name="text">
-         <string>---&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="airLifeELineEdit">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QLabel" name="airLifeSTimeELabel">
-        <property name="text">
-         <string>发班时刻：</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="airLifeTimeLineEdit">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QLineEdit" name="airLifeOrderUUIDLineEdit">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>20</y>
-     <width>141</width>
-     <height>20</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="airLifeOrderUUIDLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>60</width>
-     <height>44</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>订单编号：</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="airLifeFlightLineEdit">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>60</y>
-     <width>331</width>
-     <height>19</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>20</y>
-     <width>101</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>获取订单信息(&amp;G)</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="airLifeBackPushButton">
    <property name="geometry">
     <rect>
@@ -173,34 +49,106 @@
     <string>退单(&amp;D)</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="airLifeChargebackStatusLineEdit">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>200</y>
-     <width>141</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="airLifeChargebackStatusLabel">
+  <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>190</y>
-     <width>60</width>
-     <height>44</height>
+     <y>10</y>
+     <width>381</width>
+     <height>171</height>
     </rect>
    </property>
-   <property name="text">
-    <string>退单状态：</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="3" column="1" colspan="3">
+     <widget class="QLineEdit" name="airLifeTimeLineEdit">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="3">
+     <widget class="QLineEdit" name="airLifeFlightLineEdit"/>
+    </item>
+    <item row="2" column="2">
+     <widget class="QLabel" name="airLifeArrowLabel">
+      <property name="text">
+       <string>---&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>获取订单信息(&amp;G)</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QLineEdit" name="airLifeELineEdit">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QLineEdit" name="airLifeOrderUUIDLineEdit"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="airLifeSTimeELabel">
+      <property name="text">
+       <string>发班时刻：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="airLifeFlightLabel">
+      <property name="text">
+       <string>航班：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="airLifeSLineEdit">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="airLifeOrderUUIDLabel">
+      <property name="text">
+       <string>订单编号：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="airLifeSELabel">
+      <property name="text">
+       <string>起点/终点：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="airLifeChargebackStatusLabel">
+      <property name="text">
+       <string>退单状态：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="airLifeChargebackStatusLineEdit">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources>

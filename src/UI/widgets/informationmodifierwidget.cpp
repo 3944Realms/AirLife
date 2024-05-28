@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cert-err34-c"
 //
 // Created by f2561 on 24-5-13.
 //
@@ -8,11 +10,11 @@
 #include "ui_informationModifierWidget.h"
 
 namespace airLifeWidget {
-    static int waitTime = 1000;
+    static int waitTime = 500;
     informationModifierWidget::informationModifierWidget(QWidget *parent) :
             QWidget(parent), ui(new Ui::informationModifierWidget) {
         ui->setupUi(this);
-        tipWidget = new airLifeTipWidget::InputTipWidget();
+        tipWidget = new airLifeTipWidget::InputTipWidget(this);
         errorDialog = new airLifeDialog::AirLifeErrorDialog(this);
         runningDialog = new airLifeDialog::AirLifeRunningDialog(this);
         dataType = airLifeHandler::UNKNOWN_DATA_TYPE;
@@ -159,7 +161,7 @@ namespace airLifeWidget {
             failedResult = airLifeHandler::LOST;
             goto JUMP$isValid$AREA$Modify;
         }
-        if(AreaCurrentName == AreaNewName) {
+        else if(AreaCurrentName == AreaNewName) {
             isValid = false;
             failedResult = airLifeHandler::SAME_CHOICE;
         }
@@ -256,6 +258,10 @@ JUMP$isValid$AREA$Modify:
                 break;
             }
         }
+        if(!isFound) {
+            isValid = false;
+            failedResult = airLifeHandler::NOT_FOUND;
+        }
 JUMP$isValid$AIRPLANE$Modify:
         if(!isValid) {
             QString message("Default");
@@ -271,6 +277,10 @@ JUMP$isValid$AIRPLANE$Modify:
                 case airLifeHandler::OUT_OF_RANGE :
                 case airLifeHandler::INCORRECT_VALUE: {
                     message = "Capacity must be in 1 ~ " + QString(std::to_string(USHRT_MAX).c_str());
+                    break;
+                }
+                case airLifeHandler::NOT_FOUND: {
+                    message = "Modify Object is not found.";
                     break;
                 }
                 default: {
@@ -291,7 +301,8 @@ JUMP$isValid$AIRPLANE$Modify:
 
     void informationModifierWidget::on_airLifeModifyFlightPushButton_clicked() {
         //修改航班按钮
-//        initWork(airLifeHandler::FLIGHT);
+        initWork(airLifeHandler::FLIGHT);
+
         std::string FlightUUID = this->ui->airLifeFlightUUIDComboBox->currentText().toStdString();
         std::string Flight$AirplaneUUID = this->ui->airLifeFlightAirplaneUUIDComboBox->currentText().toStdString();
         std::string Flight$AreaE = this->ui->airLifeFlightEComboBox->currentText().toStdString();
@@ -299,11 +310,82 @@ JUMP$isValid$AIRPLANE$Modify:
         std::string Flight$DDate = this->ui->airLifeFlightTimeLineEdit->text().toStdString();
         std::string Flight$TakeTime = this->ui->airLifeFlightTakeTimeLineEdit->text().toStdString();
         bool isValid = true;
+        bool isFound = false;
         airLifeHandler::FailedResult failedResult;
+        unsigned short dDate$year, dDate$month, dDate$day, dDate$hour, dDate$minute, takeTime$hour, takeTime$minute;
+        COMPONENT::Flight* temp$Flight = nullptr;
+        if(FlightUUID.empty() || Flight$AirplaneUUID.empty() || Flight$AreaS.empty() || Flight$AreaE.empty() || Flight$DDate.empty() || Flight$TakeTime.empty()) {
+            isValid = false;
+            failedResult = airLifeHandler::LOST;
+            goto JUMP$isValid$Flight$Modify;
+        }
+        else if(Flight$AreaE == Flight$AreaS) {
+            isValid = false;
+            failedResult = airLifeHandler::SAME_CHOICE;
+            goto JUMP$isValid$Flight$Modify;
+        }
+        else if((sscanf(Flight$DDate.c_str(), "%hd/%hd/%hd-%hd:%hd", &dDate$year, &dDate$month, &dDate$day, &dDate$hour, &dDate$minute) != 5) || (sscanf(Flight$TakeTime.c_str(), "%hd:%hd", &takeTime$hour, &takeTime$minute) != 2)) {
+            isValid = false;
+            failedResult = airLifeHandler::INCORRECT_FORMAT;
+            goto JUMP$isValid$Flight$Modify;
+        }
+        else if(dDate$month > 12 || dDate$month == 0 || dDate$day > COMPONENT::Date::getMonthDay(dDate$year, dDate$month) || dDate$day == 0 || dDate$hour >= 60 || dDate$minute >= 60) {
+            isValid = false;
+            failedResult = airLifeHandler::INCORRECT_VALUE;
+            goto JUMP$isValid$Flight$Modify;
+        }
+        for(auto l : COMPONENT::FlightList) {
+            if(l->getUUID() == FlightUUID) {
+                temp$Flight = l;
+                isFound = true;
+                break;
+            }
+        }
+        /**
+        *********************************************************************************
+        ** 进阶：航空飞机检验（时间检测 时间+时刻 有冲突则不通过 在指定时间里只能以上一时间段的终地点为起点）
+        *********************************************************************************
+         **/
+        if(!isFound) {
+            isValid = false;
+            failedResult = airLifeHandler::NOT_FOUND;
+        }
+JUMP$isValid$Flight$Modify:
         if(!isValid) {
+            QString message("Default");
+            switch(failedResult) {
+                case airLifeHandler::LOST: {
+                    message = "Empty Input.";
+                    break;
+                }
 
+                case airLifeHandler::INCORRECT_FORMAT: {
+                    message = "Incorrect Format:\n Incorrect Date Format: XXXX/XX/XX-XX:XX \nOR\n Incorrect Time Format: XX:XX";;
+                    break;
+                }
+                case airLifeHandler::INCORRECT_VALUE: {
+                    message = "Incorrect Value ,too Big or Small";
+                    break;
+                }
+                case airLifeHandler::SAME_CHOICE: {
+                    message = "StartingPoint is as well as Destination.";
+                    break;
+                }
+                case airLifeHandler::NOT_FOUND: {
+                    message = "Modify Object is not found.";
+                    break;
+                }
+                default:{
+                    message = "Unknown failed reason";
+                }
+            }
+            errorDialog->setMessage(message);
+            errorDialog->show();
         } else {
-
+            runningDialog->setMessage("Preparing...");
+            runningDialog->setProcessBarCurrentValue(0);
+            runningDialog->show();
+            timerId = startTimer(waitTime);
         }
 
     }
@@ -375,11 +457,11 @@ JUMP$isValid$AIRPLANE$Modify:
                 break;
         }
         this->setEnabled(true);
-        this->windowTitleChanged(windowTitle);
+        this->setWindowTitle(windowTitle);
     }
 
     void informationModifierWidget::initWork(airLifeHandler::DataType type) {
-        this->windowTitleChanged(windowTitle + " (RUNNING...)");
+        this->setWindowTitle(windowTitle + " (RUNNING...)");
         this->setEnabled(false);
         this->errorDialog->setEnabled(true);
         this->runningDialog->setEnabled(true);
@@ -399,9 +481,10 @@ JUMP$isValid$AIRPLANE$Modify:
 
     void informationModifierWidget::clearFlightText() { //由航班UUID -》改飞机编号（起点/终点，时刻）
         this->ui->airLifeFlightUUIDComboBox->clearEditText();
-        this->ui->airLifeThisAirplaneUUIDComboBox->clearEditText();
+        this->ui->airLifeFlightAirplaneUUIDComboBox->clearEditText();
         this->ui->airLifeFlightEComboBox->clearEditText();
         this->ui->airLifeFlightSComboBox->clearEditText();
+        this->ui->airLifeFlightTimeLineEdit->clear();
         this->ui->airLifeFlightTakeTimeLineEdit->clear();
     }
 
@@ -412,3 +495,5 @@ JUMP$isValid$AIRPLANE$Modify:
 
 
 } // airLifeWidget
+
+#pragma clang diagnostic pop

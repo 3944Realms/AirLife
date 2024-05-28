@@ -4,15 +4,28 @@
 #include <QWidget>
 #include <QTimer>
 #include <QPainter>
+#include <QFontMetrics>
+#include <QFont>
 
 namespace airLifeTipWidget {
 
     class InputTipWidget : public QWidget {
     public:
-        explicit InputTipWidget(QWidget *parent = nullptr) : QWidget(parent, Qt::Popup | Qt::FramelessWindowHint) {
+        explicit InputTipWidget(QWidget *parent = nullptr,
+                                Qt::GlobalColor fontColor = Qt::black,
+                                Qt::GlobalColor backgroundColor = Qt::white,
+                                bool isFontBold = false,
+                                unsigned int remainedTime = 1000,
+                                int fontPixelSize = 15
+                                )
+                                : QWidget(parent, Qt::Popup | Qt::FramelessWindowHint) ,
+                                fontColor(fontColor),
+                                backgroundColor(backgroundColor),
+                                isBold(isFontBold),
+                                remainedTime(remainedTime),
+                                fontPixelSize(fontPixelSize) {
             // 设置提示框的样式和属性
             setAttribute(Qt::WA_TranslucentBackground);
-
         }
 
         void setText(const QString &text) {
@@ -22,18 +35,24 @@ namespace airLifeTipWidget {
         void showEvent(QShowEvent *event) override {
             QWidget::showEvent(event);
             // 设置自动隐藏的时间，1秒
-            QTimer::singleShot(1000,this,&InputTipWidget::hide);
+            QTimer::singleShot(remainedTime,this,&InputTipWidget::hide);
         }
 
     protected:
         void paintEvent(QPaintEvent *event) override {
             QPainter painter(this);
-            painter.setPen(Qt::black);
-            painter.setBackground(QBrush(Qt::white));
+            painter.setPen(fontColor);
+            painter.setBackground(QBrush(backgroundColor));
             painter.eraseRect(rect());
 
+            //设置字体和文字粗细
+            QFont font = painter.font();
+            font.setBold(isBold);
+            font.setPixelSize(fontPixelSize);
+            painter.setFont(font);
+
             // 获取文本的宽度和高度
-            QFontMetrics fontMetrics(font());
+            QFontMetrics fontMetrics(font);
             int textWidth = fontMetrics.horizontalAdvance(m_text);
             int textHeight = fontMetrics.height();
             QRect textRect = painter.boundingRect(rect(), Qt::AlignCenter, m_text);
@@ -46,6 +65,10 @@ namespace airLifeTipWidget {
 
     private:
         QString m_text;
+        bool isBold;
+        Qt::GlobalColor fontColor, backgroundColor;
+        unsigned int remainedTime;
+        int fontPixelSize;
     };
 } // airLifeTipWidget
 

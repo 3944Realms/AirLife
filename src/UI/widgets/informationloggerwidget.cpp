@@ -11,7 +11,7 @@
 #include <QTime>
 
 namespace airLifeWidget {
-    static int waitTime = 1000;
+    static int waitTime = 500;
     //然后在List中添加编号（Name（UUID））
     informationLoggerWidget::informationLoggerWidget(QWidget *parent) :
             QWidget(parent), ui(new Ui::informationLoggerWidget) {
@@ -92,7 +92,7 @@ JUMP$isValid$Area:
 
         }
 
-        //添加新地点
+
     }
 
     void informationLoggerWidget::on_airLifeAddNewAirplanePushButton_clicked() {
@@ -177,7 +177,7 @@ JUMP$isValid$Airplane:
         std::string Flight$AreaE = this->ui->airLifeFlightEComboBox->currentText().toStdString();
         std::string Flight$AreaS = this->ui->airLifeFlightSComboBox->currentText().toStdString();
         std::string Flight$DDate = this->ui->airLifeFlightTimeLineEdit->text().toStdString();
-        std::string Flighty$TakeTime = this->ui->airLifeFlightTakeTimeLineEdit->text().toStdString();
+        std::string Flight$TakeTime = this->ui->airLifeFlightTakeTimeLineEdit->text().toStdString();
         bool isValid = true;
         airLifeHandler::FailedResult failedResult;
         COMPONENT::Flight* interruptFlight = nullptr;
@@ -187,12 +187,12 @@ JUMP$isValid$Airplane:
             failedResult = airLifeHandler::LOST;
             goto JUMP$isValid$Flight;
         }
-        if(Flight$AreaE == Flight$AreaS) {
+        else if(Flight$AreaE == Flight$AreaS) {
             isValid = false;
             failedResult = airLifeHandler::SAME_CHOICE;
             goto JUMP$isValid$Flight;
         }
-        else if((sscanf(Flight$DDate.c_str(), "%hd/%hd/%hd-%hd:%hd", &dDate$year, &dDate$month, &dDate$day, &dDate$hour, &dDate$minute) != 5) || (sscanf(Flighty$TakeTime.c_str(), "%hd:%hd", &takeTime$hour, &takeTime$minute) != 2)) {
+        else if((sscanf(Flight$DDate.c_str(), "%hd/%hd/%hd-%hd:%hd", &dDate$year, &dDate$month, &dDate$day, &dDate$hour, &dDate$minute) != 5) || (sscanf(Flight$TakeTime.c_str(), "%hd:%hd", &takeTime$hour, &takeTime$minute) != 2)) {
             isValid = false;
             failedResult = airLifeHandler::INCORRECT_FORMAT;
         }

@@ -11,6 +11,7 @@
 #include "../easterEgg/hui.h"
 #include "../../Core/LoginHandler.h"
 #include "../../Core/GuiHandler.h"
+#include "../../Core/AirLifeInputTipWidget.h"
 
 namespace airLifeDialog {
     QT_BEGIN_NAMESPACE
@@ -27,6 +28,7 @@ namespace airLifeDialog {
 
     private:
         Ui::loginDialog *ui;
+        airLifeTipWidget::InputTipWidget* tipWidget;
     private slots:
         void on_loginButton_clicked();
         void on_cancelButton_clicked();

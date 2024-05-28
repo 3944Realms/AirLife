@@ -13,6 +13,7 @@ namespace airLifeDialog {
     loginDialog::loginDialog(QWidget *parent) :
             QDialog(parent), ui(new Ui::loginDialog) {
         ui->setupUi(this);
+        tipWidget = new airLifeTipWidget::InputTipWidget(this, Qt::red, Qt::white, true, 2000);
     }
 
     void loginDialog::on_loginButton_clicked() {
@@ -25,22 +26,28 @@ namespace airLifeDialog {
             hui->show();
         }else{
             //Test#2用户
-//            pLoginHandler->setLoginStatus(airLifeHandler::AccountStatus::USER_LOGIN_IN);
-//
-//            int result = pGuiHandler->tryOpenMainWindowsShow();
-//            ui->acc_inp->setText("");
-//            ui->pas_inp->setText("");
-//            if(result == -1) std::cerr<<"Please invoke GUI method first to init Widget!"<<std::endl;
-//            else if(result == -2) std::cerr<<""<<std::endl;
-            //Test#1 End
+            if(ui->acc_inp->text() == "User" && ui->pas_inp->text() == "") {
+                pLoginHandler->setLoginStatus(airLifeHandler::AccountStatus::USER_LOGIN_IN);
+                int result = pGuiHandler->tryOpenMainWindowsShow();
+                ui->acc_inp->setText("");
+                ui->pas_inp->setText("");
+                if(result == -1) std::cerr<<"Please invoke GUI method first to init Widget!"<<std::endl;
+                else if(result == -2) std::cerr<<""<<std::endl;
+            }
             //Test#1管理员
-            pLoginHandler->setLoginStatus(airLifeHandler::AccountStatus::ADMIN_LOGIN_IN);
-            int result = pGuiHandler->tryOpenMainWindowsShow();
-            ui->acc_inp->setText("");
-            ui->pas_inp->setText("");
-            if(result == -1) std::cerr<<"Please invoke GUI method first to init Widget!"<<std::endl;
-            else if(result == -2) std::cerr<<""<<std::endl;
-            //Test#1 End
+            else if(ui->acc_inp->text() == "Admin" && ui->pas_inp->text() == "") {
+                pLoginHandler->setLoginStatus(airLifeHandler::AccountStatus::ADMIN_LOGIN_IN);
+                int result = pGuiHandler->tryOpenMainWindowsShow();
+                ui->acc_inp->setText("");
+                ui->pas_inp->setText("");
+                if(result == -1) std::cerr<<"Please invoke GUI method first to init Widget!"<<std::endl;
+                else if(result == -2) std::cerr<<""<<std::endl;
+            }
+            else {
+                tipWidget->setText("The user does not exist or the password is incorrect.");
+                tipWidget->move(ui->acc_lab->mapToGlobal(QPoint(0,-tipWidget->height())));
+                tipWidget->show();
+            }
             //if 用户数据文件里找到用户
                 //if 用户数据文件里密码的hash值与用户输入的明文转成hash的结果校验一致
                     //根据用户类型去寻找对于实例
@@ -54,6 +61,7 @@ namespace airLifeDialog {
     }
 
     loginDialog::~loginDialog() {
+        delete tipWidget;
         delete ui;
     }
 } // airLifeDialog
