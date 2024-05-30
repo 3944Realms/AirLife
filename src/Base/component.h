@@ -291,6 +291,7 @@ namespace airLifeHandler {
         INCORRECT_FORMAT,
         OUT_OF_RANGE,
         NOT_FOUND,
+        REMOVE_FAILED,
         UNDEFINED
     };
 }

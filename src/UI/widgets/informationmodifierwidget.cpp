@@ -280,7 +280,7 @@ JUMP$isValid$AIRPLANE$Modify:
                     break;
                 }
                 case airLifeHandler::NOT_FOUND: {
-                    message = "Modify Object is not found.";
+                    message = "goto JUMP$isValid$AREA$Delete;";
                     break;
                 }
                 default: {
@@ -392,15 +392,69 @@ JUMP$isValid$Flight$Modify:
 
     void informationModifierWidget::on_airLifeDeleteAreaPushButton_clicked() {
         //删除地点按钮
-//        initWork(airLifeHandler::AREA);
+        initWork(airLifeHandler::AREA);
         std::string AreaUUID = this->ui->airLifeThisAreaUUIDComboBox->currentText().toStdString();
         std::string AreaCurrentName = this->ui->airLifeThisAreaNameComboBox->currentText().toStdString();
         bool isValid = true;
         airLifeHandler::FailedResult failedResult;
+        COMPONENT::Flight* interruptFlight = nullptr;
+        if(AreaUUID.empty() || AreaCurrentName.empty()) {
+            isValid = false;
+            failedResult = airLifeHandler::LOST;
+            goto JUMP$isValid$AREA$Delete;
+        }
+        if(TempArea != nullptr){
+            if(TempArea->getUUID() != AreaUUID) {
+                TempArea = nullptr;
+            }
+        }
+        else{
+            for(auto l : COMPONENT::AreaList ) {
+                if(l->getUUID() == AreaUUID && l->getName() == AreaCurrentName) TempArea = l;
+                break;
+            }
+            if(TempArea == nullptr) {
+                isValid = false;
+                failedResult = airLifeHandler::NOT_FOUND;
+                goto JUMP$isValid$AREA$Delete;
+            }
+        }
+        for (auto l : COMPONENT::FlightList) {
+            if(l->getStartingPointArea()->getUUID() == TempArea->getUUID() || l->getDestinationArea()->getUUID() == TempArea->getUUID()) {
+                isValid = false;
+                failedResult = airLifeHandler::REMOVE_FAILED;
+            }
+        }
+JUMP$isValid$AREA$Delete:
         if(!isValid) {
-
+            QString message("Default");
+            switch(failedResult) {
+                case airLifeHandler::LOST: {
+                    message = "Empty Input";
+                    break;
+                }
+                case airLifeHandler::NOT_FOUND: {
+                    message = "Object to be deleted is not found.";
+                    break;
+                }
+                case airLifeHandler::REMOVE_FAILED: {
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "NullDereference"//Never be NULL
+                    message = ("Can't remove it because it has been used in " + interruptFlight->toString()).c_str();
+#pragma clang diagnostic pop
+                    break;
+                }
+                default: {
+                    message = "Unknown failed reason";
+                }
+            }
+            errorDialog->setMessage(message);
+            errorDialog->show();
         } else {
-
+            runningDialog->setMessage("Preparing...");
+            runningDialog->setProcessBarCurrentValue(0);
+            runningDialog->show();
+            timerId = startTimer(waitTime);
         }
 
     }
