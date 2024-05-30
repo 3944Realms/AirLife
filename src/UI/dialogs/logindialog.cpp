@@ -8,7 +8,10 @@
 #include "logindialog.h"
 #include "ui_loginDialog.h"
 
-
+/**
+ * 未知的问题： 第一次加载时在不正确的位置
+ * @date 2024/05/30
+ */
 namespace airLifeDialog {
     loginDialog::loginDialog(QWidget *parent) :
             QDialog(parent), ui(new Ui::loginDialog) {

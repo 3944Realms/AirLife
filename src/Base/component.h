@@ -292,6 +292,7 @@ namespace airLifeHandler {
         OUT_OF_RANGE,
         NOT_FOUND,
         REMOVE_FAILED,
+        INTERRUPT,//冲突
         UNDEFINED
     };
 }

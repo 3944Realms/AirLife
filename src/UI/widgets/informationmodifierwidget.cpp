@@ -403,12 +403,11 @@ JUMP$isValid$Flight$Modify:
             failedResult = airLifeHandler::LOST;
             goto JUMP$isValid$AREA$Delete;
         }
-        if(TempArea != nullptr){
-            if(TempArea->getUUID() != AreaUUID) {
+        else if(TempArea != nullptr){
+            if(TempArea->getUUID() != AreaUUID)
                 TempArea = nullptr;
-            }
         }
-        else{
+        if (TempArea == nullptr){
             for(auto l : COMPONENT::AreaList ) {
                 if(l->getUUID() == AreaUUID && l->getName() == AreaCurrentName) TempArea = l;
                 break;
@@ -461,15 +460,71 @@ JUMP$isValid$AREA$Delete:
 
     void informationModifierWidget::on_airLifeDeleteAirplanePushButton_clicked() {
         //删除飞机按钮
-//        initWork(airLifeHandler::AIRPLANE);
+        initWork(airLifeHandler::AIRPLANE);
         std::string AirplaneUUID = this->ui->airLifeThisAirplaneUUIDComboBox->currentText().toStdString();
-        std::string AirplaneCapacityStr = this->ui->airLifeUpdateAirplaneCapLineEdit->text().toStdString();
         bool isValid = true;
         airLifeHandler::FailedResult failedResult;
+        COMPONENT::Flight* interruptFlight = nullptr;
+        if(AirplaneUUID.empty()) {
+            isValid = false;
+            failedResult = airLifeHandler::LOST;
+            goto JUMP$isValid$AIRPLANE$Delete;
+        }
+        else if(TempAirplane != nullptr) {
+            if(TempAirplane->getUUID() != AirplaneUUID)
+                TempAirplane = nullptr;
+        }
+        if(TempAirplane == nullptr) {
+            for(auto l : COMPONENT::AirplaneList) {
+                if(l->getUUID() == AirplaneUUID) {
+                    TempAirplane = l;
+                    break;
+                }
+            }
+            if(TempAirplane == nullptr) {
+                isValid = false;
+                failedResult = airLifeHandler::NOT_FOUND;
+                goto JUMP$isValid$AIRPLANE$Delete;
+            }
+        }
+        for(auto l : COMPONENT::FlightList) {
+            if(l->getAirplane()->getUUID() == AirplaneUUID) {
+                isValid = false;
+                failedResult = airLifeHandler::REMOVE_FAILED;
+                interruptFlight = l;
+                break;
+            }
+        }
+JUMP$isValid$AIRPLANE$Delete:
         if(!isValid) {
-
+            QString message("Default");
+            switch(failedResult) {
+                case airLifeHandler::LOST: {
+                    message = "Empty Input";
+                    break;
+                }
+                case airLifeHandler::NOT_FOUND: {
+                    message = "Object to be deleted is not found.";
+                    break;
+                }
+                case airLifeHandler::REMOVE_FAILED: {
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "NullDereference"//Never be NULL
+                    message = ("Can't remove it because it has been used in " + interruptFlight->toString()).c_str();
+#pragma clang diagnostic pop
+                    break;
+                }
+                default: {
+                    message = "Unknown failed reason";
+                }
+            }
+            errorDialog->setMessage(message);
+            errorDialog->show();
         } else {
-
+            runningDialog->setMessage("Preparing...");
+            runningDialog->setProcessBarCurrentValue(0);
+            runningDialog->show();
+            timerId = startTimer(waitTime);
         }
 
     }
@@ -478,17 +533,54 @@ JUMP$isValid$AREA$Delete:
         //删除航班按钮
 //        initWork(airLifeHandler::FLIGHT);
         std::string FlightUUID = this->ui->airLifeFlightUUIDComboBox->currentText().toStdString();
-        std::string Flight$AirplaneUUID = this->ui->airLifeFlightAirplaneUUIDComboBox->currentText().toStdString();
-        std::string Flight$AreaE = this->ui->airLifeFlightEComboBox->currentText().toStdString();
-        std::string Flight$AreaS = this->ui->airLifeFlightSComboBox->currentText().toStdString();
-        std::string Flight$DDate = this->ui->airLifeFlightTimeLineEdit->text().toStdString();
-        std::string Flight$TakeTime = this->ui->airLifeFlightTakeTimeLineEdit->text().toStdString();
         bool isValid = true;
         airLifeHandler::FailedResult failedResult;
+        if(FlightUUID.empty()) {
+            isValid = false;
+            failedResult = airLifeHandler::LOST;
+            goto JUMP$isValid$FLIGHT$Delete;
+        }
+        else if(TempFlight != nullptr) {
+            if(TempFlight->getUUID() != FlightUUID) {
+                TempFlight = nullptr;
+            }
+        }
+        if(TempFlight == nullptr) {
+            for(auto l : COMPONENT::FlightList ) {
+                if(l->getUUID() == FlightUUID) {
+                    TempFlight = l;
+                    break;
+                }
+            }
+            if(TempFlight == nullptr) {
+                isValid = false;
+                failedResult = airLifeHandler::NOT_FOUND;
+                goto JUMP$isValid$FLIGHT$Delete;
+            }
+        }
+JUMP$isValid$FLIGHT$Delete:
         if(!isValid) {
-
+            QString message("Default");
+            switch (failedResult) {
+                case airLifeHandler::LOST: {
+                    message = "Empty Input";
+                    break;
+                }
+                case airLifeHandler::NOT_FOUND: {
+                    message = "Object to be deleted is not found.";
+                    break;
+                }
+                default: {
+                    message = "Unknown failed reason";
+                }
+            }
+            errorDialog->setMessage(message);
+            errorDialog->show();
         } else {
-
+            runningDialog->setMessage("Preparing...");
+            runningDialog->setProcessBarCurrentValue(0);
+            runningDialog->show();
+            timerId = startTimer(waitTime);
         }
 
     }
