@@ -9,21 +9,22 @@
 
 namespace airLifeTipWidget {
 
-    class InputTipWidget : public QWidget {
+    class AirLifeInputTipWidget : public QWidget {
     public:
-        explicit InputTipWidget(QWidget *parent = nullptr,
-                                Qt::GlobalColor fontColor = Qt::black,
-                                Qt::GlobalColor backgroundColor = Qt::white,
-                                bool isFontBold = false,
-                                unsigned int remainedTime = 1000,
-                                int fontPixelSize = 15
+        explicit  AirLifeInputTipWidget(QWidget *parent = nullptr,
+                                        Qt::GlobalColor fontColor = Qt::black,
+                                        Qt::GlobalColor backgroundColor = Qt::white,
+                                        bool isFontBold = false,
+                                        unsigned int remainedTime = 1000,
+                                        int fontPixelSize = 15
                                 )
                                 : QWidget(parent, Qt::Popup | Qt::FramelessWindowHint) ,
                                 fontColor(fontColor),
                                 backgroundColor(backgroundColor),
                                 isBold(isFontBold),
                                 remainedTime(remainedTime),
-                                fontPixelSize(fontPixelSize) {
+                                fontPixelSize(fontPixelSize),
+                                m_text("default") {
             // 设置提示框的样式和属性
             setAttribute(Qt::WA_TranslucentBackground);
         }
@@ -34,8 +35,8 @@ namespace airLifeTipWidget {
         }
         void showEvent(QShowEvent *event) override {
             QWidget::showEvent(event);
-            // 设置自动隐藏的时间，1秒
-            QTimer::singleShot(remainedTime,this,&InputTipWidget::hide);
+            // 设置自动隐藏的时间，默认1秒
+            QTimer::singleShot(remainedTime,this,&AirLifeInputTipWidget::hide);
         }
 
     protected:

@@ -69,20 +69,6 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="3">
-     <widget class="QLineEdit" name="airLifeELineEdit">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="airLifeSLineEdit">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="2">
      <widget class="QLabel" name="airLifeArrowLabel">
       <property name="text">
@@ -120,6 +106,12 @@
        <bool>true</bool>
       </property>
      </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="airLifeEComboBox"/>
+    </item>
+    <item row="1" column="3">
+     <widget class="QComboBox" name="airLifeSComboBox"/>
     </item>
    </layout>
   </widget>

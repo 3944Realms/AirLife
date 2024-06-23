@@ -10,6 +10,7 @@
 #include "../widgets/ordercreatorwidget.h"
 #include "../widgets/orderdestroyerwidget.h"
 #include "../../Core/GuiHandler.h"
+#include "../widgets/passwordmodifier.h"
 
 namespace airLifeMainWindow {
     QT_BEGIN_NAMESPACE
@@ -29,12 +30,14 @@ namespace airLifeMainWindow {
         airLifeWidget::informationFinderWidget *informationFinderWidget;
         airLifeWidget::orderCreatorWidget *orderCreatorWidget;
         airLifeWidget::orderDestroyerWidget *orderDestroyerWidget;
+        airLifeWidget::PasswordModifier *passwordModifierWidget;
 
     private slots:
         void airLifeAccountLogOutActionSlot();
         void airLifeSearchFlightActionSlot();
         void airLifeCreateOrderActionSlot();
         void airLifeDeleteOrderActionSlot();
+        void airLifePasswordModifierSlot();
         void on_airLifeCreateOrderPushButton_clicked();
         void on_airLifeDeleteOrderPushButton_clicked();
         void on_airLifeSearchFlightPushButton_clicked();

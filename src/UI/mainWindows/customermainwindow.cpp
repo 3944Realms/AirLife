@@ -20,20 +20,29 @@ namespace airLifeMainWindow {
                 this, &CustomerMainWindow::airLifeSearchFlightActionSlot);
         connect(ui->airLifeAccountLogOutAction, &QAction::triggered,
                 this, &CustomerMainWindow::airLifeAccountLogOutActionSlot);
+        connect(ui->airLifeAccountModifyPasswordAction,&QAction::triggered,
+                this, &CustomerMainWindow::airLifePasswordModifierSlot);
         orderCreatorWidget = new airLifeWidget::orderCreatorWidget();
         orderDestroyerWidget = new airLifeWidget::orderDestroyerWidget();
         informationFinderWidget = new airLifeWidget::informationFinderWidget();
+        passwordModifierWidget = new airLifeWidget::PasswordModifier();
         connect(orderDestroyerWidget, &airLifeWidget::orderDestroyerWidget::destroyed,
                 this ,&CustomerMainWindow::childWindowClosed);
         connect(orderCreatorWidget, &airLifeWidget::orderCreatorWidget::destroyed,
                 this ,&CustomerMainWindow::childWindowClosed);
-        connect(informationFinderWidget, &airLifeWidget::informationFinderWidget::destroyed
-                , this ,&CustomerMainWindow::childWindowClosed);
+        connect(informationFinderWidget, &airLifeWidget::informationFinderWidget::destroyed,
+                this ,&CustomerMainWindow::childWindowClosed);
+        connect(passwordModifierWidget, &airLifeWidget::PasswordModifier::destroyed,
+                this,&CustomerMainWindow::childWindowClosed);
 
     }
 
     CustomerMainWindow::~CustomerMainWindow() {
         disconnectAllSignalsAndSlots();
+        delete informationFinderWidget;
+        delete orderDestroyerWidget;
+        delete orderCreatorWidget;
+        delete passwordModifierWidget;
         delete ui;
     }
 
@@ -58,12 +67,21 @@ namespace airLifeMainWindow {
 
         orderCreatorWidget->show();
     }
+
     void CustomerMainWindow::airLifeDeleteOrderActionSlot() {
         this->hide();
 
         orderDestroyerWidget->setParent(this,Qt::Dialog);
 
         orderDestroyerWidget->show();
+    }
+
+    void CustomerMainWindow::airLifePasswordModifierSlot() {
+        this->hide();
+
+        passwordModifierWidget->setParent(this,Qt::Dialog);
+
+        passwordModifierWidget->show();
     }
 
     void CustomerMainWindow::on_airLifeCreateOrderPushButton_clicked() {
@@ -90,6 +108,10 @@ namespace airLifeMainWindow {
                 this ,&CustomerMainWindow::childWindowClosed);
         disconnect(informationFinderWidget, &airLifeWidget::informationFinderWidget::destroyed
                 , this ,&CustomerMainWindow::childWindowClosed);
+        disconnect(passwordModifierWidget, &airLifeWidget::PasswordModifier::destroyed,
+                this,&CustomerMainWindow::childWindowClosed);
     }
+
+
 
 } // airLifeMainWindow

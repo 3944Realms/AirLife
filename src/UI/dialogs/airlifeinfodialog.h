@@ -19,9 +19,11 @@ namespace airLifeDialog {
         explicit AirLifeInfoDialog(QWidget *parent = nullptr);
 
         ~AirLifeInfoDialog() override;
+        void testMethod();
 
     private:
         Ui::AirLifeInfoDialog *ui;
+
     private slots:
         void on_airLifeBackPushButton_clicked();
     };

@@ -3,6 +3,8 @@ project(AirLife VERSION 0.0.1 LANGUAGES CXX)
 
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(AIR_LIFE_DEBUG_MODE OFF)
+set(AIR_LIFE_TEST_MODE OFF)
 
 add_subdirectory(src/Base)
 add_subdirectory(src/Core)
@@ -61,5 +63,6 @@ add_custom_command(TARGET AirLife POST_BUILD
         "${ICON_FILE}"
         "${CMAKE_CURRENT_BINARY_DIR}"
 )
+target_compile_definitions(AirLife PRIVATE AIR_LIFE_DEBUG_MODE=false AIR_LIFE_TEST_MODE=false)
 # 定义编译器警告标志
 target_compile_definitions(AirLife PRIVATE QT_DEPRECATED_WARNINGS)

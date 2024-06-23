@@ -114,8 +114,7 @@ background: url(:/Icon/airLifeLockS.ico) no-repeat left center ; padding-left: 1
       <item>
        <widget class="QPushButton" name="loginButton">
         <property name="styleSheet">
-         <string notr="true">
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>登录(&amp;L)</string>

@@ -20,19 +20,34 @@ namespace airLifeMainWindow {
                 &AdministerMainWindow::airLifeMRInformationActionSlot);
         connect(ui->airLifeSearchFlightAction, &QAction::triggered, this,
                 &AdministerMainWindow::airLifeSearchFlightActionSlot);
+        connect(ui->airLifeAccountModifyPasswordAction, &QAction::triggered, this,
+                &AdministerMainWindow::airLifePasswordModifierSlot);
+        connect(ui->airLifeSearchUserAction, &QAction::triggered, this,
+                &AdministerMainWindow::airLifeUserAndAccountManagerActionSlot);
         informationFinderWidget = new airLifeWidget::informationFinderWidget();
         informationLoggerWidget = new airLifeWidget::informationLoggerWidget();
         informationModifierWidget = new airLifeWidget::informationModifierWidget();
+        passwordModifierWidget = new airLifeWidget::PasswordModifier();
+        userAndAccountManagerWidget = new airLifeWidget::UserAndAccountManager();
         connect(informationFinderWidget, &airLifeWidget::informationFinderWidget::destroyed,
                 this, &AdministerMainWindow::childWindowClosed);
         connect(informationLoggerWidget, &airLifeWidget::informationLoggerWidget::destroyed,
                 this, &AdministerMainWindow::childWindowClosed);
         connect(informationModifierWidget, &airLifeWidget::informationModifierWidget::destroyed,
                 this, &AdministerMainWindow::childWindowClosed);
+        connect(passwordModifierWidget, &airLifeWidget::PasswordModifier::destroyed,
+                this, &AdministerMainWindow::childWindowClosed);
+        connect(userAndAccountManagerWidget, &airLifeWidget::UserAndAccountManager::destroyed,
+                this, &AdministerMainWindow::childWindowClosed);
     }
 
     AdministerMainWindow::~AdministerMainWindow() {
         disconnectAllSignalsAndSlots();
+        delete informationFinderWidget;
+        delete informationLoggerWidget;
+        delete informationModifierWidget;
+        delete passwordModifierWidget;
+        delete userAndAccountManagerWidget;
         delete ui;
     }
 
@@ -68,6 +83,22 @@ namespace airLifeMainWindow {
         informationModifierWidget->show();
     }
 
+    void AdministerMainWindow::airLifePasswordModifierSlot() {
+        this->hide();
+
+        passwordModifierWidget->setParent(this, Qt::Dialog);
+
+        passwordModifierWidget->show();
+    }
+
+    void AdministerMainWindow::airLifeUserAndAccountManagerActionSlot() {
+        this->hide();
+
+        userAndAccountManagerWidget->setParent(this, Qt::Dialog);
+
+        userAndAccountManagerWidget->show();
+    }
+
     void AdministerMainWindow::disconnectAllSignalsAndSlots() {
         disconnect(informationFinderWidget, &airLifeWidget::informationFinderWidget::destroyed,
                 this, &AdministerMainWindow::childWindowClosed);
@@ -75,6 +106,10 @@ namespace airLifeMainWindow {
                 this, &AdministerMainWindow::childWindowClosed);
         disconnect(informationModifierWidget, &airLifeWidget::informationModifierWidget::destroyed,
                 this, &AdministerMainWindow::childWindowClosed);
+        disconnect(passwordModifierWidget, &airLifeWidget::PasswordModifier::destroyed,
+                this, &AdministerMainWindow::childWindowClosed);
+        disconnect(userAndAccountManagerWidget, &airLifeWidget::UserAndAccountManager::destroyed,
+                   this, &AdministerMainWindow::childWindowClosed);
     }
 
     void AdministerMainWindow::on_airLifeAddInformationPushButton_clicked() {
@@ -88,6 +123,7 @@ namespace airLifeMainWindow {
     void AdministerMainWindow::childWindowClosed() {
         this->show();
     }
+
 
 
 } // airLifeMainWindow

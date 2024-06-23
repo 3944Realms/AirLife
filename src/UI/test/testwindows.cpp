@@ -19,6 +19,11 @@ testWindows::testWindows(QWidget *parent) :
     connect(ui->pushButton, &QPushButton::clicked, [this]{
         QMessageBox::information(this,"Information","This is a message form testWindow.");
     });
+    ui->comboBox->setEditable(false);
+    QString strings[2] = {"123",{3423}};
+    for(auto i : strings){
+        ui->comboBox->addItem(i);
+    }
 }
 
 testWindows::~testWindows() {

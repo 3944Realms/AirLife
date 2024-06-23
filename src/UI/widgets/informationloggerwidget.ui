@@ -218,6 +218,9 @@
        <property name="editable">
         <bool>true</bool>
        </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::NoInsert</enum>
+       </property>
       </widget>
      </item>
      <item row="0" column="1">
@@ -268,12 +271,18 @@
        <property name="editable">
         <bool>true</bool>
        </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::NoInsert</enum>
+       </property>
       </widget>
      </item>
      <item row="1" column="2" colspan="3">
       <widget class="QComboBox" name="airLifeFlightAirplaneUUIDComboBox">
        <property name="editable">
         <bool>true</bool>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::NoInsert</enum>
        </property>
        <property name="frame">
         <bool>true</bool>
