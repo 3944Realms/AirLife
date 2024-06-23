@@ -1,3 +1,6 @@
+/*开关位于根CMake下target_compile_definitions处*/
+
+
 #include <iostream>
 #include <QtWidgets>
 #include <vector>
@@ -8,6 +11,7 @@
 #include "UI/dialogs/logindialog.h"
 #include "UI/mainWindows/administermainwindow.h"
 #include "UI/mainWindows/customermainwindow.h"
+#include "UI/test/testwindows.h"
 
 void init(std::vector<COMPONENT::Area *> &areaList,
           std::vector<COMPONENT::Airplane *> &airplaneList,
@@ -26,29 +30,43 @@ void save(std::vector<COMPONENT::Area *> &areaList,
           std::vector<COMPONENT::Account *> &accountList);
 
 int main(int argc,char *argv[]) {
-    std::vector<COMPONENT::Area*> AreaList;
-    std::vector<COMPONENT::Airplane*> AirplaneList;
-    std::vector<COMPONENT::Flight*> FlightList;
-    std::vector<COMPONENT::Orders*> OrderList;
-    std::vector<COMPONENT::Chargebacks*> ChargebackList;
-    std::vector<COMPONENT::User*> UserList;
-    std::vector<COMPONENT::Account*> AccountList;
-    std::cout << __cplusplus << std::endl;
-    init(AreaList, AirplaneList, FlightList, OrderList, ChargebackList, UserList, AccountList);
-
-    QApplication a(argc,argv);
+    QApplication a(argc, argv);
     QApplication::setWindowIcon(QIcon(":/Logo/airLifeLogo.ico"));
     airLifeHandler::LoginHandler loginHandler;
-    airLifeHandler::GuiHandler* guiHandler = airLifeHandler::GuiHandler::getInstance();
+    airLifeHandler::GuiHandler *guiHandler = airLifeHandler::GuiHandler::getInstance();
     guiHandler->setLoginHandler(loginHandler);
-    airLifeDialog::loginDialog loginDialog;
-    airLifeMainWindow::CustomerMainWindow CuWi;
-    airLifeMainWindow::AdministerMainWindow AdWi;
-    guiHandler->Gui(loginDialog,AdWi,CuWi);
-    int result = QApplication::exec();
+    if(!AIR_LIFE_DEBUG_MODE && !AIR_LIFE_TEST_MODE){
+        /*NormalMode*/
+        std::vector<COMPONENT::Area *> AreaList;
+        std::vector<COMPONENT::Airplane *> AirplaneList;
+        std::vector<COMPONENT::Flight *> FlightList;
+        std::vector<COMPONENT::Orders *> OrderList;
+        std::vector<COMPONENT::Chargebacks *> ChargebackList;
+        std::vector<COMPONENT::User *> UserList;
+        std::vector<COMPONENT::Account *> AccountList;
+        init(AreaList, AirplaneList, FlightList, OrderList, ChargebackList, UserList, AccountList);
+        std::cout << __cplusplus << std::endl;
+        airLifeDialog::loginDialog loginDialog;
+        airLifeMainWindow::CustomerMainWindow CuWi;
+        airLifeMainWindow::AdministerMainWindow AdWi;
+        guiHandler->Gui(loginDialog, AdWi, CuWi);
+        int result = QApplication::exec();
+        save(AreaList, AirplaneList, FlightList, OrderList, ChargebackList, UserList, AccountList);
+        return result;
+    } else {
+        if(AIR_LIFE_DEBUG_MODE){
+            /*Debug Code Here*/
 
-    save(AreaList, AirplaneList, FlightList, OrderList, ChargebackList, UserList, AccountList);
-    return result;
+        }
+        else {
+            /*TEST Code Here*/
+
+            auto* pWindows = new testWindows();
+            pWindows->show();
+            int result = QApplication::exec();
+            return result;
+        }
+    }
 }
 
 

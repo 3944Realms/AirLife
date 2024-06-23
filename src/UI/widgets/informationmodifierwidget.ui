@@ -20,7 +20,7 @@
    <string>信息删改</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../resource/resource.qrc">
+   <iconset>
     <normaloff>:/Logo/airLifeLogo.ico</normaloff>:/Logo/airLifeLogo.ico</iconset>
   </property>
   <widget class="QGroupBox" name="airLifeFlightGroupBox">
@@ -64,7 +64,7 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="../../../resource/resource.qrc">
+     <iconset>
       <normaloff>:/Simon/SymbolsDeleteSi.png</normaloff>:/Simon/SymbolsDeleteSi.png</iconset>
     </property>
    </widget>
@@ -123,12 +123,18 @@
        <property name="editable">
         <bool>true</bool>
        </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::NoInsert</enum>
+       </property>
       </widget>
      </item>
      <item row="2" column="3">
       <widget class="QComboBox" name="airLifeFlightSComboBox">
        <property name="editable">
         <bool>true</bool>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::NoInsert</enum>
        </property>
       </widget>
      </item>
@@ -160,12 +166,18 @@
        <property name="editable">
         <bool>true</bool>
        </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::NoInsert</enum>
+       </property>
       </widget>
      </item>
      <item row="1" column="1" colspan="3">
       <widget class="QComboBox" name="airLifeFlightAirplaneUUIDComboBox">
        <property name="editable">
         <bool>true</bool>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::NoInsert</enum>
        </property>
       </widget>
      </item>
@@ -261,6 +273,9 @@
         <property name="editable">
          <bool>true</bool>
         </property>
+        <property name="insertPolicy">
+         <enum>QComboBox::NoInsert</enum>
+        </property>
        </widget>
       </item>
      </layout>
@@ -281,7 +296,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../../resource/resource.qrc">
+      <iconset>
        <normaloff>:/Simon/SymbolsDeleteSi.png</normaloff>:/Simon/SymbolsDeleteSi.png</iconset>
      </property>
     </widget>
@@ -332,6 +347,9 @@
           <property name="editable">
            <bool>true</bool>
           </property>
+          <property name="insertPolicy">
+           <enum>QComboBox::NoInsert</enum>
+          </property>
          </widget>
         </item>
        </layout>
@@ -350,6 +368,9 @@
        <widget class="QComboBox" name="airLifeThisAreaNameComboBox">
         <property name="editable">
          <bool>true</bool>
+        </property>
+        <property name="insertPolicy">
+         <enum>QComboBox::NoInsert</enum>
         </property>
        </widget>
       </item>
@@ -384,7 +405,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../../resource/resource.qrc">
+      <iconset>
        <normaloff>:/Simon/SymbolsDeleteSi.png</normaloff>:/Simon/SymbolsDeleteSi.png</iconset>
      </property>
     </widget>

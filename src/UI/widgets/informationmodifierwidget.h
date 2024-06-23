@@ -27,7 +27,6 @@ namespace airLifeWidget {
         ~informationModifierWidget() override;
     protected:
         void timerEvent(QTimerEvent *event) override;
-
     private:
         int timerId;
         Ui::informationModifierWidget *ui;
@@ -38,7 +37,7 @@ namespace airLifeWidget {
         COMPONENT::Area *TempArea;
         COMPONENT::Airplane *TempAirplane;
         COMPONENT::Flight *TempFlight;
-        airLifeTipWidget::InputTipWidget * tipWidget;
+        airLifeTipWidget::AirLifeInputTipWidget * tipWidget;
         void initWork(airLifeHandler::DataType d);
         void clearAreaText();
         void clearAirplaneText();

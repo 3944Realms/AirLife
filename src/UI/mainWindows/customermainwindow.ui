@@ -87,18 +87,11 @@
      <rect>
       <x>29</x>
       <y>32</y>
-      <width>191</width>
+      <width>198</width>
       <height>211</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="1">
-      <widget class="QTextEdit" name="airLifeSituationLineEdit">
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="airLifeUUIDLineEdit">
        <property name="readOnly">
@@ -106,10 +99,17 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="airLifeUserUUIDLabel">
+     <item row="2" column="1">
+      <widget class="QTextEdit" name="airLifeSituationLineEdit">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="airLifeUserNameLabel">
        <property name="text">
-        <string>用户UUID：</string>
+        <string>用户姓名：</string>
        </property>
       </widget>
      </item>
@@ -127,10 +127,10 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="airLifeUserNameLabel">
+     <item row="0" column="0">
+      <widget class="QLabel" name="airLifeUserUUIDLabel">
        <property name="text">
-        <string>用户姓名：</string>
+        <string>用户UUID：</string>
        </property>
       </widget>
      </item>
@@ -143,7 +143,7 @@
      <x>0</x>
      <y>0</y>
      <width>403</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="airLifeAccountMenu">

@@ -70,6 +70,9 @@ background: url(:/Icon/airLifeUserS.ico) no-repeat left center ; padding-left: 1
         <property name="placeholderText">
          <string>请输入用户名</string>
         </property>
+        <property name="clearButtonEnabled">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="1" column="1">
@@ -91,6 +94,9 @@ background: url(:/Icon/airLifeLockS.ico) no-repeat left center ; padding-left: 1
         </property>
         <property name="placeholderText">
          <string>请输入密码</string>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -114,8 +120,7 @@ background: url(:/Icon/airLifeLockS.ico) no-repeat left center ; padding-left: 1
       <item>
        <widget class="QPushButton" name="loginButton">
         <property name="styleSheet">
-         <string notr="true">
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>登录(&amp;L)</string>

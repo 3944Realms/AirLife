@@ -59,9 +59,9 @@ namespace airLifeHandler {
         return &loginHandler;
     }
 
-    void GuiHandler::switchMainWindow() {
-
-    }
+//    void GuiHandler::switchMainWindow() {
+//
+//    }
 
     void GuiHandler::setLoginHandler(const LoginHandler &handler) {
         loginHandler = handler;
@@ -76,7 +76,7 @@ namespace airLifeHandler {
     }
 #pragma clang diagnostic pop
 
-    int GuiHandler::tryOpenMainWindowsShow() {\
+    int GuiHandler::tryOpenMainWindowsShow() {
         if(user == nullptr || admin == nullptr) return -1;
         if (loginHandler.hasAccountLogged()) {
             login->hide();

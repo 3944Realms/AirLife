@@ -55,9 +55,16 @@ add_library(GUI
         dialogs/airliferunningdialog.cpp
         dialogs/airliferunningdialog.h
         dialogs/airliferunningdialog.ui
+        widgets/userandaccountmanager.cpp
+        widgets/userandaccountmanager.h
+        widgets/userandaccountmanager.ui
+        widgets/passwordmodifier.cpp
+        widgets/passwordmodifier.h
+        widgets/passwordmodifier.ui
 )
 target_include_directories(GUI PUBLIC ${Qt5Widgets_INCLUDE_DIRS})
 target_link_libraries(GUI
         PUBLIC
         Qt5::Core Qt5::Widgets
+
 )

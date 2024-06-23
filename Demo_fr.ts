@@ -228,6 +228,148 @@
     </message>
 </context>
 <context>
+    <name>airLifeWidget::PasswordModifier</name>
+    <message>
+        <source>密码修改</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>返回&amp;(R)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>请输入新密码</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>确认密码：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>新密码：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>请输入旧密码</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>旧密码：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>请再输入遍新密码</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>确认修改</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>airLifeWidget::UserAndAccountManager</name>
+    <message>
+        <source>用户管理</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>信息查看&amp;(C)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>用户UUID：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>用户姓名：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>帐户类型：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>帐户UUID：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>查询</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>统计信息</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>帐户数量：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>刷新</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>注册用户&amp;(A)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(请选择)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>普通用户</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>管理员</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>请输入密码</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>账号密码：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>注册账号</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>管理用户&amp;(M)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>修改密码：</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>管理操作</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>更改用户姓名</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>修改帐户类型</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>删除帐户</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>更改用户密码</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>返回&amp;(R)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>airLifeWidget::informationFinderWidget</name>
     <message>
         <source>查询信息</source>
@@ -425,10 +567,6 @@
     </message>
     <message>
         <source>修改地点：</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>修改为：</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

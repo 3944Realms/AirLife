@@ -15,9 +15,15 @@ namespace airLifeDialog {
 
     void AirLifeInfoDialog::on_airLifeBackPushButton_clicked() {
         this->close();
+        emit destroyed();
     }
 
     AirLifeInfoDialog::~AirLifeInfoDialog() {
         delete ui;
+    }
+
+    void AirLifeInfoDialog::testMethod() {
+        this->ui->airLifeEComboBox->setEditable(false);
+        this->ui->airLifeEComboBox->addItem("thisGay");
     }
 } // airLifeDialog

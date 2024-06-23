@@ -30,9 +30,13 @@ namespace airLifeHandler {
         static void ShowWidget(QWidget *widget);
         static void ShowDialog(QDialog *dialog);
         static void ShowMainWindows(QMainWindow * mainWindow);
-        static void switchMainWindow();
+//        static void switchMainWindow();
         void Gui(QDialog &loginDialog, QMainWindow &administerWindow, QMainWindow &userWindow);
         LoginHandler* getLoginHandler();
+        static QDialog* getLoginDialog() {
+            return login;
+        }
+
 
     };
 

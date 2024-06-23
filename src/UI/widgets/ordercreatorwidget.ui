@@ -26,7 +26,7 @@
    <string>创建订单</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../resource/resource.qrc">
+   <iconset>
     <normaloff>:/Logo/airLifeLogo.ico</normaloff>:/Logo/airLifeLogo.ico</iconset>
   </property>
   <widget class="QPushButton" name="airLifeCreatePushButton">
@@ -65,20 +65,6 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="3">
-     <widget class="QLineEdit" name="airLifeELineEdit">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="airLifeSLineEdit">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="0">
      <widget class="QLabel" name="airLifeSELabel">
       <property name="text">
@@ -86,10 +72,13 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="airLifeSTimeELabel">
+    <item row="0" column="0">
+     <widget class="QLabel" name="airLifeFlightLabel">
       <property name="text">
-       <string>发班时刻：</string>
+       <string>航班：</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
     </item>
@@ -107,19 +96,33 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="airLifeFlightLabel">
-      <property name="text">
-       <string>航班：</string>
+    <item row="1" column="3">
+     <widget class="QLineEdit" name="airLifeELineEdit">
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="airLifeSTimeELabel">
+      <property name="text">
+       <string>发班时刻：</string>
       </property>
      </widget>
     </item>
     <item row="0" column="1" colspan="3">
      <widget class="QComboBox" name="airLifeFlightComboBox">
       <property name="editable">
+       <bool>true</bool>
+      </property>
+      <property name="insertPolicy">
+       <enum>QComboBox::NoInsert</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="airLifeSLineEdit">
+      <property name="readOnly">
        <bool>true</bool>
       </property>
      </widget>

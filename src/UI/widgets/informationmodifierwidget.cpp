@@ -14,7 +14,7 @@ namespace airLifeWidget {
     informationModifierWidget::informationModifierWidget(QWidget *parent) :
             QWidget(parent), ui(new Ui::informationModifierWidget) {
         ui->setupUi(this);
-        tipWidget = new airLifeTipWidget::InputTipWidget(this);
+        tipWidget = new airLifeTipWidget::AirLifeInputTipWidget(this);
         errorDialog = new airLifeDialog::AirLifeErrorDialog(this);
         runningDialog = new airLifeDialog::AirLifeRunningDialog(this);
         dataType = airLifeHandler::UNKNOWN_DATA_TYPE;
@@ -23,6 +23,7 @@ namespace airLifeWidget {
         TempArea = nullptr;
         TempAirplane = nullptr;
         TempFlight = nullptr;
+
         connect(errorDialog, &airLifeDialog::AirLifeErrorDialog::destroyed, this, &informationModifierWidget::enableWindowsSlot);
         connect(runningDialog, &airLifeDialog::AirLifeRunningDialog::destroyed, this, &informationModifierWidget::enableWindowsSlot);
 
@@ -135,6 +136,9 @@ namespace airLifeWidget {
     }
 
     informationModifierWidget::~informationModifierWidget() {
+        disconnect(errorDialog, &airLifeDialog::AirLifeErrorDialog::destroyed, this, &informationModifierWidget::enableWindowsSlot);
+        disconnect(runningDialog, &airLifeDialog::AirLifeRunningDialog::destroyed, this, &informationModifierWidget::enableWindowsSlot);
+
         delete tipWidget;
         delete errorDialog;
         delete runningDialog;

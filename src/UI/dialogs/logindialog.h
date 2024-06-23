@@ -7,6 +7,8 @@
 
 #include <QDialog>
 #include <iostream>
+#include <functional>
+#include <iomanip>
 #include "../../Base/component.h"
 #include "../easterEgg/hui.h"
 #include "../../Core/LoginHandler.h"
@@ -25,13 +27,21 @@ namespace airLifeDialog {
         explicit loginDialog(QWidget *parent = nullptr);
 
         ~loginDialog() override;
+        COMPONENT::Account* getCurrentAccount(){
+            return currentAccount;
+        }
 
     private:
         Ui::loginDialog *ui;
-        airLifeTipWidget::InputTipWidget* tipWidget;
+        airLifeTipWidget::AirLifeInputTipWidget* tipWidget;
+        COMPONENT::Account *currentAccount;
     private slots:
         void on_loginButton_clicked();
         void on_cancelButton_clicked();
+
+        void GuiOpt(airLifeHandler::GuiHandler *pGuiHandler, airLifeHandler::LoginHandler *pLoginHandler, airLifeHandler::AccountStatus accountStatus = airLifeHandler::AccountStatus::USER_LOGIN_IN);
+
+        void loginFailed();
     };
 } // airLifeDialog
 

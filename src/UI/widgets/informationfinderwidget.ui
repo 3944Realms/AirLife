@@ -92,7 +92,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="airLifeSearchByDatetRadioButton">
+      <widget class="QRadioButton" name="airLifeSearchByDateRadioButton">
        <property name="text">
         <string>通过发班时刻查询(&amp;C)</string>
        </property>

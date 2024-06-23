@@ -234,19 +234,31 @@ namespace COMPONENT {
     };
     class Account {
         airLifeHandler::AccountType AccountType;
+        std::string pwHash;
+
+        bool isValid;
+    public:
         struct Inf{
-            Inf() = default;
-            User* AccountUser{};
-            std::string AdministerUUID;
             explicit Inf(User* user) : AccountUser(user) {}
             explicit Inf(std::string uuid)
                     : AdministerUUID(std::move(uuid)), AccountUser(nullptr) {}
             ~Inf() = default; // Destructor for union
+            User* returnAccUser() const {
+                return AccountUser;
+            }
+            std::string getAdminUUID() const{
+                return AdministerUUID;
+            }
+            Inf() = default;
+
+            User* AccountUser{};
+            std::string AdministerUUID;
         }inf;
-        bool isValid;
-    public:
         Account(airLifeHandler::AccountType accountType ,const std::string& uuid);
         Account(airLifeHandler::AccountType accountType, User& user);
+        airLifeHandler::AccountType getAccountType();
+        User* getAccountUser() const;
+        std::string getHash() const;
         std::vector<char> serialize() const;
         static Account* deserialize(const std::vector<char>& data);
     };
@@ -294,6 +306,12 @@ namespace airLifeHandler {
         REMOVE_FAILED,
         INTERRUPT,//冲突
         UNDEFINED
+    };
+    enum SearchMode {
+        FlightMode,
+        AreaMode,
+        DateMode,
+        NullMode
     };
 }
 

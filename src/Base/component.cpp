@@ -932,6 +932,11 @@ class NaNException: public std::exception {
         // Serialize序列化 isValid
         data.push_back(isValid ? 1 : 0);
 
+        //Serialize序列化 PasswordHash
+        size_t pwHashDataLen = pwHash.size();
+        data.insert(data.end(), reinterpret_cast<const char*>(&pwHashDataLen), reinterpret_cast<const char*>(&pwHashDataLen) + sizeof(pwHashDataLen));
+        data.insert(data.end(), pwHash.begin(), pwHash.end());
+
         // Serialize序列化 union based on基于 AccountType
         if (AccountType == airLifeHandler::AccountType::DEFAULT) {
             std::vector<char> userData = inf.AccountUser->serialize();
@@ -962,6 +967,14 @@ class NaNException: public std::exception {
         // Set isValid field
         account->isValid = isValid;
 
+        // Set Hash field
+        size_t pwHashLength;
+        std::memcpy(&pwHashLength, &data[offset], sizeof(pwHashLength));
+        offset += sizeof(pwHashLength);
+        std::string Hash(data.begin() + offset, data.begin() + offset + pwHashLength);
+        account->pwHash = Hash;
+        offset += pwHashLength;
+
         // Deserialize union based on AccountType
         if (accountType == airLifeHandler::AccountType::DEFAULT) {
             account->inf.AccountUser = User::deserialize(data);
@@ -977,6 +990,18 @@ class NaNException: public std::exception {
         }
 
         return account;
+    }
+
+    airLifeHandler::AccountType Account::getAccountType() {
+        return AccountType;
+    }
+
+    User *Account::getAccountUser() const {
+        return inf.returnAccUser();
+    }
+
+    std::string Account::getHash() const {
+        return pwHash;
     }
 
 

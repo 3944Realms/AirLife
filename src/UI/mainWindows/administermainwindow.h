@@ -8,10 +8,12 @@
 #include <QMainWindow>
 #include <iostream>
 #include "../../Core/GuiHandler.h"
+#include "../dialogs/logindialog.h"
 #include "../widgets/informationloggerwidget.h"
 #include "../widgets/informationmodifierwidget.h"
 #include "../widgets/informationfinderwidget.h"
-
+#include "../widgets/passwordmodifier.h"
+#include "../widgets/userandaccountmanager.h"
 namespace airLifeMainWindow {
     QT_BEGIN_NAMESPACE
     namespace Ui { class AdministerMainWindow; }
@@ -24,17 +26,28 @@ namespace airLifeMainWindow {
         explicit AdministerMainWindow(QWidget *parent = nullptr);
         void disconnectAllSignalsAndSlots();
         ~AdministerMainWindow() override;
+        void updateInfo();
 
+    protected:
+        void showEvent(QShowEvent *event) override {
+            updateInfo();
+            QMainWindow::showEvent(event);
+        }
     private:
         Ui::AdministerMainWindow *ui;
+        COMPONENT::Account *currentAccount;
         airLifeWidget::informationLoggerWidget *informationLoggerWidget;
         airLifeWidget::informationModifierWidget *informationModifierWidget;
         airLifeWidget::informationFinderWidget *informationFinderWidget;
+        airLifeWidget::PasswordModifier *passwordModifierWidget;
+        airLifeWidget::UserAndAccountManager *userAndAccountManagerWidget;
     private slots:
         void airLifeAccountLogOutActionSlot();
         void airLifeSearchFlightActionSlot();
         void airLifeAddInformationActionSlot();
         void airLifeMRInformationActionSlot();
+        void airLifeUserAndAccountManagerActionSlot();
+        void airLifePasswordModifierSlot();
         void on_airLifeAddInformationPushButton_clicked();
         void on_airLifeMRInformationPushButton_clicked();
         void childWindowClosed();
