@@ -258,6 +258,7 @@ namespace COMPONENT {
         Account(airLifeHandler::AccountType accountType, User& user);
         airLifeHandler::AccountType getAccountType();
         User* getAccountUser() const;
+        void reloadHash(std::string hash);
         std::string getHash() const;
         std::vector<char> serialize() const;
         static Account* deserialize(const std::vector<char>& data);

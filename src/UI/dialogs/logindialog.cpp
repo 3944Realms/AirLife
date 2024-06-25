@@ -20,6 +20,7 @@ namespace airLifeDialog {
     loginDialog::loginDialog(QWidget *parent) :
             QDialog(parent), ui(new Ui::loginDialog) {
         ui->setupUi(this);
+        currentAccount = nullptr;
         tipWidget = new airLifeTipWidget::AirLifeInputTipWidget(this, Qt::red, Qt::white, true, 2000);
     }
 

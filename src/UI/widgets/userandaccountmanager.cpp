@@ -19,18 +19,25 @@ namespace airLifeWidget {
                 ui->airLifeUserNameLineEdit_Re->clear();
                 ui->airLifeUUIDLineEdit_Re->setEnabled(false);
                 ui->airLifeUserNameLineEdit_Re->setEnabled(false);
+                disconnect(ui->airLifeAccountUUIDComboBox_Re, &QComboBox::currentTextChanged, nullptr, nullptr);
             }
             else if(text == "普通用户") {
                 ui->airLifeUUIDLineEdit_Re->clear();
                 ui->airLifeUUIDLineEdit_Re->setEnabled(true);
                 ui->airLifeUserNameLineEdit_Re->clear();
                 ui->airLifeUserNameLineEdit_Re->setEnabled(true);
+                ui->airLifeUUIDLineEdit_Re->setText(ui->airLifeAccountUUIDComboBox_Re->currentText());
+                connect(ui->airLifeAccountUUIDComboBox_Re, &QComboBox::currentTextChanged,
+                        [=](const QString &text){
+                    ui->airLifeUUIDLineEdit_Re->setText(text);
+                });
             }
             else if(text == "管理员") {
                 ui->airLifeUUIDLineEdit_Re->clear();
                 ui->airLifeUUIDLineEdit_Re->setEnabled(false);
                 ui->airLifeUserNameLineEdit_Re->clear();
                 ui->airLifeUserNameLineEdit_Re->setEnabled(false);
+                disconnect(ui->airLifeAccountUUIDComboBox_Re, &QComboBox::currentTextChanged, nullptr, nullptr);
             }
         });
     }
@@ -52,7 +59,7 @@ namespace airLifeWidget {
        COMPONENT::Account *targetAccount = nullptr;
        for(auto i : COMPONENT::AccountList) {
            if(i->getAccountType() == airLifeHandler::DEFAULT) {
-               if(i->inf.returnAccUser()->getUUID() == AccountUUID.toStdString()) {
+               if(i->getAccountUser()->getUUID() == AccountUUID.toStdString()) {
                    targetAccount = i;
                    AccountType = airLifeHandler::DEFAULT;
                    isFound = true;
@@ -134,6 +141,21 @@ namespace airLifeWidget {
     }
 
     void UserAndAccountManager::on_airLifeRegisterPushButton_clicked() {
+        airLifeHandler::AccountType targetAccountType;
+        std::string userName;
+        if((ui->airLifeAccountTypeComboBox_Re->currentText()) != "(请选择)"){
+            if(ui->airLifeAccountTypeComboBox_Re->currentText() == "普通用户") {
+                userName = ui->airLifeUserNameLineEdit_Re->text().toStdString();
+            } else if((ui->airLifeAccountTypeComboBox_Re->currentText()) == "管理员") {
+
+            }
+        } else {
+
+            return;
+        }
+        std::string AccountUUID(ui->airLifeAccountUUIDComboBox_Re->currentText().toStdString());
+        std::hash<std::string> strHash;
+        std::string PasswordHash =  std::to_string(strHash(ui->pas_inp->text().toStdString()));
 
     }
 } // airLifeWidget

@@ -6,6 +6,7 @@
 #define AIRLIFE_AIRLIFEINFODIALOG_H
 
 #include <QDialog>
+#include "../../Base/component.h"
 
 namespace airLifeDialog {
     QT_BEGIN_NAMESPACE
@@ -20,12 +21,30 @@ namespace airLifeDialog {
 
         ~AirLifeInfoDialog() override;
         void testMethod();
-
+        bool tryLoadingResultList(std::vector<COMPONENT::Flight*> &resultList);
+    protected:
+        void showEvent(QShowEvent *event) override {
+            connectSelect();
+            QDialog::showEvent(event);
+        }
+        void hideEvent(QHideEvent *event) override {
+            disconnectSelect();
+            QDialog::hideEvent(event);
+        }
     private:
         Ui::AirLifeInfoDialog *ui;
-
+        std::vector<COMPONENT::Flight*>* selfResultList_Ptr;
+        COMPONENT::Flight* tempFlight;
     private slots:
         void on_airLifeBackPushButton_clicked();
+
+        void addEmptyItem();
+
+        void connectSelect();
+
+        void disconnectSelect() const;
+
+        void loadArea();
     };
 } // airLifeDialog
 

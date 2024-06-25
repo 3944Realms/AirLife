@@ -6,6 +6,8 @@
 #define AIRLIFE_ORDERCREATORWIDGET_H
 
 #include <QWidget>
+#include <ctime>
+#include <sstream>
 #include "../../Base/component.h"
 #include "../../UI/dialogs/airlifeerrordialog.h"
 #include "../../UI/dialogs/airlifeinfodialog.h"
@@ -21,7 +23,13 @@ namespace airLifeWidget {
 
     public:
         explicit orderCreatorWidget(QWidget *parent = nullptr);
-
+//        void test() {
+//            time_t t = time(nullptr);
+//            struct tm* now = localtime(&t);
+//            std::stringstream timeStr;
+//            timeStr << now->tm_year + 1900;
+//
+//        };
         ~orderCreatorWidget() override;
 
     private:

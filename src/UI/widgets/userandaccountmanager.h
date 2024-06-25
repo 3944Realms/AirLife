@@ -6,6 +6,8 @@
 #define AIRLIFE_USERANDACCOUNTMANAGER_H
 
 #include <QWidget>
+#include <functional>
+#include <iomanip>
 #include "../../Core/AirLifeInputTipWidget.h"
 
 namespace airLifeWidget {

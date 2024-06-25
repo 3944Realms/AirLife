@@ -364,7 +364,7 @@ JUMP$isValid$Flight$Modify:
                 }
 
                 case airLifeHandler::INCORRECT_FORMAT: {
-                    message = "Incorrect Format:\n Incorrect Date Format: XXXX/XX/XX-XX:XX \nOR\n Incorrect Time Format: XX:XX";;
+                    message = "Incorrect Format:\n Incorrect Date Format: XXXX/XX/XX-XX:XX \nOR\n Incorrect Time Format: XX:XX";
                     break;
                 }
                 case airLifeHandler::INCORRECT_VALUE: {

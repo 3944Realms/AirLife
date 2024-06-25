@@ -1000,6 +1000,10 @@ class NaNException: public std::exception {
         return inf.returnAccUser();
     }
 
+    void Account::reloadHash(std::string hash) {
+        pwHash = std::move(hash);
+    }
+
     std::string Account::getHash() const {
         return pwHash;
     }

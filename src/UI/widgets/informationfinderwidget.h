@@ -28,20 +28,24 @@ namespace airLifeWidget {
         void timerEvent(QTimerEvent *event) override;
 
     private:
+        bool isTimerOver{};
         Ui::informationFinderWidget *ui;
-        COMPONENT::Flight* tempFlight;
+//        COMPONENT::Flight* tempFlight;
         airLifeHandler::SearchMode searchMode;
         airLifeDialog::AirLifeErrorDialog* errorDialog;
         airLifeDialog::AirLifeRunningDialog* runningDialog;
         airLifeDialog::AirLifeInfoDialog* infoDialog;
         airLifeTipWidget::AirLifeInputTipWidget* tipWidget;
-        std::vector<COMPONENT::Flight> ResultList;
+        std::vector<COMPONENT::Flight*> ResultList;
+        std::string FlightUUID, AreaE, AreaS;
+        unsigned short dDate$year{}, dDate$month{}, dDate$day{}, dDate$hour{}, dDate$minute{};
         int timerId;
-        bool isValid;
+        bool isValid,isOver{};
+        std::string ErrorMessage;
         airLifeHandler::ResultStatus resultStatus;
         void enableInputBoxToSwitchMode();
         void setMode(const QString& id);
-        void runningDialogShow(const QString& message, const std::vector<COMPONENT::Flight> &resultList);
+        void runningDialogShow(const QString& message, std::vector<COMPONENT::Flight*> &resultList);
     private slots:
         void on_airLifeBackPushButton_clicked();
         void on_airLifeBeginPushButton_clicked();
@@ -51,6 +55,8 @@ namespace airLifeWidget {
         void initWork();
 
         void infoResultShowTask();
+
+        bool TaskRunning(std::vector<COMPONENT::Flight*> &resultList);
     };
 
 } // airLifeWidget
